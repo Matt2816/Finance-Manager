@@ -36,7 +36,7 @@ public class RecurringExpenseService {
         for (RecurringExpense expense : recurringExpenses) {
             LocalDate today = LocalDate.now();
 
-            if (today.isEqual(expense.getNextPaymentDate()) || today.isAfter(expense.getNextPaymentDate())) {
+            if (expense.getNextPaymentDate().isBefore(today) || expense.getNextPaymentDate().isEqual(today)) {
                 Transaction transaction = new Transaction();
                 transaction.setMerchant(expense.getMerchant());
                 transaction.setAmount(String.valueOf(expense.getAmount()));

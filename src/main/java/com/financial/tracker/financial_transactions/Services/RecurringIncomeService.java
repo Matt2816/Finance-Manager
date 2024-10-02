@@ -28,7 +28,7 @@ public class RecurringIncomeService {
         for (RecurringIncome income : recurringIncomes) {
             LocalDate today = LocalDate.now();
 
-            if (today.isEqual(income.getNextPaymentDate()) || today.isAfter(income.getNextPaymentDate())) {
+            if (income.getNextPaymentDate().isBefore(today) || income.getNextPaymentDate().isEqual(today)) {
                 Transaction transaction = new Transaction();
                 transaction.setMerchant(income.getIncomeSource());
                 transaction.setAmount(String.valueOf(income.getAmount()));
