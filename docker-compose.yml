@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  financial-server:
+    build:
+      context: .
+    container_name: financial-server
+    depends_on:
+      financial-db:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://financial-db:5432/financial
+      - SPRING_DATASOURCE_USERNAME=username
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+    ports:
+      - "8080:8080"
+
+  financial-db:
+    image: postgres
+    container_name: financial-db
+    environment:
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=financial
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U username -d financial"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+#  pgadmin:
+#    image: dpage/pgadmin4
+#    container_name: pgadmin
+#    environment:
+#      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+#      - PGADMIN_DEFAULT_PASSWORD=admin
+#    ports:
+#      - "5050:80"
+#    depends_on:
+#      financial-db:
+#        condition: service_healthy
