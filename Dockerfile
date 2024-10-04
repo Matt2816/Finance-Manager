@@ -1,10 +1,7 @@
-# First stage: Build the Spring Boot JAR
-FROM maven:3.8.5-openjdk-17-slim AS builder
+# Backend build stage
+FROM maven:3.8.5-openjdk-17-slim AS backend-builder
 
-# Set the working directory inside the container
-WORKDIR /app
-
-# Copy the pom.xml and download dependencies
+WORKDIR /app/backend
 COPY pom.xml .
 
 # Download project dependencies
@@ -14,14 +11,41 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Second stage: Build the final Docker image
+# Frontend build stage
+FROM node:18-alpine AS frontend-builder
+
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
+RUN npm ci
+COPY frontend .
+RUN npm run build
+
+# Final stage
 FROM amazoncorretto:17-alpine
 
-# Set the JAR file name as an argument
-ARG JAR_FILE=target/*.jar
+# Copy backend JAR
+COPY --from=backend-builder /app/backend/target/*.jar /app/application.jar
 
-# Copy the JAR file from the first stage
-COPY --from=builder /app/target/*.jar application.jar
+# Copy frontend build
+COPY --from=frontend-builder /app/frontend/.next /app/frontend/.next
+COPY --from=frontend-builder /app/frontend/public /app/frontend/public
+COPY --from=frontend-builder /app/frontend/package*.json /app/frontend/
 
-# Run the JAR file
-ENTRYPOINT ["java", "-jar", "/application.jar"]
+# Install Node.js and npm
+RUN apk add --update nodejs npm
+
+# Set working directory
+WORKDIR /app
+
+# Install production dependencies for frontend
+WORKDIR /app/frontend
+RUN npm ci --only=production
+
+# Set working directory back to /app
+WORKDIR /app
+
+# Expose ports for both backend and frontend
+EXPOSE 8080 3000
+
+# Start both applications
+CMD ["sh", "-c", "java -jar /app/application.jar & cd frontend && npm start"]
