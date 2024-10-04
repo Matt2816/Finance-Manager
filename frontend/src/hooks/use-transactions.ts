@@ -20,7 +20,7 @@ export function useTransactions() {
   }));
 
   return {
-    transactions: cleanedData,
+    transactions: cleanedData as Transaction[],
     isLoading,
     error,
   };
