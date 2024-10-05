@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/recurringIncome")
+@RequestMapping("/api/income")
 public class IncomeController {
 
     private final IncomeRepo incomeRepo;
@@ -24,19 +24,19 @@ public class IncomeController {
         this.incomeRepo = incomeRepo;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public List<RecurringIncome> getAllRecurringIncomes() {
         return incomeRepo.findAll();
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<RecurringIncome> getRecurringIncomeById(@PathVariable Long id) {
         return incomeRepo.findById(Math.toIntExact(id))
                 .map(ResponseEntity::ok)
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecurringIncome(@PathVariable Long id) {
         if (incomeRepo.existsById(Math.toIntExact(id))) {
             incomeRepo.deleteById(Math.toIntExact(id));
@@ -46,7 +46,7 @@ public class IncomeController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<RecurringIncome> updateRecurringIncome(@PathVariable Long id, @RequestBody RecurringIncome updatedIncome) {
         return incomeRepo.findById(Math.toIntExact(id))
                 .map(income -> {
@@ -61,7 +61,7 @@ public class IncomeController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
     
-    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecurringIncome> addRecurringIncome(@RequestBody RecurringIncome recurringIncome) {
         recurringIncome.setNextPaymentDate(calculateNextPaymentDate(recurringIncome.getStartDate(), recurringIncome.getFrequency()));
         incomeRepo.save(recurringIncome);

@@ -8,7 +8,7 @@ export default async function handler(
     console.log("fetching transactions");
     console.log(process.env.NEXT_PUBLIC_API_URL);
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/getTransactions`
+      `${process.env.NEXT_PUBLIC_API_URL}/transaction`
     );
     const data = await response.json();
     res.status(200).json(data);

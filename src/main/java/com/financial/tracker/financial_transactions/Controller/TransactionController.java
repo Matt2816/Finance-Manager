@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/transaction")
 public class TransactionController {
 
     private final TransactionsRepo transactionsRepo;
@@ -19,11 +19,11 @@ public class TransactionController {
         this.transactionsRepo = transactionsRepo;
     }
 
-    @GetMapping(value = {"/getTransactions"})
+    @GetMapping
     public List<Transaction> findAll(){
         return transactionsRepo.findAll();
     }
-    @PostMapping(value = "/createTransaction", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createTransaction(@RequestBody Transaction transaction) {
         if (transactionsRepo.findByHash(transaction.getHash()) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Transaction with the same hash already exists.");
@@ -33,13 +33,13 @@ public class TransactionController {
         return new ResponseEntity<>("Transaction created successfully.", HttpStatus.CREATED);
     }
 
-    @DeleteMapping(value = "/deleteAll")
+    @DeleteMapping
     @ResponseBody
     public ResponseEntity<String> deleteAllTransactions() {
         transactionsRepo.deleteAll();
         return ResponseEntity.ok("All transactions deleted successfully.");
     }
-    @GetMapping(value = "/getTransaction/{hash}")
+    @GetMapping(value = "/{hash}")
     public ResponseEntity<Transaction> getTransactionByHash(@PathVariable String hash) {
         Transaction transaction = transactionsRepo.findByHash(hash);
         if (transaction != null) {

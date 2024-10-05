@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/recurringExpense")
+@RequestMapping("/api/expense")
 public class ExpenseController {
 
     private final RecurringExpenseService recurringExpenseService;
@@ -24,19 +24,19 @@ public class ExpenseController {
         this.expenseRepo = expenseRepo;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public List<RecurringExpense> getAllRecurringExpenses() {
         return expenseRepo.findAll();
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<RecurringExpense> getRecurringExpenseById(@PathVariable Long id) {
         return expenseRepo.findById(Math.toIntExact(id))
                 .map(ResponseEntity::ok)
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecurringExpense(@PathVariable Long id) {
         if (expenseRepo.existsById(Math.toIntExact(id))) {
             expenseRepo.deleteById(Math.toIntExact(id));
@@ -46,7 +46,7 @@ public class ExpenseController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<RecurringExpense> updateRecurringExpense(@PathVariable Long id, @RequestBody RecurringExpense updatedExpense) {
         return expenseRepo.findById(Math.toIntExact(id))
                 .map(expense -> {
@@ -61,7 +61,7 @@ public class ExpenseController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecurringExpense> addRecurringExpense(@RequestBody RecurringExpense recurringExpense) {
         recurringExpense.setNextPaymentDate(calculateNextPaymentDate(recurringExpense.getStartDate(), recurringExpense.getFrequency()));
         expenseRepo.save(recurringExpense);
