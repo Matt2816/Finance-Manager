@@ -33,8 +33,9 @@ function cleanTransactions(data: Transaction[]): Transaction[] {
   return data.map((item) => ({
     ...item,
     label: "transaction" as const,
-    cardType: normalizeCardType(item.cardType),
+    cardType: normalizeCardType(item.cardType ?? ""),
     hash: item.hash || "needHash",
+    address: item.address ?? "",
   }));
 }
 

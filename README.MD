@@ -115,9 +115,21 @@ All backend routes are under `/api`:
 | Path | Description |
 | ---- | ----------- |
 | `GET/POST /api/transaction` | List and create transactions |
+| `POST /api/transaction/import/wallet-notes` | Import Apple Wallet notes (`testData.txt` format) |
 | `GET/POST /api/income` | Recurring income |
 | `GET/POST /api/expense` | Recurring expenses |
 | `POST /api/statement/upload` | Parse uploaded statements (CSV, Excel, PDF) |
+
+## Import Apple Wallet notes
+
+If you save Wallet transactions to a text file (see `testData.txt` in the repo root), import them while the backend is running:
+
+```bash
+curl -X POST http://localhost:8080/api/transaction/import/wallet-notes \
+  -F "file=@testData.txt"
+```
+
+The response reports how many rows were imported, skipped (no amount), or skipped as duplicates. Re-running the same file is safe — existing hashes are not duplicated.
 
 ## Tests
 

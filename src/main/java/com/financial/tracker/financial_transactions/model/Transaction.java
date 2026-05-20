@@ -22,14 +22,17 @@ public class Transaction {
     private String transactionDate;
     @Column(name = "hash")
     private String hash;
+    @Column(name = "address")
+    private String address;
 
-    public Transaction(String cardType, String amount, String name, String merchant, String transactionDate, String hash) {
+    public Transaction(String cardType, String amount, String name, String merchant, String transactionDate, String hash, String address) {
         this.cardType = cardType;
         this.amount = amount;
         this.name = name;
         this.merchant = merchant;
         this.transactionDate = transactionDate;
         this.hash = hash;
+        this.address = address;
     }
     public Transaction() {}
 
@@ -87,6 +90,10 @@ public class Transaction {
 
     public void setHash(String hash) {this.hash = hash;}
 
+    public String getAddress() {return address;}
+
+    public void setAddress(String address) {this.address = address;}
+
     @Override
     public String toString() {
         return "Transaction{" +
@@ -97,6 +104,7 @@ public class Transaction {
                 ", merchant='" + merchant + '\'' +
                 ", transactionDate='" + transactionDate + '\'' +
                 ", hash='" + hash + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 }
