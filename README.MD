@@ -117,6 +117,8 @@ All backend routes are under `/api`:
 | `GET/POST /api/transaction` | List and create transactions |
 | `POST /api/transaction/import/wallet-notes` | Import Apple Wallet notes (`testData.txt` format) |
 | `POST /api/transaction/import/wallet-note` | Import one Wallet note (plain text, for Shortcuts) |
+| `GET /api/health` | Simple API health check (browser-friendly) |
+| `GET/POST /api/transaction/test` | Test connectivity from your phone (POST does not save unless `?save=true`) |
 | `GET/POST /api/income` | Recurring income |
 | `GET/POST /api/expense` | Recurring expenses |
 | `POST /api/statement/upload` | Parse uploaded statements (CSV, Excel, PDF) |
@@ -176,6 +178,30 @@ curl -X POST "http://YOUR_TAILSCALE_IP:8080/api/transaction/import/wallet-note" 
 ```
 
 Docker must expose port `8080` on the Tailscale host. Rebuild after pulling this change: `docker compose up --build -d`.
+
+### Test from your phone
+
+**1. Browser (GET)** — confirm Tailscale reachability:
+
+```text
+http://YOUR_TAILSCALE_IP:8080/api/health
+```
+
+**2. Shortcuts (POST)** — same setup as the real import, but dry-run (nothing saved):
+
+```text
+http://YOUR_TAILSCALE_IP:8080/api/transaction/test
+```
+
+Method POST, header `Content-Type: text/plain`, body = any text (or a real Wallet note). Response JSON includes `bodyLength`, `parseable`, and a `preview` if parsing worked.
+
+To save one real test row: use the same URL with `?save=true`.
+
+**3. Real import** — when tests pass:
+
+```text
+http://YOUR_TAILSCALE_IP:8080/api/transaction/import/wallet-note
+```
 
 ### TLS / “secure connection failed” from Shortcuts
 
