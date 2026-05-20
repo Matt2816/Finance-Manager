@@ -11,6 +11,9 @@ export function TransactionDashboard() {
 
   if (isLoading) return <p>Loading transactions...</p>;
   if (error) return <p>Error loading transactions: {error.message}</p>;
+  if (!transactions?.length) {
+    return <p>No transactions yet. Add data via the backend API.</p>;
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

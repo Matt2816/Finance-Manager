@@ -13,7 +13,8 @@ export function TransactionSummary({ transactions }: TransactionSummaryProps) {
   console.log("Parsed amounts:", parsedAmounts);
 
   const totalAmount = parsedAmounts.reduce((sum, amount) => sum + amount, 0);
-  const averageAmount = totalAmount / transactions.length;
+  const averageAmount =
+    transactions.length > 0 ? totalAmount / transactions.length : 0;
 
   return (
     <div className="grid grid-cols-2 gap-4">

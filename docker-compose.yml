@@ -16,7 +16,7 @@ services:
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_JPA_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
-      - NEXT_PUBLIC_API_URL=/api
+      - BACKEND_API_URL=http://127.0.0.1:8080/api
     ports:
       - "8080:8080"
       - "3000:3000"
