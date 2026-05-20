@@ -48,6 +48,22 @@ public class WalletNotesParser {
 
     public record ParseResult(List<Transaction> transactions, int skippedBlocks) {}
 
+    /**
+     * Parses one Apple Wallet note block (the same text your Shortcut appends to Notes).
+     */
+    public Transaction parseSingle(String content) {
+        if (content == null || content.isBlank()) {
+            return null;
+        }
+
+        String block = content.trim().replaceAll("(?m)^-{28,}\\s*$", "").trim();
+        if (block.isBlank()) {
+            return null;
+        }
+
+        return parseBlock(block);
+    }
+
     private Transaction parseBlock(String block) {
         Map<String, String> fields = parseFields(block);
         String amount = normalizeAmount(fields.get("amount"));

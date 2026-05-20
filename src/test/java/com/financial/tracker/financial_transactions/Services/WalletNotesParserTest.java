@@ -37,6 +37,24 @@ class WalletNotesParserTest {
     }
 
     @Test
+    void parseSingle_parsesOneBlockWithoutSeparator() {
+        String note = """
+                Name: Booster Juice
+                Merchant: Booster Juice
+                Amount: $12.59
+                Date: May 18, 2026 at 1:19:33 PM EDT
+                Location: 55 Avenue Rd
+                Toronto ON M5R 3L2
+                Canada
+                """;
+
+        Transaction transaction = parser.parseSingle(note);
+        assertNotNull(transaction);
+        assertEquals("12.59", transaction.getAmount());
+        assertEquals("2026-05-18", transaction.getTransactionDate());
+    }
+
+    @Test
     void skipsBlocksWithoutAmount() {
         String block = """
                 Name: American Express Cobalt® Card

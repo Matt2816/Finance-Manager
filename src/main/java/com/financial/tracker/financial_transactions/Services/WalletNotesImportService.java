@@ -45,4 +45,21 @@ public class WalletNotesImportService {
         String content = new String(bytes, StandardCharsets.UTF_8);
         return importFromText(content);
     }
+
+    public WalletNoteImportResult importSingleFromText(String content) {
+        Transaction transaction = parser.parseSingle(content);
+        if (transaction == null) {
+            return WalletNoteImportResult.skipped(
+                    "Could not parse a transaction (missing or invalid Amount)."
+            );
+        }
+
+        Transaction existing = transactionsRepo.findByHash(transaction.getHash());
+        if (existing != null) {
+            return WalletNoteImportResult.duplicate(existing);
+        }
+
+        transactionsRepo.save(transaction);
+        return WalletNoteImportResult.created(transaction);
+    }
 }

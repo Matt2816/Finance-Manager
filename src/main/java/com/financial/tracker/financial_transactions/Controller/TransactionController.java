@@ -1,5 +1,6 @@
 package com.financial.tracker.financial_transactions.Controller;
 
+import com.financial.tracker.financial_transactions.Services.WalletNoteImportResult;
 import com.financial.tracker.financial_transactions.Services.WalletNotesImportResult;
 import com.financial.tracker.financial_transactions.Services.WalletNotesImportService;
 import com.financial.tracker.financial_transactions.model.Transaction;
@@ -51,6 +52,26 @@ public class TransactionController {
         }
         WalletNotesImportResult result = walletNotesImportService.importFromBytes(file.getBytes());
         return ResponseEntity.ok(result);
+    }
+
+    /**
+     * Accepts one Apple Wallet note (plain text) from Shortcuts or other automations.
+     * Body format matches a single block in testData.txt (Name, Merchant, Amount, Date, Location).
+     */
+    @PostMapping(value = "/import/wallet-note", consumes = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<WalletNoteImportResult> importWalletNote(@RequestBody String body) {
+        if (body == null || body.isBlank()) {
+            return ResponseEntity.badRequest()
+                    .body(WalletNoteImportResult.skipped("Request body is empty"));
+        }
+
+        WalletNoteImportResult result = walletNotesImportService.importSingleFromText(body);
+
+        return switch (result.status()) {
+            case "created" -> ResponseEntity.status(HttpStatus.CREATED).body(result);
+            case "duplicate" -> ResponseEntity.status(HttpStatus.CONFLICT).body(result);
+            default -> ResponseEntity.unprocessableEntity().body(result);
+        };
     }
 
     @DeleteMapping
