@@ -9,6 +9,7 @@ import { cardTypes, magnitudes, labels } from "./data/data";
 
 import { DataTableColumnHeader } from "@/components/data-table-column-header";
 import { DataTableRowActions } from "@/components/data-table-row-actions";
+import { LocationMapPopover } from "@/components/location-map-popover";
 
 import { Transaction } from "@/types/transaction";
 
@@ -80,6 +81,20 @@ export const columns: ColumnDef<Transaction>[] = [
         name.toLowerCase().includes(searchValue) ||
         cardType.toLowerCase().includes(searchValue)
       );
+    },
+  },
+  {
+    accessorKey: "address",
+    id: "address",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Location" />
+    ),
+    cell: ({ row }) => (
+      <LocationMapPopover address={row.original.address ?? ""} />
+    ),
+    filterFn: (row, id, value) => {
+      const address = (row.getValue(id) as string) ?? "";
+      return address.toLowerCase().includes(value.toLowerCase());
     },
   },
   {
