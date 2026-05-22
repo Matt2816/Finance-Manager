@@ -55,6 +55,23 @@ class WalletNotesParserTest {
     }
 
     @Test
+    void buildFromFields_matchesParsedWalletNote() {
+        Transaction fromFields = parser.buildFromFields(
+                "Wendys 6758",
+                "Wendys 6758",
+                "$18.06",
+                "June 27, 2025 at 8:37:02 PM EDT",
+                "370 King St W\nToronto ON M5V 1J9\nCanada"
+        );
+
+        assertNotNull(fromFields);
+        assertEquals("Wendys 6758", fromFields.getName());
+        assertEquals("18.06", fromFields.getAmount());
+        assertEquals("2025-06-27", fromFields.getTransactionDate());
+        assertEquals("370 King St W\nToronto ON M5V 1J9\nCanada", fromFields.getAddress());
+    }
+
+    @Test
     void skipsBlocksWithoutAmount() {
         String block = """
                 Name: American Express Cobalt® Card

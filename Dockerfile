@@ -31,9 +31,8 @@ ENV PATH="$JAVA_HOME/bin:$PATH"
 # Copy backend JAR
 COPY --from=backend-builder /app/backend/target/*.jar /app/application.jar
 
-# Copy frontend build artifacts
+# Copy frontend build artifacts (.next only; no public/ in this project)
 COPY --from=frontend-builder /app/frontend/.next /app/frontend/.next
-COPY --from=frontend-builder /app/frontend/public /app/frontend/public
 COPY --from=frontend-builder /app/frontend/package*.json /app/frontend/
 
 WORKDIR /app/frontend

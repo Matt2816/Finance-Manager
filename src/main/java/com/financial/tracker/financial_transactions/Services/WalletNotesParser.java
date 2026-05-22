@@ -66,37 +66,62 @@ public class WalletNotesParser {
 
     private Transaction parseBlock(String block) {
         Map<String, String> fields = parseFields(block);
-        String amount = normalizeAmount(fields.get("amount"));
-        if (amount == null) {
+        return buildFromFields(
+                fields.getOrDefault("name", ""),
+                fields.getOrDefault("merchant", ""),
+                fields.get("amount"),
+                fields.get("date"),
+                fields.getOrDefault("location", "")
+        );
+    }
+
+    /**
+     * Builds a transaction from Wallet note fields (same normalization as text import).
+     */
+    public Transaction buildFromFields(
+            String name,
+            String merchant,
+            String amount,
+            String date,
+            String location
+    ) {
+        String normalizedAmount = normalizeAmount(amount);
+        if (normalizedAmount == null) {
             return null;
         }
 
-        String name = fields.getOrDefault("name", "").trim();
-        String merchant = fields.getOrDefault("merchant", "").trim();
-        if (merchant.isEmpty()) {
-            merchant = name;
+        String resolvedName = name == null ? "" : name.trim();
+        String resolvedMerchant = merchant == null ? "" : merchant.trim();
+        if (resolvedMerchant.isEmpty()) {
+            resolvedMerchant = resolvedName;
         }
-        if (name.isEmpty()) {
-            name = merchant;
+        if (resolvedName.isEmpty()) {
+            resolvedName = resolvedMerchant;
         }
 
-        String transactionDate = parseTransactionDate(fields.get("date"));
+        String transactionDate = parseTransactionDate(date);
         if (transactionDate == null) {
             return null;
         }
 
-        String location = fields.getOrDefault("location", "").trim();
-        String cardType = inferCardType(name);
-        String hash = hashTransaction(name, merchant, amount, transactionDate, location);
+        String resolvedLocation = location == null ? "" : location.trim();
+        String cardType = inferCardType(resolvedName);
+        String hash = hashTransaction(
+                resolvedName,
+                resolvedMerchant,
+                normalizedAmount,
+                transactionDate,
+                resolvedLocation
+        );
 
         Transaction transaction = new Transaction();
-        transaction.setName(name);
-        transaction.setMerchant(merchant);
-        transaction.setAmount(amount);
+        transaction.setName(resolvedName);
+        transaction.setMerchant(resolvedMerchant);
+        transaction.setAmount(normalizedAmount);
         transaction.setTransactionDate(transactionDate);
         transaction.setCardType(cardType);
         transaction.setHash(hash);
-        transaction.setAddress(location);
+        transaction.setAddress(resolvedLocation);
         return transaction;
     }
 

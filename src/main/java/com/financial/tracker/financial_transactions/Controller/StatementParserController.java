@@ -8,6 +8,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;  // Import HSSFWorkbook for .xls files
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +25,11 @@ import java.util.List;
 @RequestMapping("/api/statement")
 public class StatementParserController {
 
+    private static final Logger log = LoggerFactory.getLogger(StatementParserController.class);
+
     @PostMapping("/upload")
     public ResponseEntity<List<List<String>>> uploadFile(@RequestParam("file") MultipartFile file) {
+        ControllerRequestLogger.logIncoming(log, "uploadFile");
         String fileName = file.getOriginalFilename();
         List<List<String>> transactions = new ArrayList<>();
 

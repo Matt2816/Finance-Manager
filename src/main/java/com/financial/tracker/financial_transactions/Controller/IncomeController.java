@@ -4,6 +4,8 @@ import com.financial.tracker.financial_transactions.Services.RecurringIncomeServ
 import com.financial.tracker.financial_transactions.model.Frequency;
 import com.financial.tracker.financial_transactions.model.RecurringIncome;
 import com.financial.tracker.financial_transactions.repo.IncomeRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import java.util.List;
 @RequestMapping("/api/income")
 public class IncomeController {
 
+    private static final Logger log = LoggerFactory.getLogger(IncomeController.class);
+
     private final IncomeRepo incomeRepo;
     private final RecurringIncomeService recurringIncomeService;
 
@@ -26,11 +30,13 @@ public class IncomeController {
 
     @GetMapping
     public List<RecurringIncome> getAllRecurringIncomes() {
+        ControllerRequestLogger.logIncoming(log, "getAllRecurringIncomes");
         return incomeRepo.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RecurringIncome> getRecurringIncomeById(@PathVariable Long id) {
+        ControllerRequestLogger.logIncoming(log, "getRecurringIncomeById");
         return incomeRepo.findById(Math.toIntExact(id))
                 .map(ResponseEntity::ok)
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -38,6 +44,7 @@ public class IncomeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecurringIncome(@PathVariable Long id) {
+        ControllerRequestLogger.logIncoming(log, "deleteRecurringIncome");
         if (incomeRepo.existsById(Math.toIntExact(id))) {
             incomeRepo.deleteById(Math.toIntExact(id));
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -48,6 +55,7 @@ public class IncomeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<RecurringIncome> updateRecurringIncome(@PathVariable Long id, @RequestBody RecurringIncome updatedIncome) {
+        ControllerRequestLogger.logIncoming(log, "updateRecurringIncome");
         return incomeRepo.findById(Math.toIntExact(id))
                 .map(income -> {
                     income.setIncomeSource(updatedIncome.getIncomeSource());
@@ -63,6 +71,7 @@ public class IncomeController {
     
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecurringIncome> addRecurringIncome(@RequestBody RecurringIncome recurringIncome) {
+        ControllerRequestLogger.logIncoming(log, "addRecurringIncome");
         recurringIncome.setNextPaymentDate(calculateNextPaymentDate(recurringIncome.getStartDate(), recurringIncome.getFrequency()));
         incomeRepo.save(recurringIncome);
         return new ResponseEntity<>(recurringIncome, HttpStatus.CREATED);
@@ -70,6 +79,7 @@ public class IncomeController {
 
     @PostMapping("/testScheduler")
     public ResponseEntity<String> triggerIncomeScheduler() {
+        ControllerRequestLogger.logIncoming(log, "triggerIncomeScheduler");
         recurringIncomeService.processRecurringIncome();
         return new ResponseEntity<>("Recurring Income Scheduler triggered successfully", HttpStatus.OK);
     }

@@ -4,6 +4,8 @@ import com.financial.tracker.financial_transactions.Services.RecurringExpenseSer
 import com.financial.tracker.financial_transactions.model.Frequency;
 import com.financial.tracker.financial_transactions.model.RecurringExpense;
 import com.financial.tracker.financial_transactions.repo.ExpenseRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import java.util.List;
 @RequestMapping("/api/expense")
 public class ExpenseController {
 
+    private static final Logger log = LoggerFactory.getLogger(ExpenseController.class);
+
     private final RecurringExpenseService recurringExpenseService;
     private final ExpenseRepo expenseRepo;
 
@@ -26,11 +30,13 @@ public class ExpenseController {
 
     @GetMapping
     public List<RecurringExpense> getAllRecurringExpenses() {
+        ControllerRequestLogger.logIncoming(log, "getAllRecurringExpenses");
         return expenseRepo.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RecurringExpense> getRecurringExpenseById(@PathVariable Long id) {
+        ControllerRequestLogger.logIncoming(log, "getRecurringExpenseById");
         return expenseRepo.findById(Math.toIntExact(id))
                 .map(ResponseEntity::ok)
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -38,6 +44,7 @@ public class ExpenseController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecurringExpense(@PathVariable Long id) {
+        ControllerRequestLogger.logIncoming(log, "deleteRecurringExpense");
         if (expenseRepo.existsById(Math.toIntExact(id))) {
             expenseRepo.deleteById(Math.toIntExact(id));
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -48,6 +55,7 @@ public class ExpenseController {
 
     @PutMapping("/{id}")
     public ResponseEntity<RecurringExpense> updateRecurringExpense(@PathVariable Long id, @RequestBody RecurringExpense updatedExpense) {
+        ControllerRequestLogger.logIncoming(log, "updateRecurringExpense");
         return expenseRepo.findById(Math.toIntExact(id))
                 .map(expense -> {
                     expense.setMerchant(updatedExpense.getMerchant());
@@ -63,6 +71,7 @@ public class ExpenseController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecurringExpense> addRecurringExpense(@RequestBody RecurringExpense recurringExpense) {
+        ControllerRequestLogger.logIncoming(log, "addRecurringExpense");
         recurringExpense.setNextPaymentDate(calculateNextPaymentDate(recurringExpense.getStartDate(), recurringExpense.getFrequency()));
         expenseRepo.save(recurringExpense);
         return new ResponseEntity<>(recurringExpense, HttpStatus.CREATED);
@@ -70,6 +79,7 @@ public class ExpenseController {
 
     @PostMapping("/testScheduler")
     public ResponseEntity<String> triggerExpenseScheduler() {
+        ControllerRequestLogger.logIncoming(log, "triggerExpenseScheduler");
         recurringExpenseService.processRecurringExpenses();
         return new ResponseEntity<>("Recurring Expense Scheduler triggered successfully", HttpStatus.OK);
     }

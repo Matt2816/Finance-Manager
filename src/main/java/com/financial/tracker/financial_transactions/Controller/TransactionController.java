@@ -7,6 +7,8 @@ import com.financial.tracker.financial_transactions.Services.WalletNotesParser;
 import jakarta.servlet.http.HttpServletRequest;
 import com.financial.tracker.financial_transactions.model.Transaction;
 import com.financial.tracker.financial_transactions.repo.TransactionsRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/transaction")
 public class TransactionController {
+
+    private static final Logger log = LoggerFactory.getLogger(TransactionController.class);
 
     private final TransactionsRepo transactionsRepo;
     private final WalletNotesImportService walletNotesImportService;
@@ -38,6 +42,7 @@ public class TransactionController {
      */
     @GetMapping("/test")
     public TransactionTestResponse getTest(HttpServletRequest request) {
+        ControllerRequestLogger.logIncoming(log, "getTest");
         String baseUrl = request.getScheme() + "://" + request.getServerName()
                 + (request.getServerPort() == 80 || request.getServerPort() == 443
                 ? ""
@@ -55,6 +60,7 @@ public class TransactionController {
             @RequestParam(defaultValue = "false") boolean save,
             HttpServletRequest request
     ) {
+        ControllerRequestLogger.logIncoming(log, "postTest");
         String baseUrl = request.getScheme() + "://" + request.getServerName()
                 + (request.getServerPort() == 80 || request.getServerPort() == 443
                 ? ""
@@ -88,10 +94,12 @@ public class TransactionController {
 
     @GetMapping
     public List<Transaction> findAll(){
+        ControllerRequestLogger.logIncoming(log, "findAll");
         return transactionsRepo.findAll();
     }
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createTransaction(@RequestBody Transaction transaction) {
+        ControllerRequestLogger.logIncoming(log, "createTransaction");
         if (transactionsRepo.findByHash(transaction.getHash()) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Transaction with the same hash already exists.");
         }
@@ -104,6 +112,7 @@ public class TransactionController {
     public ResponseEntity<WalletNotesImportResult> importWalletNotes(
             @RequestParam("file") MultipartFile file
     ) throws IOException {
+        ControllerRequestLogger.logIncoming(log, "importWalletNotes");
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
@@ -117,6 +126,7 @@ public class TransactionController {
      */
     @PostMapping(value = "/import/wallet-note", consumes = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<WalletNoteImportResult> importWalletNote(@RequestBody String body) {
+        ControllerRequestLogger.logIncoming(log, "importWalletNote");
         if (body == null || body.isBlank()) {
             return ResponseEntity.badRequest()
                     .body(WalletNoteImportResult.skipped("Request body is empty"));
@@ -131,14 +141,45 @@ public class TransactionController {
         };
     }
 
+    /**
+     * Accepts one Wallet note as JSON (name, merchant, amount, date, location).
+     * Uses the same normalization, hashing, and duplicate detection as {@code /import/wallet-note}.
+     */
+    @PostMapping(value = "/import/wallet-note-json", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WalletNoteImportResult> importWalletNoteJson(
+            @RequestBody WalletNoteJsonRequest request
+    ) {
+        ControllerRequestLogger.logIncoming(log, "importWalletNoteJson");
+        if (request == null) {
+            return ResponseEntity.badRequest()
+                    .body(WalletNoteImportResult.skipped("Request body is required"));
+        }
+
+        WalletNoteImportResult result = walletNotesImportService.importSingleFromFields(
+                request.name(),
+                request.merchant(),
+                request.amount(),
+                request.date(),
+                request.location()
+        );
+
+        return switch (result.status()) {
+            case "created" -> ResponseEntity.status(HttpStatus.CREATED).body(result);
+            case "duplicate" -> ResponseEntity.status(HttpStatus.CONFLICT).body(result);
+            default -> ResponseEntity.unprocessableEntity().body(result);
+        };
+    }
+
     @DeleteMapping
     @ResponseBody
     public ResponseEntity<String> deleteAllTransactions() {
+        ControllerRequestLogger.logIncoming(log, "deleteAllTransactions");
         transactionsRepo.deleteAll();
         return ResponseEntity.ok("All transactions deleted successfully.");
     }
     @GetMapping(value = "/{hash}")
     public ResponseEntity<Transaction> getTransactionByHash(@PathVariable String hash) {
+        ControllerRequestLogger.logIncoming(log, "getTransactionByHash");
         Transaction transaction = transactionsRepo.findByHash(hash);
         if (transaction != null) {
             return ResponseEntity.ok(transaction);

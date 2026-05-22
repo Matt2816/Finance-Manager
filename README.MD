@@ -117,6 +117,7 @@ All backend routes are under `/api`:
 | `GET/POST /api/transaction` | List and create transactions |
 | `POST /api/transaction/import/wallet-notes` | Import Apple Wallet notes (`testData.txt` format) |
 | `POST /api/transaction/import/wallet-note` | Import one Wallet note (plain text, for Shortcuts) |
+| `POST /api/transaction/import/wallet-note-json` | Import one Wallet note as JSON (`name`, `merchant`, `amount`, `date`, `location`) |
 | `GET /api/health` | Simple API health check (browser-friendly) |
 | `GET/POST /api/transaction/test` | Test connectivity from your phone (POST does not save unless `?save=true`) |
 | `GET/POST /api/income` | Recurring income |

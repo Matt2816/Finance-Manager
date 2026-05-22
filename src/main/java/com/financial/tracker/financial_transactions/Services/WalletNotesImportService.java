@@ -54,6 +54,27 @@ public class WalletNotesImportService {
             );
         }
 
+        return saveIfNew(transaction);
+    }
+
+    public WalletNoteImportResult importSingleFromFields(
+            String name,
+            String merchant,
+            String amount,
+            String date,
+            String location
+    ) {
+        Transaction transaction = parser.buildFromFields(name, merchant, amount, date, location);
+        if (transaction == null) {
+            return WalletNoteImportResult.skipped(
+                    "Could not build a transaction (missing or invalid amount or date)."
+            );
+        }
+
+        return saveIfNew(transaction);
+    }
+
+    private WalletNoteImportResult saveIfNew(Transaction transaction) {
         Transaction existing = transactionsRepo.findByHash(transaction.getHash());
         if (existing != null) {
             return WalletNoteImportResult.duplicate(existing);
