@@ -52,6 +52,25 @@ class WalletNotesImportServiceTest {
     }
 
     @Test
+    void importSingleFromFields_savesNewTransaction() {
+        when(transactionsRepo.findByHash(any())).thenReturn(null);
+
+        WalletNoteImportResult result = importService.importSingleFromFields(
+                "Wendys 6758",
+                "Wendys 6758",
+                "$18.06",
+                "June 27, 2025 at 8:37:02 PM EDT",
+                "370 King St W\nToronto ON M5V 1J9\nCanada"
+        );
+
+        assertEquals("created", result.status());
+        ArgumentCaptor<Transaction> captor = ArgumentCaptor.forClass(Transaction.class);
+        verify(transactionsRepo).save(captor.capture());
+        assertEquals("18.06", captor.getValue().getAmount());
+        assertEquals("2025-06-27", captor.getValue().getTransactionDate());
+    }
+
+    @Test
     void importSingleFromText_returnsDuplicateWhenHashExists() {
         String note = """
                 Name: Test Shop

@@ -66,13 +66,32 @@ public class WalletNotesParser {
 
     private Transaction parseBlock(String block) {
         Map<String, String> fields = parseFields(block);
-        String amount = normalizeAmount(fields.get("amount"));
+        return buildFromFields(
+                fields.getOrDefault("name", ""),
+                fields.getOrDefault("merchant", ""),
+                fields.get("amount"),
+                fields.get("date"),
+                fields.getOrDefault("location", "")
+        );
+    }
+
+    /**
+     * Builds a transaction from wallet-note fields (same rules as {@link #parseSingle}).
+     */
+    public Transaction buildFromFields(
+            String rawName,
+            String rawMerchant,
+            String rawAmount,
+            String rawDate,
+            String rawLocation
+    ) {
+        String amount = normalizeAmount(rawAmount);
         if (amount == null) {
             return null;
         }
 
-        String name = fields.getOrDefault("name", "").trim();
-        String merchant = fields.getOrDefault("merchant", "").trim();
+        String name = rawName == null ? "" : rawName.trim();
+        String merchant = rawMerchant == null ? "" : rawMerchant.trim();
         if (merchant.isEmpty()) {
             merchant = name;
         }
@@ -80,12 +99,12 @@ public class WalletNotesParser {
             name = merchant;
         }
 
-        String transactionDate = parseTransactionDate(fields.get("date"));
+        String transactionDate = parseTransactionDate(rawDate);
         if (transactionDate == null) {
             return null;
         }
 
-        String location = fields.getOrDefault("location", "").trim();
+        String location = rawLocation == null ? "" : rawLocation.trim();
         String cardType = inferCardType(name);
         String hash = hashTransaction(name, merchant, amount, transactionDate, location);
 

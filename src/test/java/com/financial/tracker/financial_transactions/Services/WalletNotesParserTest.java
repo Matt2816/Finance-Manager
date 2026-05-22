@@ -37,6 +37,34 @@ class WalletNotesParserTest {
     }
 
     @Test
+    void buildFromFields_matchesParsedWalletNote() {
+        String note = """
+                Name: Wendys 6758
+                Merchant: Wendys 6758
+                Amount: $18.06
+                Date: June 27, 2025 at 8:37:02 PM EDT
+                Location: 370 King St W
+                Toronto ON M5V 1J9
+                Canada
+                """;
+
+        Transaction fromText = parser.parseSingle(note);
+        Transaction fromFields = parser.buildFromFields(
+                "Wendys 6758",
+                "Wendys 6758",
+                "$18.06",
+                "June 27, 2025 at 8:37:02 PM EDT",
+                "370 King St W\nToronto ON M5V 1J9\nCanada"
+        );
+
+        assertNotNull(fromText);
+        assertNotNull(fromFields);
+        assertEquals(fromText.getHash(), fromFields.getHash());
+        assertEquals(fromText.getAmount(), fromFields.getAmount());
+        assertEquals(fromText.getTransactionDate(), fromFields.getTransactionDate());
+    }
+
+    @Test
     void parseSingle_parsesOneBlockWithoutSeparator() {
         String note = """
                 Name: Booster Juice
