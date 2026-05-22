@@ -43,7 +43,7 @@ export function TransactionInsights({ transactions }: TransactionInsightsProps) 
         : "down";
 
   return (
-    <Card className="col-span-full">
+    <Card className="col-span-full" data-screenshot="insights">
       <CardHeader className="pb-3">
         <CardTitle className="text-lg sm:text-xl">Spending insights</CardTitle>
         <p className="text-sm text-muted-foreground">

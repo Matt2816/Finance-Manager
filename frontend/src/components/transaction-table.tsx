@@ -102,7 +102,7 @@ export function TransactionTable<TData, TValue>({
   const rows = table.getRowModel().rows;
 
   return (
-    <div className="col-span-full space-y-4">
+    <div className="col-span-full space-y-4" data-screenshot="transactions">
       <DataTableToolbar table={table} />
       <TransactionMobileCards rows={rows as never} />
       <div className="hidden overflow-x-auto rounded-md border md:block">

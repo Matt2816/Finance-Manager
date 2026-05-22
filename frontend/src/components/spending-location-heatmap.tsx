@@ -121,7 +121,7 @@ export function SpendingLocationHeatmap({
 
   if (addresses.length === 0) {
     return (
-      <Card className="col-span-full">
+      <Card className="col-span-full" data-screenshot="heatmap">
         <CardHeader>
           <CardTitle className="text-lg sm:text-xl">Spending heatmap</CardTitle>
         </CardHeader>
@@ -136,7 +136,7 @@ export function SpendingLocationHeatmap({
   }
 
   return (
-    <Card className="col-span-full">
+    <Card className="col-span-full" data-screenshot="heatmap">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
           <MapPin className="h-5 w-5" />
