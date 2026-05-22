@@ -2,16 +2,16 @@ import { Transaction } from "@/types/transaction";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+import { parseAmount } from "@/lib/transaction-analytics";
 
 interface TransactionChartProps {
   transactions: Transaction[];
 }
 
 export function TransactionChart({ transactions }: TransactionChartProps) {
-  console.log("transactions", transactions);
   const chartData = transactions.reduce((acc, transaction) => {
     const date = transaction.transactionDate.split("T")[0];
-    const amount = parseFloat(transaction.amount);
+    const amount = parseAmount(transaction.amount);
     acc[date] = (acc[date] || 0) + amount;
     return acc;
   }, {} as Record<string, number>);
@@ -24,11 +24,11 @@ export function TransactionChart({ transactions }: TransactionChartProps) {
   const chartConfig = {} satisfies ChartConfig;
 
   return (
-    <Card className="col-span-2">
+    <Card className="col-span-full md:col-span-1">
       <CardHeader>
-        <CardTitle>Transaction History</CardTitle>
+        <CardTitle className="text-lg sm:text-xl">Transaction History</CardTitle>
       </CardHeader>
-      <CardContent className="h-[300px]">
+      <CardContent className="h-[240px] sm:h-[300px]">
         <ChartContainer config={chartConfig} className="w-full h-full">
           <BarChart data={data}>
             <XAxis dataKey="date" />

@@ -1,5 +1,6 @@
 import useSWR from "swr";
 import { Transaction } from "@/types/transaction";
+import { extractCityFromAddress } from "@/lib/location";
 
 async function fetcher(url: string): Promise<Transaction[]> {
   const res = await fetch(url);
@@ -30,13 +31,17 @@ function normalizeCardType(cardType: string): Transaction["cardType"] {
 }
 
 function cleanTransactions(data: Transaction[]): Transaction[] {
-  return data.map((item) => ({
-    ...item,
-    label: "transaction" as const,
-    cardType: normalizeCardType(item.cardType ?? ""),
-    hash: item.hash || "needHash",
-    address: item.address ?? "",
-  }));
+  return data.map((item) => {
+    const address = item.address ?? "";
+    return {
+      ...item,
+      label: "transaction" as const,
+      cardType: normalizeCardType(item.cardType ?? ""),
+      hash: item.hash || "needHash",
+      address,
+      city: address ? extractCityFromAddress(address) : undefined,
+    };
+  });
 }
 
 export function useTransactions() {

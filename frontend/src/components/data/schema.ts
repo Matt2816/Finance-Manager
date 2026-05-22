@@ -11,5 +11,6 @@ export const transactionSchema = z.object({
   merchant: z.string(),
   transactionDate: z.string(),
   address: z.string().default(""),
+  city: z.string().optional(),
   hash: z.string(),
 });
