@@ -1,3 +1,23 @@
+/** Best-effort city from multi-line Wallet addresses (street / city prov postal / country). */
+export function extractCityFromAddress(address: string): string {
+  const lines = address
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  if (lines.length === 0) return "Unknown";
+  if (lines.length === 1) {
+    const parts = lines[0].split(",");
+    return parts.length > 1 ? parts[parts.length - 1].trim() : lines[0];
+  }
+  const cityLine = lines[1];
+  const withoutPostal = cityLine.replace(
+    /\s+[A-Z]{2}\s+[A-Z0-9]{3}\s?[A-Z0-9]{3}\s*$/i,
+    ""
+  );
+  const withoutProvince = withoutPostal.replace(/\s+[A-Z]{2}\s*$/i, "").trim();
+  return withoutProvince || cityLine || "Unknown";
+}
+
 export function formatLocationSummary(address: string, maxLength = 32): string {
   const firstLine = address.split("\n").map((line) => line.trim()).find(Boolean);
   if (!firstLine) {

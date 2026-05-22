@@ -1,45 +1,54 @@
 import { Transaction } from "@/types/transaction";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { parseAmount } from "@/lib/transaction-analytics";
 
 interface TransactionSummaryProps {
   transactions: Transaction[];
 }
 
 export function TransactionSummary({ transactions }: TransactionSummaryProps) {
-  console.log("transactions", transactions);
   const parsedAmounts = transactions.map((transaction) =>
-    parseFloat(transaction.amount.replace("$", ""))
+    parseAmount(transaction.amount)
   );
-  console.log("Parsed amounts:", parsedAmounts);
 
   const totalAmount = parsedAmounts.reduce((sum, amount) => sum + amount, 0);
   const averageAmount =
     transactions.length > 0 ? totalAmount / transactions.length : 0;
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 gap-3 min-[400px]:grid-cols-2 sm:gap-4">
       <Card>
-        <CardHeader>
-          <CardTitle>Total Transactions</CardTitle>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm font-medium text-muted-foreground">
+            Total Transactions
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-3xl font-bold">{transactions.length}</p>
+          <p className="text-2xl font-bold sm:text-3xl">{transactions.length}</p>
         </CardContent>
       </Card>
       <Card>
-        <CardHeader>
-          <CardTitle>Total Amount</CardTitle>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm font-medium text-muted-foreground">
+            Total Amount
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-3xl font-bold">${totalAmount.toFixed(2)}</p>
+          <p className="text-2xl font-bold sm:text-3xl">
+            ${totalAmount.toFixed(2)}
+          </p>
         </CardContent>
       </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Average Transaction</CardTitle>
+      <Card className="min-[400px]:col-span-2 sm:col-span-1">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm font-medium text-muted-foreground">
+            Average Transaction
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-3xl font-bold">${averageAmount.toFixed(2)}</p>
+          <p className="text-2xl font-bold sm:text-3xl">
+            ${averageAmount.toFixed(2)}
+          </p>
         </CardContent>
       </Card>
     </div>

@@ -12,6 +12,7 @@ import { DataTableRowActions } from "@/components/data-table-row-actions";
 import { LocationMapPopover } from "@/components/location-map-popover";
 
 import { Transaction } from "@/types/transaction";
+import { parseAmount, getMagnitude } from "@/lib/transaction-analytics";
 
 export const columns: ColumnDef<Transaction>[] = [
   {
@@ -49,9 +50,19 @@ export const columns: ColumnDef<Transaction>[] = [
         {new Intl.NumberFormat("en-CA", {
           style: "currency",
           currency: "CAD",
-        }).format(row.getValue("amount"))}
+        }).format(parseAmount(String(row.getValue("amount"))))}
       </div>
     ),
+    filterFn: (row, id, value) => {
+      const range = value as { min?: string; max?: string } | undefined;
+      if (!range?.min && !range?.max) return true;
+      const amount = parseAmount(String(row.getValue(id)));
+      const min = range.min ? Number.parseFloat(range.min) : undefined;
+      const max = range.max ? Number.parseFloat(range.max) : undefined;
+      if (min !== undefined && !Number.isNaN(min) && amount < min) return false;
+      if (max !== undefined && !Number.isNaN(max) && amount > max) return false;
+      return true;
+    },
   },
   {
     accessorKey: "name",
@@ -112,6 +123,34 @@ export const columns: ColumnDef<Transaction>[] = [
       const dateB = new Date(rowB.getValue(columnId));
       return dateA.getTime() - dateB.getTime();
     },
+    filterFn: (row, id, value) => {
+      const range = value as { from?: string; to?: string } | undefined;
+      if (!range?.from && !range?.to) return true;
+      const date = new Date(row.getValue(id) as string);
+      if (range.from) {
+        const from = new Date(range.from);
+        from.setHours(0, 0, 0, 0);
+        if (date < from) return false;
+      }
+      if (range.to) {
+        const to = new Date(range.to);
+        to.setHours(23, 59, 59, 999);
+        if (date > to) return false;
+      }
+      return true;
+    },
+  },
+  {
+    accessorKey: "city",
+    id: "city",
+    header: () => null,
+    cell: () => null,
+    enableSorting: false,
+    enableHiding: true,
+    filterFn: (row, id, value) => {
+      const city = (row.getValue(id) as string) ?? "";
+      return (value as string[]).includes(city);
+    },
   },
   {
     accessorKey: "cardType",
@@ -158,15 +197,8 @@ export const columns: ColumnDef<Transaction>[] = [
       <DataTableColumnHeader column={column} title="Magnitude" />
     ),
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      let magnitude;
-      if (amount > 100) {
-        magnitude = "high";
-      } else if (amount > 20) {
-        magnitude = "medium";
-      } else {
-        magnitude = "low";
-      }
+      const amount = parseAmount(String(row.getValue("amount")));
+      const magnitude = getMagnitude(amount);
       const priority = magnitudes.find(
         (priority) => priority.value === magnitude
       );
@@ -185,16 +217,8 @@ export const columns: ColumnDef<Transaction>[] = [
       );
     },
     filterFn: (row, id, value) => {
-      const amount = parseFloat(row.getValue("amount"));
-      let magnitude;
-      if (amount > 100) {
-        magnitude = "high";
-      } else if (amount > 20) {
-        magnitude = "medium";
-      } else {
-        magnitude = "low";
-      }
-      return value.includes(magnitude);
+      const amount = parseAmount(String(row.getValue("amount")));
+      return (value as string[]).includes(getMagnitude(amount));
     },
   },
   {
