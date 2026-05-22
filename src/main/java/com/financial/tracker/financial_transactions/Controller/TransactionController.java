@@ -4,6 +4,8 @@ import com.financial.tracker.financial_transactions.Services.WalletNoteImportRes
 import com.financial.tracker.financial_transactions.Services.WalletNotesImportResult;
 import com.financial.tracker.financial_transactions.Services.WalletNotesImportService;
 import com.financial.tracker.financial_transactions.Services.WalletNotesParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import com.financial.tracker.financial_transactions.model.Transaction;
 import com.financial.tracker.financial_transactions.repo.TransactionsRepo;
@@ -27,14 +29,17 @@ public class TransactionController {
     private final TransactionsRepo transactionsRepo;
     private final WalletNotesImportService walletNotesImportService;
     private final WalletNotesParser walletNotesParser;
+    private final ObjectMapper objectMapper;
 
     public TransactionController(
             TransactionsRepo transactionsRepo,
-            WalletNotesImportService walletNotesImportService
+            WalletNotesImportService walletNotesImportService,
+            ObjectMapper objectMapper
     ) {
         this.transactionsRepo = transactionsRepo;
         this.walletNotesImportService = walletNotesImportService;
         this.walletNotesParser = new WalletNotesParser();
+        this.objectMapper = objectMapper;
     }
 
     /**
@@ -149,14 +154,23 @@ public class TransactionController {
      * Uses the same normalization, hashing, and duplicate detection as {@code /import/wallet-note}.
      */
     @PostMapping(value = "/import/wallet-note-json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<WalletNoteImportResult> importWalletNoteJson(
-            @RequestBody WalletNoteJsonRequest request
-    ) {
-        ControllerRequestLogger.logIncoming(log, "importWalletNoteJson", request);
-        if (request == null) {
+    public ResponseEntity<WalletNoteImportResult> importWalletNoteJson(@RequestBody String jsonPayload) {
+        ControllerRequestLogger.logJsonPayload(log, "importWalletNoteJson", jsonPayload);
+
+        if (jsonPayload == null || jsonPayload.isBlank()) {
             return ControllerRequestLogger.logResponse(log, "importWalletNoteJson", ResponseEntity.badRequest()
                     .body(WalletNoteImportResult.skipped("Request body is required")));
         }
+
+        WalletNoteJsonRequest request;
+        try {
+            request = objectMapper.readValue(jsonPayload, WalletNoteJsonRequest.class);
+        } catch (JsonProcessingException e) {
+            log.warn("importWalletNoteJson: invalid JSON payload", e);
+            return ControllerRequestLogger.logResponse(log, "importWalletNoteJson", ResponseEntity.badRequest()
+                    .body(WalletNoteImportResult.skipped("Invalid JSON: " + e.getOriginalMessage())));
+        }
+        ControllerRequestLogger.logIncoming(log, "importWalletNoteJson", "parsed", request);
 
         WalletNoteImportResult result = walletNotesImportService.importSingleFromFields(
                 request.name(),

@@ -21,6 +21,27 @@ public final class ControllerRequestLogger {
         logIncoming(log, operation, new Object[0]);
     }
 
+    /** Logs the raw JSON request body as received over the wire. */
+    public static void logJsonPayload(Logger log, String operation, String jsonPayload) {
+        ServletRequestAttributes attributes =
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+        if (attributes == null) {
+            log.info("Incoming JSON {}: {}", operation, summarize(jsonPayload));
+            return;
+        }
+
+        HttpServletRequest request = attributes.getRequest();
+        log.info(
+                "Incoming JSON {}: {} {} from {} payload={}",
+                operation,
+                request.getMethod(),
+                request.getRequestURI(),
+                HealthController.clientAddress(request),
+                summarize(jsonPayload)
+        );
+    }
+
     /**
      * Logs an incoming request. Pass a single value for the body, or key/value pairs
      * (e.g. {@code "id", id, "body", requestBody}).
