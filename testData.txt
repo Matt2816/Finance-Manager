@@ -1,0 +1,3859 @@
+Financial Date
+Name: 
+Merchant: 
+Amount: 
+Date: June 27, 2025 at 5:36:26 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+Name: 
+Merchant: 
+Amount: 
+Date: June 27, 2025 at 5:36:57 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Wendys 6758
+Merchant: Wendys 6758
+Amount: $18.06
+Date: June 27, 2025 at 8:37:02 PM EDT
+Location: 370 King St W
+Toronto ON M5V 1J9
+Canada
+----------------------------
+Name: TST-Tahinis - 1921 Ki
+Merchant: TST-Tahinis - 1921 Ki
+Amount: $16.94
+Date: June 28, 2025 at 2:40:14 AM EDT
+Location: King St W
+Toronto ON M5V 1J5
+Canada
+----------------------------
+Name: The Hunny Pot 2591 Yon
+Merchant: The Hunny Pot 2591 Yon
+Amount: $68.19
+Date: June 29, 2025 at 3:00:12 PM EDT
+Location: 2587A Yonge St
+Toronto ON M4P 2J1
+Canada
+----------------------------
+Name: Accel Variety & Servic
+Merchant: Accel Variety & Servic
+Amount: $2.83
+Date: June 30, 2025 at 4:12:57 PM EDT
+Location: 365 Bloor St E
+Toronto ON M4W 3L4
+Canada
+----------------------------
+Name: Damiano's Nf Toronto 7
+Merchant: Damiano's Nf Toronto 7
+Amount: $34.66
+Date: June 30, 2025 at 5:06:18 PM EDT
+Location: 365 Bloor St E
+Toronto ON M4W 3L4
+Canada
+----------------------------
+Name: Tahini's
+Merchant: Tahini's
+Amount: $31.95
+Date: June 30, 2025 at 8:39:26 PM EDT
+Location: 337 King St W
+Toronto ON M5V 1J5
+Canada
+----------------------------
+Name: Bff Toronto
+Merchant: Bff Toronto
+Amount: $22.91
+Date: July 4, 2025 at 6:09:30 PM EDT
+Location: 86 John St
+Toronto ON M5V 3X4
+Canada
+----------------------------
+Name: Shoppers Drug Mart #13
+Merchant: Shoppers Drug Mart #13
+Amount: $46.34
+Date: July 6, 2025 at 5:29:48 PM EDT
+Location: 564 Sherbourne St
+Toronto ON M4X 1L3
+Canada
+----------------------------
+Name: FreshCo.
+Merchant: FreshCo.
+Amount: $25.65
+Date: July 6, 2025 at 5:45:08 PM EDT
+Location: 559 Sherbourne St
+Toronto ON M4X 0A1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: July 9, 2025 at 6:12:14 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Uniqlo Eaton Centre
+Merchant: Uniqlo Eaton Centre
+Amount: $16.84
+Date: July 9, 2025 at 8:01:31 PM EDT
+Location: CF Toronto Eaton Centre
+294 Yonge St
+Toronto ON M5B 2L6
+Canada
+----------------------------
+Name: Shoppers Drug Mart 853
+Merchant: Shoppers Drug Mart 853
+Amount: $20.54
+Date: July 10, 2025 at 8:57:17 PM EDT
+Location: Parliament & Carlton
+436 Parliament St
+Toronto ON M5A 3A2
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: July 11, 2025 at 4:45:47 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Live Nation Ontario Concerts Gp Inc
+Merchant: Live Nation Ontario Concerts Gp Inc
+Amount: $7.91
+Date: July 11, 2025 at 5:56:55 PM EDT
+Location: Downsview-Roding-Cfb
+Toronto ON
+Canada
+----------------------------
+Name: Live Nation Ontario Concerts Gp Inc
+Merchant: Live Nation Ontario Concerts Gp Inc
+Amount: $11.33
+Date: July 11, 2025 at 6:18:44 PM EDT
+Location: Downsview-Roding-Cfb
+Toronto ON
+Canada
+----------------------------
+Name: Live Nation Ontario Concerts Gp Inc
+Merchant: Live Nation Ontario Concerts Gp Inc
+Amount: $11.33
+Date: July 11, 2025 at 6:19:13 PM EDT
+Location: Downsview-Roding-Cfb
+Toronto ON
+Canada
+----------------------------
+Name: Circle K
+Merchant: Circle K
+Amount: $7.38
+Date: July 12, 2025 at 12:49:48 AM EDT
+Location: 419 Bloor St E
+Toronto ON M4W 1H7
+Canada
+----------------------------
+Name: Imperial Oil
+Merchant: Imperial Oil
+Amount: $250.00
+Date: July 12, 2025 at 1:09:51 AM EDT
+Location: 581 Parliament St
+Toronto ON M4X 1P7
+Canada
+----------------------------
+Name: K»st
+Merchant: K»st
+Amount: $174.01
+Date: July 12, 2025 at 7:19:03 PM EDT
+Location: 363 King St W
+Toronto ON M5V 1K1
+Canada
+----------------------------
+Name: Escape Manor
+Merchant: Escape Manor
+Amount: $53.34
+Date: July 12, 2025 at 8:11:48 PM EDT
+Location: 408 King St W
+Toronto ON M5V 1K2
+Canada
+----------------------------
+Name: Greta Yyz
+Merchant: Greta Yyz
+Amount: $30.75
+Date: July 12, 2025 at 8:55:55 PM EDT
+Location: 580 King St W
+Toronto ON M5V 1M3
+Canada
+----------------------------
+Name: Shoppers Drug Mart
+Merchant: Shoppers Drug Mart
+Amount: $3.61
+Date: July 12, 2025 at 9:45:25 PM EDT
+Location: 469 King St W
+Toronto ON M5V 3M4
+Canada
+----------------------------
+Name: Imperial Oil
+Merchant: Imperial Oil
+Amount: $250.00
+Date: July 13, 2025 at 6:47:36 PM EDT
+Location: 2541 Weston Rd
+Toronto ON M9N 2A7
+Canada
+----------------------------
+Name: Imperial Oil
+Merchant: Imperial Oil
+Amount: $250.00
+Date: July 13, 2025 at 6:48:37 PM EDT
+Location: 2541 Weston Rd
+Toronto ON M9N 2A7
+Canada
+----------------------------
+Name: Rcss Weston 2800
+Merchant: Rcss Weston 2800
+Amount: $59.18
+Date: July 13, 2025 at 7:49:44 PM EDT
+Location: 2549 Weston Rd
+Toronto ON M9N 2A7
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: July 14, 2025 at 9:54:53 PM EDT
+Location: University & Queen
+160 Queen St W
+Toronto ON M5H 3H3
+Canada
+----------------------------
+Name: Presto
+Merchant: Presto
+Amount: $1.00
+Date: July 16, 2025 at 3:44:24 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: The Alley
+Merchant: The Alley
+Amount: $20.53
+Date: July 16, 2025 at 4:10:53 PM EDT
+Location: College Park
+Toronto ON M5G 2J9
+Canada
+----------------------------
+Name: Miniso-On-Cf Toronto E
+Merchant: Miniso-On-Cf Toronto E
+Amount: $45.18
+Date: July 16, 2025 at 5:31:44 PM EDT
+Location: CF Toronto Eaton Centre
+218 Yonge St
+Toronto ON M5B 2H6
+Canada
+----------------------------
+Name: Costco Wholesale W1316
+Merchant: Costco Wholesale W1316
+Amount: $44.04
+Date: July 19, 2025 at 4:21:26 PM EDT
+Location: 46 Overlea Blvd
+Toronto ON M4H 1B6
+Canada
+----------------------------
+Name: Costco Wholesale
+Merchant: Costco Wholesale
+Amount: $1.58
+Date: July 19, 2025 at 4:22:13 PM EDT
+Location: 46 Overlea Blvd
+Toronto ON M4H 1B6
+Canada
+----------------------------
+Name: Its Tea Midtown
+Merchant: Its Tea Midtown
+Amount: $17.68
+Date: July 21, 2025 at 6:11:58 PM EDT
+Location: 643 Mount Pleasant Rd
+Toronto ON M4S 2M9
+Canada
+----------------------------
+Name: Season Fruit House
+Merchant: Season Fruit House
+Amount: $11.60
+Date: July 21, 2025 at 6:23:22 PM EDT
+Location: 735 Mount Pleasant Rd
+Toronto ON N0B 2S0
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $12.96
+Date: July 21, 2025 at 7:28:03 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Cherry Street Bar-B-Que
+Merchant: Cherry Street Bar-B-Que
+Amount: $76.35
+Date: July 22, 2025 at 7:52:41 PM EDT
+Location: 275 Cherry St
+Toronto ON M5A 3L3
+Canada
+----------------------------
+Name: Cherry Street Bar-B-Que
+Merchant: Cherry Street Bar-B-Que
+Amount: $10.40
+Date: July 22, 2025 at 8:00:55 PM EDT
+Location: 275 Cherry St
+Toronto ON M5A 3L3
+Canada
+----------------------------
+Name: Midnight Cookie
+Merchant: Midnight Cookie
+Amount: $25.36
+Date: July 25, 2025 at 10:23:33 PM EDT
+Location: 363A Clinton St
+Toronto ON M6G 2Z1
+Canada
+----------------------------
+Name: Presto
+Merchant: Presto
+Amount: $1.00
+Date: July 25, 2025 at 10:35:41 PM EDT
+Location: Christie
+7–9 Christie St
+Toronto ON M6G 3B1
+Canada
+----------------------------
+Name: Mustafa Ghassan
+Merchant: Mustafa Ghassan
+Amount: $70.63
+Date: July 27, 2025 at 3:40:40 PM EDT
+Location: John & Queen
+301–333 Queen St W
+Toronto ON M5V 2A4
+Canada
+----------------------------
+Name: Presto
+Merchant: Presto
+Amount: $1.00
+Date: July 27, 2025 at 3:50:16 PM EDT
+Location: St Andrew
+101–111 University Ave
+Toronto ON M5H 4A8
+Canada
+----------------------------
+Name: De Mello Palheta Coffee
+Merchant: De Mello Palheta Coffee
+Amount: $7.78
+Date: July 27, 2025 at 4:31:53 PM EDT
+Location: 2493 Yonge St
+Toronto ON M4P 2H6
+Canada
+----------------------------
+Name: Carload On Yonge
+Merchant: Carload On Yonge
+Amount: $2.49
+Date: July 27, 2025 at 4:39:01 PM EDT
+Location: 2492 Yonge St
+Toronto ON M4P 2H7
+Canada
+----------------------------
+Name: The Right Wing Sports Pub
+Merchant: The Right Wing Sports Pub
+Amount: $45.44
+Date: July 27, 2025 at 7:14:12 PM EDT
+Location: 2495 Yonge St
+Toronto ON M4P 2H6
+Canada
+----------------------------
+Name: Presto
+Merchant: Presto
+Amount: $1.00
+Date: July 28, 2025 at 7:00:44 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Poulet Rouge Queen
+Merchant: Poulet Rouge Queen
+Amount: $21.42
+Date: July 28, 2025 at 9:48:39 PM EDT
+Location: 356 Queen St W
+Toronto ON M5V 2A2
+Canada
+----------------------------
+Name: Jamestown Milk
+Merchant: Jamestown Milk
+Amount: $3.07
+Date: July 29, 2025 at 7:29:34 PM EDT
+Location: 609 Parliament St
+Toronto ON M4X 1P9
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $11.73
+Date: July 29, 2025 at 8:34:01 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: De Mello Coffee
+Merchant: De Mello Coffee
+Amount: $24.96
+Date: July 30, 2025 at 10:08:24 AM EDT
+Location: 365 Bloor St E
+Toronto ON M4W 3L4
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: July 30, 2025 at 5:49:03 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Minami Restaurant
+Merchant: Minami Restaurant
+Amount: $67.00
+Date: July 30, 2025 at 8:26:51 PM EDT
+Location: 225 King St W
+Toronto ON M5V 3M2
+Canada
+----------------------------
+Name: Mizzica Gelateria Cafe
+Merchant: Mizzica Gelateria Cafe
+Amount: $11.60
+Date: July 30, 2025 at 9:30:20 PM EDT
+Location: John & Queen
+158–162 John St
+Toronto ON M5V 2A4
+Canada
+----------------------------
+Name: Day 'N' Nite Canna t.o
+Merchant: Day 'N' Nite Canna t.o
+Amount: $22.08
+Date: July 31, 2025 at 5:44:30 PM EDT
+Location: 612 Sherbourne St
+Toronto ON M4X 1X6
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $15.26
+Date: July 31, 2025 at 5:56:38 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Jamestown Milk
+Merchant: Jamestown Milk
+Amount: $3.07
+Date: August 1, 2025 at 3:35:40 PM EDT
+Location: 287–299 Wellesley St E
+Toronto ON M4X 1G9
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $9.98
+Date: August 1, 2025 at 7:28:20 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: De Mello
+Merchant: De Mello
+Amount: $89.07
+Date: August 2, 2025 at 12:22:33 PM EDT
+Location: 365 Bloor St E
+Toronto ON M4W 3L4
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: August 2, 2025 at 6:22:17 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Mandarin
+Merchant: Mandarin
+Amount: $53.27
+Date: August 2, 2025 at 8:23:03 PM EDT
+Location: Eglinton
+2200 Yonge St
+Toronto ON M4S 1S5
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: August 3, 2025 at 12:06:53 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Ikkousha Ramen
+Merchant: Ikkousha Ramen
+Amount: $34.67
+Date: August 3, 2025 at 2:32:46 PM EDT
+Location: OCAD University
+253 Queen St W
+Toronto ON M5V 1Z4
+Canada
+----------------------------
+Name: Mizzica Gelateria & Cafe
+Merchant: Mizzica Gelateria & Cafe
+Amount: $10.60
+Date: August 3, 2025 at 2:56:03 PM EDT
+Location: OCAD University
+151 John St
+Toronto ON M5V 2E5
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: August 4, 2025 at 1:19:26 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: 555 Boat Noodle
+Merchant: 555 Boat Noodle
+Amount: $32.54
+Date: August 4, 2025 at 2:35:36 PM EDT
+Location: 2–8 Grosvenor St
+Toronto ON M4Y 1A8
+Canada
+----------------------------
+Name: Cherry Street Bar-B-Que
+Merchant: Cherry Street Bar-B-Que
+Amount: $57.83
+Date: August 5, 2025 at 6:41:35 PM EDT
+Location: 275 Ookwemin St
+Toronto ON M5A 3L3
+Canada
+----------------------------
+Name: Wal-Mart
+Merchant: Wal-Mart
+Amount: $20.87
+Date: August 7, 2025 at 9:00:35 PM EDT
+Location: Dufferin Mall
+900 Dufferin St
+Toronto ON M6H 4A9
+Canada
+----------------------------
+Name: Andrew & Shelley's No
+Merchant: Andrew & Shelley's No
+Amount: $36.78
+Date: August 7, 2025 at 9:18:58 PM EDT
+Location: Dufferin Mall
+826–848 Dufferin St
+Toronto ON M6H 4A9
+Canada
+----------------------------
+Name: Freshco
+Merchant: Freshco
+Amount: $14.48
+Date: August 8, 2025 at 10:43:11 AM EDT
+Location: 559 Sherbourne St
+Toronto ON M4X 0A1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: August 8, 2025 at 3:17:09 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Centrale By Terroni
+Merchant: Centrale By Terroni
+Amount: $97.63
+Date: August 8, 2025 at 5:17:51 PM EDT
+Location: 1103 Yonge St
+Toronto ON M4W 2L7
+Canada
+----------------------------
+Name: Bff Toronto
+Merchant: Bff Toronto
+Amount: $11.69
+Date: August 8, 2025 at 10:15:54 PM EDT
+Location: 86 John St
+Toronto ON M5V 3X4
+Canada
+----------------------------
+Name: Mizzica Gelateria & Cafe
+Merchant: Mizzica Gelateria & Cafe
+Amount: $8.68
+Date: August 8, 2025 at 11:19:05 PM EDT
+Location: OCAD University
+151 John St
+Toronto ON M5V 2E5
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $23.48
+Date: August 9, 2025 at 8:43:21 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $10.26
+Date: August 11, 2025 at 5:28:58 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $5.59
+Date: August 12, 2025 at 9:43:42 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: No Frills
+Merchant: No Frills
+Amount: $31.54
+Date: August 13, 2025 at 6:23:42 PM EDT
+Location: 365 Bloor St E
+Toronto ON M4W 3L4
+Canada
+----------------------------
+Name: Staples
+Merchant: Staples
+Amount: $52.84
+Date: August 15, 2025 at 11:09:38 AM EDT
+Location: Shoppers World Danforth
+3001–3009 Danforth Ave
+Toronto ON M4C 1N2
+Canada
+----------------------------
+Name: Mannat-Indian Hakka Bar
+Merchant: Mannat-Indian Hakka Bar
+Amount: $118.67
+Date: August 15, 2025 at 7:53:06 PM EDT
+Location: 833 College St
+Toronto ON M6H 1A1
+Canada
+----------------------------
+Name: Vip Billiards & Karaok
+Merchant: Vip Billiards & Karaok
+Amount: $15.59
+Date: August 15, 2025 at 8:51:37 PM EDT
+Location: 2 Delaware Ave
+Toronto ON M6H 2S7
+Canada
+----------------------------
+Name: VIP Billiards & Lounge
+Merchant: VIP Billiards & Lounge
+Amount: $206.35
+Date: August 15, 2025 at 10:32:02 PM EDT
+Location: 838–860 College St
+Toronto ON M6H 1A2
+Canada
+----------------------------
+Name: Mary Browns
+Merchant: Mary Browns
+Amount: $13.53
+Date: August 16, 2025 at 1:27:38 AM EDT
+Location: 241 Trade Valley Dr
+Vaughan ON L4H 3N6
+Canada
+----------------------------
+Name: Pioneer
+Merchant: Pioneer
+Amount: $250.00
+Date: August 16, 2025 at 1:33:51 AM EDT
+Location: 241 Trade Valley Dr
+Vaughan ON L4H 3N6
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $16.65
+Date: August 16, 2025 at 9:41:08 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: C&C Supermarket
+Merchant: C&C Supermarket
+Amount: $124.68
+Date: August 17, 2025 at 8:03:23 PM EDT
+Location: 890 Don Mills Rd
+Toronto ON M3C 1V6
+Canada
+----------------------------
+Name: Costco Wholesale
+Merchant: Costco Wholesale
+Amount: $10.72
+Date: August 19, 2025 at 7:57:09 PM EDT
+Location: 46 Overlea Blvd
+Toronto ON M4H 1B6
+Canada
+----------------------------
+Name: Kochi Japanese Bbq And
+Merchant: Kochi Japanese Bbq And
+Amount: $61.32
+Date: August 20, 2025 at 10:00:37 PM EDT
+Location: 8585 Lundy's Ln
+Niagara Falls ON L2H 1H4
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: August 22, 2025 at 6:14:33 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Chatramue
+Merchant: Chatramue
+Amount: $12.67
+Date: August 22, 2025 at 6:47:13 PM EDT
+Location: 6 Oxford St
+Toronto ON M5T 1N9
+Canada
+----------------------------
+Name: Tacobell
+Merchant: Tacobell
+Amount: $29.41
+Date: August 22, 2025 at 7:04:22 PM EDT
+Location: 259A College St
+Toronto ON M5T 1R5
+Canada
+----------------------------
+Name: Beer Store
+Merchant: Beer Store
+Amount: $23.99
+Date: August 22, 2025 at 8:36:28 PM EDT
+Location: 1–29 Lancaster Ave
+Toronto ON M4X 1P6
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: August 23, 2025 at 6:38:05 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Face To Face Games
+Merchant: Face To Face Games
+Amount: $25.98
+Date: August 23, 2025 at 7:09:39 PM EDT
+Location: 1400 Danforth Ave
+Toronto ON M4J 1M9
+Canada
+----------------------------
+Name: The Wren
+Merchant: The Wren
+Amount: $128.01
+Date: August 23, 2025 at 8:40:10 PM EDT
+Location: 1384 Danforth Ave
+Toronto ON M4J 1M9
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $19.97
+Date: August 24, 2025 at 10:43:22 AM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: August 24, 2025 at 8:42:58 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Tahini's
+Merchant: Tahini's
+Amount: $11.17
+Date: August 24, 2025 at 9:12:51 PM EDT
+Location: 337 King St W
+Toronto ON M5V 1J5
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $7.50
+Date: August 27, 2025 at 7:54:45 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $13.63
+Date: August 27, 2025 at 9:34:05 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: No Frills
+Merchant: No Frills
+Amount: $25.47
+Date: August 28, 2025 at 6:56:29 PM EDT
+Location: 365 Bloor St E
+Toronto ON M4W 3L4
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $22.97
+Date: August 28, 2025 at 7:27:31 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: August 29, 2025 at 1:19:04 PM EDT
+Location: 7–9 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Snakes Lattes
+Merchant: Snakes Lattes
+Amount: $74.01
+Date: August 29, 2025 at 8:49:30 PM EDT
+Location: 602 Bloor St W
+Toronto ON M6G 1K4
+Canada
+----------------------------
+Name: Freshco
+Merchant: Freshco
+Amount: $27.61
+Date: August 30, 2025 at 9:12:48 PM EDT
+Location: 561 Sherbourne St
+Toronto ON M4X 0A1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: August 31, 2025 at 4:30:20 PM EDT
+Location: CF Toronto Eaton Centre
+294 Yonge St
+Toronto ON M5B 2L6
+Canada
+----------------------------
+Name: The Wren
+Merchant: The Wren
+Amount: $97.34
+Date: August 31, 2025 at 5:57:30 PM EDT
+Location: 1384 Danforth Ave
+Toronto ON M4J 1M9
+Canada
+----------------------------
+Name: Kawartha Dairy
+Merchant: Kawartha Dairy
+Amount: $9.82
+Date: August 31, 2025 at 6:20:17 PM EDT
+Location: 6 Dewhurst Blvd
+Toronto ON M4J 3H9
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: September 1, 2025 at 12:34:09 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Old School
+Merchant: Old School
+Amount: $31.11
+Date: September 1, 2025 at 2:20:52 PM EDT
+Location: 106–112 Palmerston Ave
+Toronto ON M6J 1V3
+Canada
+----------------------------
+Name: Circle K
+Merchant: Circle K
+Amount: $15.12
+Date: September 3, 2025 at 8:00:45 PM EDT
+Location: 429A Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Petro-Canada
+Merchant: Petro-Canada
+Amount: $250.00
+Date: September 4, 2025 at 6:36:33 AM EDT
+Location: 4012 Dorchester Rd
+Niagara Falls ON L2J 1B4
+Canada
+----------------------------
+Name: Chipotle Mexican Grill
+Merchant: Chipotle Mexican Grill
+Amount: $35.48
+Date: September 8, 2025 at 6:17:37 PM EDT
+Location: 89 Bloor St E
+Toronto ON M4W 1A9
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $14.33
+Date: September 11, 2025 at 9:29:17 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Shoppers Drug Mart
+Merchant: Shoppers Drug Mart
+Amount: $4.99
+Date: September 12, 2025 at 9:15:53 PM EDT
+Location: 556 Sherbourne St
+Toronto ON M4X 1L3
+Canada
+----------------------------
+Name: Freshco
+Merchant: Freshco
+Amount: $26.04
+Date: September 12, 2025 at 9:25:25 PM EDT
+Location: 559 Sherbourne St
+Toronto ON M4X 0A1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: September 13, 2025 at 2:34:27 PM EDT
+Location: 443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Lcbo
+Merchant: Lcbo
+Amount: $113.00
+Date: September 13, 2025 at 3:21:58 PM EDT
+Location: Holt Renfrew Centre
+6 Bloor St W
+Toronto ON N0B 2S0
+Canada
+----------------------------
+Name: De Mello Coffee
+Merchant: De Mello Coffee
+Amount: $42.55
+Date: September 13, 2025 at 3:38:02 PM EDT
+Location: 387 Bloor St E
+Toronto ON M4W 1H7
+Canada
+----------------------------
+Name: Bar Music Studio
+Merchant: Bar Music Studio
+Amount: $190.61
+Date: September 13, 2025 at 8:05:13 PM EDT
+Location: 360 Yonge St
+Toronto ON M5B 1S5
+Canada
+----------------------------
+Name: Bar Music Studio
+Merchant: Bar Music Studio
+Amount: $43.70
+Date: September 13, 2025 at 8:47:52 PM EDT
+Location: 360 Yonge St
+Toronto ON M5B 1S5
+Canada
+----------------------------
+Name: Mcdonalds
+Merchant: Mcdonalds
+Amount: $13.19
+Date: September 13, 2025 at 11:11:52 PM EDT
+Location: 356 Yonge St
+Toronto ON M5B 1S5
+Canada
+----------------------------
+Name: Unholy Donuts
+Merchant: Unholy Donuts
+Amount: $54.57
+Date: September 13, 2025 at 11:38:48 PM EDT
+Location: 86 Maitland St
+Toronto ON N0B 2S0
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: September 14, 2025 at 5:14:16 PM EDT
+Location: 443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Copernicus Lodge Foundation
+Merchant: Copernicus Lodge Foundation
+Amount: $33.13
+Date: September 14, 2025 at 5:58:21 PM EDT
+Location: 256 Roncesvalles Ave
+Toronto ON M6R 2M1
+Canada
+----------------------------
+Name: Great Lakes Brewing
+Merchant: Great Lakes Brewing
+Amount: $10.00
+Date: September 14, 2025 at 6:38:49 PM EDT
+Location: 77A Roncesvalles Ave
+Toronto ON M6R 2K6
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $18.44
+Date: September 15, 2025 at 7:14:04 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: September 16, 2025 at 7:14:17 PM EDT
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Aritzia
+Merchant: Aritzia
+Amount: $226.80
+Date: September 17, 2025 at 5:03:54 PM EDT
+Location: Holt Renfrew Centre
+6 Bloor St W
+Toronto ON N0B 2S0
+Canada
+----------------------------
+Name: Rcss Weston 2800
+Merchant: Rcss Weston 2800
+Amount: $61.00
+Date: September 20, 2025 at 3:23:38 PM EDT
+Location: 2549 Weston Rd
+Toronto ON M9N 2A7
+Canada
+----------------------------
+Name: Jollys Variety Store
+Merchant: Jollys Variety Store
+Amount: $6.99
+Date: September 21, 2025 at 12:42:59 PM EDT
+Location: 23 Collingwood St
+Grey Highlands ON N0C 1E0
+Canada
+----------------------------
+Name: Valley Espresso
+Merchant: Valley Espresso
+Amount: $15.30
+Date: September 21, 2025 at 12:51:54 PM EDT
+Location: Collingwood St
+Grey Highlands ON N0C 1E0
+Canada
+----------------------------
+Name: Valley Espresso Co.
+Merchant: Valley Espresso Co.
+Amount: $8.34
+Date: September 21, 2025 at 12:57:12 PM EDT
+Location: 88 Collingwood St
+Grey Highlands ON N0C 1E0
+Canada
+----------------------------
+Name: Superburger
+Merchant: Superburger
+Amount: $30.61
+Date: September 22, 2025 at 11:35:34 AM EDT
+Location: 506269 Highway 10
+Mulmur ON L9V 0N7
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: September 23, 2025 at 6:21:47 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Tbj Concessions
+Merchant: Tbj Concessions
+Amount: $6.04
+Date: September 23, 2025 at 7:13:18 PM EDT
+Location: Rogers Centre
+Toronto ON M5V 1J1
+Canada
+----------------------------
+Name: TBJ/RC Concessions
+Merchant: TBJ/RC Concessions
+Amount: $21.71
+Date: September 23, 2025 at 7:54:48 PM EDT
+Location: Rogers Centre
+1 Blue Jays Way
+Toronto ON M5V 1J1
+Canada
+----------------------------
+Name: TBJ/RC Concessions
+Merchant: TBJ/RC Concessions
+Amount: $4.83
+Date: September 23, 2025 at 8:31:39 PM EDT
+Location: Rogers Centre
+1 Blue Jays Way
+Toronto ON M5V 1J1
+Canada
+----------------------------
+Name: TBJ/RC Concessions
+Merchant: TBJ/RC Concessions
+Amount: $6.99
+Date: September 23, 2025 at 9:37:57 PM EDT
+Location: 294 Bremner Blvd
+Toronto ON M5V 3L9
+Canada
+----------------------------
+Name: TBJ/RC Concessions
+Merchant: TBJ/RC Concessions
+Amount: $10.38
+Date: September 23, 2025 at 9:44:32 PM EDT
+Location: Bremner Blvd
+Toronto ON M5V 3V3
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: September 24, 2025 at 2:33:52 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Freshco
+Merchant: Freshco
+Amount: $39.17
+Date: September 26, 2025 at 8:41:06 PM EDT
+Location: 559 Sherbourne St
+Toronto ON M4X 0A1
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $6.31
+Date: September 26, 2025 at 8:51:32 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: September 27, 2025 at 4:12:04 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: September 28, 2025 at 2:26:23 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Stacked
+Merchant: Stacked
+Amount: $15.99
+Date: September 28, 2025 at 3:21:31 PM EDT
+Location: 427 Danforth Ave
+Toronto ON M4K 1P1
+Canada
+----------------------------
+Name: Beardycards
+Merchant: Beardycards
+Amount: $269.98
+Date: September 28, 2025 at 4:20:38 PM EDT
+Location: 440 Danforth Ave
+Toronto ON M4K 1P4
+Canada
+----------------------------
+Name: Deardycards
+Merchant: Deardycards
+Amount: $33.98
+Date: September 28, 2025 at 7:54:52 PM EDT
+Location: 440 Danforth Ave
+Toronto ON M4K 1P4
+Canada
+----------------------------
+Name: No Frills
+Merchant: No Frills
+Amount: $65.38
+Date: September 29, 2025 at 5:37:34 PM EDT
+Location: 365 Bloor St E
+Toronto ON M4W 3L4
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: September 30, 2025 at 5:45:36 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $11.64
+Date: September 30, 2025 at 6:30:47 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: October 2, 2025 at 6:18:57 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Ramen Buta To Niboshi
+Merchant: Ramen Buta To Niboshi
+Amount: $54.39
+Date: October 2, 2025 at 8:43:07 PM EDT
+Location: 549 Danforth Ave
+Toronto ON M4K 1P7
+Canada
+----------------------------
+Name: Lcbo Store
+Merchant: Lcbo Store
+Amount: $56.10
+Date: October 3, 2025 at 5:59:25 PM EDT
+Location: 272 Queen St W
+Toronto ON M5V 2A1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: October 3, 2025 at 11:51:50 PM EDT
+Location: St Andrew
+101–111 University Ave
+Toronto ON M5H 4A8
+Canada
+----------------------------
+Name: The Wren
+Merchant: The Wren
+Amount: $54.01
+Date: October 4, 2025 at 6:49:29 PM EDT
+Location: 1378 Danforth Ave
+Toronto ON M4J 1M9
+Canada
+----------------------------
+Name: Wanas Shawarma
+Merchant: Wanas Shawarma
+Amount: $37.10
+Date: October 4, 2025 at 11:17:06 PM EDT
+Location: 449 Danforth Ave
+Toronto ON M4K 1P1
+Canada
+----------------------------
+Name: Wanas Shawarma
+Merchant: Wanas Shawarma
+Amount: $2.25
+Date: October 4, 2025 at 11:36:54 PM EDT
+Location: 443 Danforth Ave
+Toronto ON M4K 1P1
+Canada
+----------------------------
+Name: De Mello Coffee
+Merchant: De Mello Coffee
+Amount: $20.00
+Date: October 5, 2025 at 11:48:14 AM EDT
+Location: 366 Bloor St E
+Toronto ON M4W 1H4
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: October 5, 2025 at 5:21:22 PM EDT
+Location: 28 Chester Ave
+Toronto ON M4K 2Z9
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: October 6, 2025 at 3:34:29 PM EDT
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Winners
+Merchant: Winners
+Amount: $12.99
+Date: October 6, 2025 at 4:47:13 PM EDT
+Location: 14 College St
+Toronto ON M5G 1K2
+Canada
+----------------------------
+Name: Ikea 659 Toronto Aura
+Merchant: Ikea 659 Toronto Aura
+Amount: $12.35
+Date: October 6, 2025 at 5:15:30 PM EDT
+Location: 388 Yonge St
+Toronto ON M5B 0A4
+Canada
+----------------------------
+Name: Metro
+Merchant: Metro
+Amount: $11.97
+Date: October 6, 2025 at 5:57:33 PM EDT
+Location: College Park
+420 Yonge St
+Toronto ON M5B 2H3
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: October 7, 2025 at 12:15:20 PM EDT
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Costco Wholesale
+Merchant: Costco Wholesale
+Amount: $23.71
+Date: October 9, 2025 at 7:13:17 PM EDT
+Location: 46 Overlea Blvd
+Toronto ON M4H 1B6
+Canada
+----------------------------
+Name: Havana Castle Cigars
+Merchant: Havana Castle Cigars
+Amount: $179.67
+Date: October 11, 2025 at 11:53:37 AM EDT
+Location: 1567 Bayview Ave
+Toronto ON M4G 3B5
+Canada
+----------------------------
+Name: Cumbraes Bayview
+Merchant: Cumbraes Bayview
+Amount: $73.22
+Date: October 11, 2025 at 12:00:35 PM EDT
+Location: 1595 Bayview Ave
+Toronto ON M4G 3B5
+Canada
+----------------------------
+Name: Eataly
+Merchant: Eataly
+Amount: $25.73
+Date: October 11, 2025 at 1:33:33 PM EDT
+Location: Holt Renfrew Centre
+50 Bloor St W
+Toronto ON M4W 1A1
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $19.26
+Date: October 11, 2025 at 2:13:04 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: October 12, 2025 at 10:57:20 AM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Shoppers Drug Mart
+Merchant: Shoppers Drug Mart
+Amount: $1.29
+Date: October 12, 2025 at 4:20:11 PM EDT
+Location: 100 New Park Pl
+Vaughan ON L4K 0H9
+Canada
+----------------------------
+Name: Wan2 food mart
+Merchant: Wan2 food mart
+Amount: $2.99
+Date: October 13, 2025 at 12:26:03 PM EDT
+Location: 100 Howard St
+Toronto ON M4X 1K1
+Canada
+----------------------------
+Name: Shell Pay At Pump
+Merchant: Shell Pay At Pump
+Amount: $250.00
+Date: October 13, 2025 at 1:53:01 PM EDT
+Location: 2562 Weston Rd
+Toronto ON M9N 2A8
+Canada
+----------------------------
+Name: Freshco
+Merchant: Freshco
+Amount: $27.52
+Date: October 17, 2025 at 8:58:34 PM EDT
+Location: 559 Sherbourne St
+Toronto ON M4X 0A1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: October 18, 2025 at 5:02:44 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Ramen Buta To Niboshi
+Merchant: Ramen Buta To Niboshi
+Amount: $55.60
+Date: October 18, 2025 at 8:41:05 PM EDT
+Location: 549 Danforth Ave
+Toronto ON M4K 1P7
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: October 19, 2025 at 5:44:51 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: October 20, 2025 at 11:48:35 PM EDT
+Location: St Andrew
+109–115 University Ave
+Toronto ON M5H 4A8
+Canada
+----------------------------
+Name: Costco Wholesale
+Merchant: Costco Wholesale
+Amount: $9.42
+Date: October 22, 2025 at 8:01:48 PM EDT
+Location: 46 Overlea Blvd
+Toronto ON M4H 1B6
+Canada
+----------------------------
+Name: Presto
+Merchant: Presto
+Amount: $1.00
+Date: October 24, 2025 at 7:22:55 PM EDT
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Presto
+Merchant: Presto
+Amount: $1.00
+Date: October 26, 2025 at 4:08:29 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: De Mello Coffee
+Merchant: De Mello Coffee
+Amount: $44.00
+Date: October 31, 2025 at 3:07:41 PM EDT
+Location: 365 Bloor St E
+Toronto ON M4W 3L4
+Canada
+----------------------------
+Name: Petro-Canada
+Merchant: Petro-Canada
+Amount: $250.00
+Date: November 5, 2025 at 7:49:29 PM EST
+Location: 6876 Thorold Stone Rd
+Niagara Falls ON L2J 1B4
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: November 6, 2025 at 6:49:32 PM EST
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: November 7, 2025 at 6:52:58 PM EST
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Lcbo
+Merchant: Lcbo
+Amount: $24.90
+Date: November 7, 2025 at 9:32:41 PM EST
+Location: Holt Renfrew Centre
+50 Bloor St W
+Toronto ON M4W 1A1
+Canada
+----------------------------
+Name: Mary Browns
+Merchant: Mary Browns
+Amount: $28.79
+Date: November 8, 2025 at 12:58:46 AM EST
+Location: 241 Trade Valley Dr
+Vaughan ON L4H 3N6
+Canada
+----------------------------
+Name: Pioneer
+Merchant: Pioneer
+Amount: $250.00
+Date: November 8, 2025 at 1:03:02 AM EST
+Location: 241 Trade Valley Dr
+Vaughan ON L4H 3N6
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: November 8, 2025 at 2:56:37 PM EST
+Location: 441 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Kajiken North York
+Merchant: Kajiken North York
+Amount: $22.66
+Date: November 8, 2025 at 4:18:40 PM EST
+Location: 4852A Yonge St
+Toronto ON M2N 5N2
+Canada
+----------------------------
+Name: Khao San
+Merchant: Khao San
+Amount: $41.67
+Date: November 8, 2025 at 9:40:09 PM EST
+Location: 49 Charlotte St
+Toronto ON N0B 2S0
+Canada
+----------------------------
+Name: Chatramue
+Merchant: Chatramue
+Amount: $8.45
+Date: November 9, 2025 at 6:58:01 PM EST
+Location: 347–373 Spadina Ave
+Toronto ON M5T 2G3
+Canada
+----------------------------
+Name: Krispy Kreme
+Merchant: Krispy Kreme
+Amount: $16.00
+Date: November 9, 2025 at 7:10:33 PM EST
+Location: 400–420 Spadina Ave
+Toronto ON M5T 2G7
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: November 10, 2025 at 12:57:25 PM EST
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Utsav
+Merchant: Utsav
+Amount: $24.69
+Date: November 10, 2025 at 1:56:21 PM EST
+Location: 69 Yorkville Ave
+Toronto ON M5R 1B7
+Canada
+----------------------------
+Name: Freshco
+Merchant: Freshco
+Amount: $18.26
+Date: November 11, 2025 at 7:45:40 PM EST
+Location: 559 Sherbourne St
+Toronto ON M4X 0A1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: November 14, 2025 at 7:23:38 PM EST
+Location: Sherbourne
+441 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Ls Zakkushi On Carltom
+Merchant: Ls Zakkushi On Carltom
+Amount: $385.43
+Date: November 15, 2025 at 10:21:15 PM EST
+Location: 468 Ontario St
+Toronto ON M5A 2W1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: November 17, 2025 at 5:37:43 PM EST
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Mogouyan Hand Pulled Nood
+Merchant: Mogouyan Hand Pulled Nood
+Amount: $43.87
+Date: November 17, 2025 at 6:41:02 PM EST
+Location: 758 Yonge St
+Toronto ON M4Y 2B6
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: November 21, 2025 at 7:24:39 PM EST
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Ikea 659 Toronto Aura
+Merchant: Ikea 659 Toronto Aura
+Amount: $10.83
+Date: November 21, 2025 at 8:00:35 PM EST
+Location: 6–26 Gerrard St W
+Toronto ON M5G 2K2
+Canada
+----------------------------
+Name: IKEA
+Merchant: IKEA
+Amount: $24.84
+Date: November 21, 2025 at 8:03:35 PM EST
+Location: 6–26 Gerrard St W
+Toronto ON M5G 2K2
+Canada
+----------------------------
+Name: The Alley
+Merchant: The Alley
+Amount: $16.61
+Date: November 21, 2025 at 8:32:49 PM EST
+Location: 400 Yonge St
+Toronto ON M5B 1S8
+Canada
+----------------------------
+Name: Freshco Canada
+Merchant: Freshco Canada
+Amount: $57.03
+Date: November 23, 2025 at 6:07:51 PM EST
+Location: Sherbourne St
+Toronto ON M4X 1W6
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: November 25, 2025 at 6:36:02 PM EST
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Marshalls Canada
+Merchant: Marshalls Canada
+Amount: $33.88
+Date: November 25, 2025 at 7:28:16 PM EST
+Location: 384 Yonge St
+Toronto ON M5B 1S8
+Canada
+----------------------------
+Name: IKEA
+Merchant: IKEA
+Amount: $12.70
+Date: November 25, 2025 at 7:39:51 PM EST
+Location: 1 Gerrard St W
+Toronto ON M5G 1Z4
+Canada
+----------------------------
+Name: IKEA
+Merchant: IKEA
+Amount: $14.67
+Date: November 25, 2025 at 7:42:48 PM EST
+Location: 1 Gerrard St W
+Toronto ON M5G 1Z4
+Canada
+----------------------------
+Name: Costco Wholesale
+Merchant: Costco Wholesale
+Amount: $14.68
+Date: November 26, 2025 at 6:45:04 PM EST
+Location: 46 Overlea Blvd
+Toronto ON M4H 1B6
+Canada
+----------------------------
+Name: Timbuk2 Canada
+Merchant: Timbuk2 Canada
+Amount: $255.20
+Date: November 29, 2025 at 12:53:33 PM EST
+Location: 355 Queen St W
+Toronto ON M5V 2A4
+Canada
+----------------------------
+Name: Eataly Eaton Centre
+Merchant: Eataly Eaton Centre
+Amount: $7.80
+Date: November 29, 2025 at 2:04:21 PM EST
+Location: 241 Yonge St
+Toronto ON M5B 1N8
+Canada
+----------------------------
+Name: Rodd Gunn Canada
+Merchant: Rodd Gunn Canada
+Amount: $191.80
+Date: November 29, 2025 at 2:35:43 PM EST
+Location: CF Toronto Eaton Centre
+2 Queen St W
+Toronto ON M5H 3X4
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: November 29, 2025 at 5:40:11 PM EST
+Location: Sankofa Square
+299 Yonge St
+Toronto ON M5B 2L6
+Canada
+----------------------------
+Name: Presto
+Merchant: Presto
+Amount: $1.00
+Date: December 3, 2025 at 6:25:39 PM EST
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Eataly
+Merchant: Eataly
+Amount: $86.78
+Date: December 3, 2025 at 10:12:27 PM EST
+Location: Manulife Centre
+55 Bloor St W
+Toronto ON M4W 3N5
+Canada
+----------------------------
+Name: Freshco Canada
+Merchant: Freshco Canada
+Amount: $53.11
+Date: December 4, 2025 at 6:11:07 PM EST
+Location: 559 Sherbourne St
+Toronto ON M4X 0A1
+Canada
+----------------------------
+Name: Pioneer
+Merchant: Pioneer
+Amount: $250.00
+Date: December 7, 2025 at 6:24:57 PM EST
+Location: 241 Trade Valley Dr
+Vaughan ON L4H 3N6
+Canada
+----------------------------
+Name: Petite Bouchee
+Merchant: Petite Bouchee
+Amount: $58.84
+Date: December 7, 2025 at 7:21:55 PM EST
+Location: 28 Sousa Mendes St
+Toronto ON M6P 0B2
+Canada
+----------------------------
+Name: Petite Bouchée Patisserie
+Merchant: Petite Bouchée Patisserie
+Amount: $40.33
+Date: December 10, 2025 at 9:50:11 PM EST
+Location: 30 Sousa Mendes St
+Toronto ON M6P 0B2
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: December 13, 2025 at 3:06:31 PM EST
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Banana Games Hobby
+Merchant: Banana Games Hobby
+Amount: $49.83
+Date: December 13, 2025 at 5:02:20 PM EST
+Location: 8 Breadalbane St
+Toronto ON M4Y 1C3
+Canada
+----------------------------
+Name: Dragon Legend
+Merchant: Dragon Legend
+Amount: $363.79
+Date: December 13, 2025 at 9:38:28 PM EST
+Location: 25 Lanark Rd
+Markham ON L3R 8E8
+Canada
+----------------------------
+Name: Ikea 659 Toronto Aura
+Merchant: Ikea 659 Toronto Aura
+Amount: $33.73
+Date: December 14, 2025 at 4:52:28 PM EST
+Location: 388 Yonge St
+Toronto ON M5B 0A4
+Canada
+----------------------------
+Name: IKEA
+Merchant: IKEA
+Amount: $4.15
+Date: December 14, 2025 at 4:55:52 PM EST
+Location: 12 Gerrard St W
+Toronto ON M5G 2K2
+Canada
+----------------------------
+Name: Bingz Crispy Burger Ea
+Merchant: Bingz Crispy Burger Ea
+Amount: $35.55
+Date: December 17, 2025 at 7:51:35 PM EST
+Location: CF Toronto Eaton Centre
+290 Yonge St
+Toronto ON M5B 2C3
+Canada
+----------------------------
+Name: Toronto Eaton Center
+Merchant: Toronto Eaton Center
+Amount: $39.00
+Date: December 17, 2025 at 8:57:36 PM EST
+Location: CF Toronto Eaton Centre
+260 Yonge St
+Toronto ON M5B 2H1
+Canada
+----------------------------
+Name: De Mello Coffee
+Merchant: De Mello Coffee
+Amount: $51.85
+Date: December 19, 2025 at 2:12:42 PM EST
+Location: 365 Bloor St E
+Toronto ON M4W 3L4
+Canada
+----------------------------
+Name: Seoul Korean Cuisine
+Merchant: Seoul Korean Cuisine
+Amount: $149.93
+Date: December 26, 2025 at 4:06:57 PM EST
+Location: 45 Geneva St
+St. Catharines ON L2R 3A9
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: December 27, 2025 at 1:26:41 PM EST
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Anime Alley
+Merchant: Anime Alley
+Amount: $110.00
+Date: December 27, 2025 at 3:03:36 PM EST
+Location: 673 Yonge St
+Toronto ON M4Y 1T1
+Canada
+----------------------------
+Name: Gamestop
+Merchant: Gamestop
+Amount: $73.49
+Date: December 27, 2025 at 3:51:21 PM EST
+Location: 269 Yonge St
+Toronto ON M5B 1N8
+Canada
+----------------------------
+Name: Real Fruit Bubble
+Merchant: Real Fruit Bubble
+Amount: $9.14
+Date: December 27, 2025 at 4:02:18 PM EST
+Location: TMU
+285–299 Yonge St
+Toronto ON M5B 2L6
+Canada
+----------------------------
+Name: Mandarin
+Merchant: Mandarin
+Amount: $114.32
+Date: December 27, 2025 at 9:56:23 PM EST
+Location: 2195 Yonge St
+Toronto ON M4S 2B2
+Canada
+----------------------------
+Name: Turquoise Grill Richmond
+Merchant: Turquoise Grill Richmond
+Amount: $52.86
+Date: December 29, 2025 at 7:23:05 PM EST
+Location: 431 Richmond St W
+Toronto ON M5V 1X9
+Canada
+----------------------------
+Name: Bang Sue Bar
+Merchant: Bang Sue Bar
+Amount: $22.66
+Date: December 29, 2025 at 7:59:02 PM EST
+Location: 49 Charlotte St
+Toronto ON N0B 2S0
+Canada
+----------------------------
+Name: Costco Wholesale
+Merchant: Costco Wholesale
+Amount: $12.42
+Date: December 30, 2025 at 1:58:24 PM EST
+Location: 46 Overlea Blvd
+Toronto ON M4H 1B6
+Canada
+----------------------------
+Name: Wendys
+Merchant: Wendys
+Amount: $21.77
+Date: January 3, 2026 at 1:28:34 PM EST
+Location: 2151 Steeles Ave W
+Toronto ON M3J 3N2
+Canada
+----------------------------
+Name: Real Fruit Bubble
+Merchant: Real Fruit Bubble
+Amount: $16.48
+Date: January 3, 2026 at 1:37:24 PM EST
+Location: 2215 Steeles Ave W
+Toronto ON M3J 3N2
+Canada
+----------------------------
+Name: Rendezvous Barbershop
+Merchant: Rendezvous Barbershop
+Amount: $70.63
+Date: January 4, 2026 at 5:09:19 PM EST
+Location: John & Queen
+299 Queen St W
+Toronto ON M5V 2Z5
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: January 4, 2026 at 5:14:10 PM EST
+Location: OCAD University
+160 Queen St W
+Toronto ON M5H 3H3
+Canada
+----------------------------
+Name: Civil Liberties
+Merchant: Civil Liberties
+Amount: $78.02
+Date: January 5, 2026 at 12:08:09 AM EST
+Location: 750 Bloor St W
+Toronto ON N0B 2S0
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: January 5, 2026 at 12:27:12 AM EST
+Location: Ossington
+746 Ossington Ave
+Toronto ON M6G 3T9
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: January 7, 2026 at 9:29:23 AM EST
+Location: 451 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Petro Canada33629
+Merchant: Petro Canada33629
+Amount: $250.00
+Date: January 7, 2026 at 7:56:53 PM EST
+Location: 200 Sandalwood Pky E
+Brampton ON L6Z 1Y5
+Canada
+----------------------------
+Name: Circle
+Merchant: Circle
+Amount: $250.00
+Date: January 7, 2026 at 8:31:52 PM EST
+Location: 10187 Kennedy Rd
+Brampton ON L6Z 0C5
+Canada
+----------------------------
+Name: Costco Wholesale W535
+Merchant: Costco Wholesale W535
+Amount: $3.15
+Date: January 9, 2026 at 4:16:37 PM EST
+Location: 100 Billy Bishop Way
+Toronto ON M3K 2C8
+Canada
+----------------------------
+Name: Costco Wholesale W535
+Merchant: Costco Wholesale W535
+Amount: $53.10
+Date: January 10, 2026 at 2:43:08 PM EST
+Location: 100 Billy Bishop Way
+Toronto ON M3K 2C8
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: January 13, 2026 at 6:23:03 PM EST
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: January 17, 2026 at 11:06:42 AM EST
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Interesting Things
+Merchant: Interesting Things
+Amount: $90.00
+Date: January 17, 2026 at 3:37:55 PM EST
+Location: 168 Baldwin St
+Toronto ON M5T 1L8
+Canada
+----------------------------
+Name: Gamestop
+Merchant: Gamestop
+Amount: $94.47
+Date: January 17, 2026 at 4:54:51 PM EST
+Location: 269 Yonge St
+Toronto ON M5B 1N8
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: January 18, 2026 at 4:34:04 PM EST
+Location: Osgoode
+Toronto ON
+Canada
+----------------------------
+Name: Pioneer
+Merchant: Pioneer
+Amount: $250.00
+Date: January 24, 2026 at 2:35:48 PM EST
+Location: 241 Trade Valley Dr
+Vaughan ON L4H 3N6
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: January 25, 2026 at 3:09:06 PM EST
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: February 5, 2026 at 5:36:36 PM EST
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: W Burger Bar
+Merchant: W Burger Bar
+Amount: $29.17
+Date: February 5, 2026 at 7:11:21 PM EST
+Location: 6 College St
+Toronto ON M5G 1K2
+Canada
+----------------------------
+Name: Chick-Fil-A - Yonge Bloor In-Line
+Merchant: Chick-Fil-A - Yonge Bloor In-Line
+Amount: $9.13
+Date: February 5, 2026 at 9:23:32 PM EST
+Location: 758 Yonge St
+Toronto ON M4Y 2B6
+Canada
+----------------------------
+Name: Uniqlo Eaton Centre
+Merchant: Uniqlo Eaton Centre
+Amount: $45.09
+Date: February 7, 2026 at 5:03:40 PM EST
+Location: CF Toronto Eaton Centre
+1 Dundas St W
+Toronto ON M5G 1Z3
+Canada
+----------------------------
+Name: Lcbo
+Merchant: Lcbo
+Amount: $43.20
+Date: February 7, 2026 at 5:26:16 PM EST
+Location: Bloor-Yonge
+44 Bloor St E
+Toronto ON M4W 1A7
+Canada
+----------------------------
+Name: Costco Wholesale
+Merchant: Costco Wholesale
+Amount: $208.15
+Date: February 8, 2026 at 1:33:46 PM EST
+Location: 46 Overlea Blvd
+Toronto ON M4H 1B6
+Canada
+----------------------------
+Name: Costco Wholesale
+Merchant: Costco Wholesale
+Amount: $186.44
+Date: February 8, 2026 at 1:39:04 PM EST
+Location: 46 Overlea Blvd
+Toronto ON M4H 1B6
+Canada
+----------------------------
+Name: Costco Wholesale
+Merchant: Costco Wholesale
+Amount: $3.15
+Date: February 8, 2026 at 1:43:07 PM EST
+Location: 46 Overlea Blvd
+Toronto ON M4H 1B6
+Canada
+----------------------------
+Name: Patagonia
+Merchant: Patagonia
+Amount: $244.62
+Date: February 13, 2026 at 11:34:37 AM EST
+Location: 498 King St W
+Toronto ON M5V 1L7
+Canada
+----------------------------
+Name: Patagonia
+Merchant: Patagonia
+Amount: $442.99
+Date: February 14, 2026 at 12:38:02 PM EST
+Location: 498 King St W
+Toronto ON M5V 1L7
+Canada
+----------------------------
+Name: Soma Chocolate King Street
+Merchant: Soma Chocolate King Street
+Amount: $35.60
+Date: February 14, 2026 at 12:46:25 PM EST
+Location: 439 King St W
+Toronto ON M5V 1K4
+Canada
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: February 15, 2026 at 6:02:08 PM EST
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Dollarama
+Merchant: Dollarama
+Amount: $29.36
+Date: February 15, 2026 at 6:30:04 PM EST
+Location: University of Toronto - St. George Campus
+748 Yonge St
+Toronto ON M4Y 2B6
+Canada
+----------------------------
+Name: Mcdonalds
+Merchant: Mcdonalds
+Amount: $13.19
+Date: February 15, 2026 at 7:01:17 PM EST
+Location: 345 Bloor St E
+Toronto ON M4W 3J6
+Canada
+----------------------------
+Name: Freshco Canada
+Merchant: Freshco Canada
+Amount: $18.74
+Date: February 15, 2026 at 7:21:44 PM EST
+Location: 559 Sherbourne St
+Toronto ON M4X 0A1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: February 21, 2026 at 1:46:16 PM EST
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: February 21, 2026 at 3:37:04 PM EST
+Location: Union
+23–31 Front St W
+Toronto ON
+Canada
+----------------------------
+Name: Mt St Louis Moonstone
+Merchant: Mt St Louis Moonstone
+Amount: $5.60
+Date: February 22, 2026 at 4:27:18 PM EST
+Location: Mount St. Louis Moonstone
+24 Mount St Louis Rd W
+Oro-Medonte ON L0K 1E0
+Canada
+----------------------------
+Name: FreshCo.
+Merchant: FreshCo.
+Amount: $10.96
+Date: February 24, 2026 at 6:36:19 PM EST
+Location: 559 Sherbourne St
+Toronto ON M4X 0A1
+Canada
+----------------------------
+Name: Take Me Home Cannabis
+Merchant: Take Me Home Cannabis
+Amount: $31.94
+Date: February 26, 2026 at 10:17:50 PM EST
+Location: 3249B Dufferin St
+Toronto ON M6A 2T2
+Canada
+----------------------------
+Name: BeaverTails
+Merchant: BeaverTails
+Amount: $5.08
+Date: February 28, 2026 at 3:42:20 PM EST
+Location: Mount St. Louis Moonstone
+24 Mount St Louis Rd W
+Oro-Medonte ON L0K 1E0
+Canada
+----------------------------
+Name: BeaverTails
+Merchant: BeaverTails
+Amount: $20.62
+Date: March 1, 2026 at 4:30:47 PM EST
+Location: Mount St. Louis Moonstone
+24 Mount St Louis Rd W
+Oro-Medonte ON L0K 1E0
+Canada
+----------------------------
+Name: Petro Canada
+Merchant: Petro Canada
+Amount: $250.00
+Date: March 2, 2026 at 12:43:31 PM EST
+Location: Innisfil
+Innisfil ON
+Canada
+----------------------------
+Name: Tim Hortons
+Merchant: Tim Hortons
+Amount: $4.54
+Date: March 8, 2026 at 10:30:26 AM EDT
+Location: 4186 Finch Ave E
+Toronto ON M1S 4T5
+Canada
+----------------------------
+Name: Sobeys Todmorden
+Merchant: Sobeys Todmorden
+Amount: $65.92
+Date: March 8, 2026 at 5:02:03 PM EDT
+Location: 1015 Broadview Ave
+Toronto ON M4K 2S1
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: March 10, 2026 at 6:12:58 PM EDT
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: March 11, 2026 at 5:54:30 PM EDT
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Bar Hop
+Merchant: Bar Hop
+Amount: $14.60
+Date: March 14, 2026 at 1:53:22 AM EDT
+Location: Charlotte St
+Toronto ON M5V 1K2
+Canada
+----------------------------
+Name: Mcdonalds
+Merchant: Mcdonalds
+Amount: $6.98
+Date: March 14, 2026 at 9:46:28 PM EDT
+Location: Peanut Plaza
+3002 Don Mills Rd E
+Toronto ON M2J 3C1
+Canada
+----------------------------
+Name: Cineplex Cinemas Fairview Mall
+Merchant: Cineplex Cinemas Fairview Mall
+Amount: $8.36
+Date: March 14, 2026 at 9:58:31 PM EDT
+Location: Cadillac Fairview
+Toronto ON M2J 0A1
+Canada
+----------------------------
+Name: Shell Pay At Pump
+Merchant: Shell Pay At Pump
+Amount: $250.00
+Date: March 15, 2026 at 12:03:03 AM EDT
+Location: 730 Sheppard Ave E
+Toronto ON M2K 1C3
+Canada
+----------------------------
+Name: Ghadir Meat
+Merchant: Ghadir Meat
+Amount: $20.33
+Date: March 19, 2026 at 9:28:38 PM EDT
+Location: 1842A Lawrence Ave E
+Toronto ON M1R 2Y4
+Canada
+----------------------------
+Name: Wendys Restuarant
+Merchant: Wendys Restuarant
+Amount: $6.31
+Date: March 22, 2026 at 1:25:27 AM EDT
+Location: 370 King St W
+Toronto ON M5V 1J9
+Canada
+----------------------------
+Name: Rendezvous Barbershop
+Merchant: Rendezvous Barbershop
+Amount: $67.80
+Date: March 22, 2026 at 12:41:35 PM EDT
+Location: John & Queen
+252–270 Queen St W
+Toronto ON M5V 1Z8
+Canada
+----------------------------
+Name: Rfbt-223 Queen Street
+Merchant: Rfbt-223 Queen Street
+Amount: $10.76
+Date: March 22, 2026 at 12:50:20 PM EDT
+Location: OCAD University
+180 Queen St W
+Toronto ON M5V 3X3
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: March 22, 2026 at 12:59:51 PM EDT
+Location: St Andrew
+105–107 University Ave
+Toronto ON M5H 4A8
+Canada
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 7:48:32 AM GMT+9
+Location: 164-0001
+Tokyo Nakano
+62-4, Nakano 5-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 8:40:23 AM GMT+9
+Location: 100-0005
+Tokyo Chiyoda
+9, Marunouchi 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 11:08:30 AM GMT+9
+Location: 600-8215
+Kyoto Kyoto
+19-1, Higashishiokojikamadonocho
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 11:14:26 AM GMT+9
+Location: 600-8215
+Kyoto Kyoto
+19, Higashishiokojikamadonocho
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 11:33:28 AM GMT+9
+Location: 612-0881
+Kyoto Kyoto
+73, Fukakusainariommaecho
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 12:14:19 PM GMT+9
+Location: 612-0882
+Kyoto Kyoto
+58, Fukakusayabunouchicho
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 12:39:30 PM GMT+9
+Location: 612-0881
+Kyoto Kyoto
+73, Fukakusainariommaecho
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 1:10:48 PM GMT+9
+Location: 611-0042
+Kyoto Uji
+49, Oguracho Nakahata
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 5:50:58 PM GMT+9
+Location: 611-0042
+Kyoto Uji
+33-11, Oguracho Kaguraden
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 6:19:36 PM GMT+9
+Location: 600-8215
+Kyoto Kyoto
+19-1, Higashishiokojikamadonocho
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 7:15:15 PM GMT+9
+Location: 532-0003
+Osaka Osaka
+3-17, Miyahara 2-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 9:12:09 PM GMT+9
+Location: Osaka Osaka
+Shimmido-suji Street
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 9:33:47 PM GMT+9
+Location: 542-0081
+Osaka Osaka
+5-78, Minamisemba 3-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 11:08:54 PM GMT+9
+Location: 542-0081
+Osaka Osaka
+5-78, Minamisemba 3-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 11:25:02 PM GMT+9
+Location: 532-0003
+Osaka Osaka
+1-22, Miyahara 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 11:30:12 PM GMT+9
+Location: 533-0031
+Osaka Osaka
+2-67, Nishiawaji 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 27, 2026 at 11:43:14 PM GMT+9
+Location: 532-0003
+Osaka Osaka
+3-17, Miyahara 2-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 8:45:56 AM GMT+9
+Location: 532-0002
+Osaka Osaka
+33-6, Higashimikuni 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 9:00:36 AM GMT+9
+Location: Osaka Osaka
+国道25号
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 1:23:57 PM GMT+9
+Location: 553-0003
+Osaka Osaka
+8-9, Fukushima 5-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 1:28:26 PM GMT+9
+Location: Osaka Osaka
+Mido-suji Street
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 1:36:29 PM GMT+9
+Location: 541-0042
+Osaka Osaka
+1-2, Imabashi 4-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 2:50:47 PM GMT+9
+Location: Osaka Osaka
+国道25号
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 2:58:10 PM GMT+9
+Location: Osaka Osaka
+Chuo
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 4:36:17 PM GMT+9
+Location: 550-0014
+Osaka Osaka
+3-3, Kitahorie 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 4:48:49 PM GMT+9
+Location: 530-0001
+Osaka Osaka
+2-24, Umeda 2-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 4:51:01 PM GMT+9
+Location: Osaka Osaka
+Kita
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 5:07:26 PM GMT+9
+Location: 532-0003
+Osaka Osaka
+3-17, Miyahara 2-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 6:32:25 PM GMT+9
+Location: 533-0023
+Osaka Osaka
+17-6, Higashiawaji 4-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 7:31:13 PM GMT+9
+Location: 600-8001
+Kyoto Kyoto
+68, Shincho
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 9:20:18 PM GMT+9
+Location: 600-8001
+Kyoto Kyoto
+77, Shincho
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 28, 2026 at 10:03:58 PM GMT+9
+Location: 533-0032
+Osaka Osaka
+4-16, Awaji 4-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 29, 2026 at 7:55:54 AM GMT+9
+Location: 532-0011
+Osaka Osaka
+16-3, Nishinakajima 5-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 29, 2026 at 10:39:57 AM GMT+9
+Location: 250-0045
+Kanagawa Odawara
+1-13, Shiroyama 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 29, 2026 at 12:54:33 PM GMT+9
+Location: 250-0205
+Kanagawa Odawara
+805-1, Sogabessho
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 29, 2026 at 1:57:02 PM GMT+9
+Location: 250-0011
+Kanagawa Odawara
+1-19, Sakaecho 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 29, 2026 at 3:29:17 PM GMT+9
+Location: 250-0011
+Kanagawa Odawara
+1-1, Sakaecho 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 29, 2026 at 4:50:16 PM GMT+9
+Location: 250-0408
+Kanagawa Hakone
+1300-329, Gora
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 30, 2026 at 10:25:40 AM GMT+9
+Location: 250-0408
+Kanagawa Hakone
+1300-329, Gora
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 30, 2026 at 11:22:35 AM GMT+9
+Location: 250-0311
+Kanagawa Hakone
+707-1, Yumoto
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 30, 2026 at 1:08:02 PM GMT+9
+Location: 160-0023
+Tokyo Shinjuku
+1, Nishishinjuku 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 30, 2026 at 1:21:09 PM GMT+9
+Location: 164-0001
+Tokyo Nakano
+64-1, Nakano 5-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 30, 2026 at 6:11:24 PM GMT+9
+Location: 164-0001
+Tokyo Nakano
+62-3, Nakano 5-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 30, 2026 at 6:24:03 PM GMT+9
+Location: 160-0004
+Tokyo Shinjuku
+5-25, Yotsuya 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 30, 2026 at 8:55:25 PM GMT+9
+Location: 160-0004
+Tokyo Shinjuku
+5-25, Yotsuya 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 30, 2026 at 9:06:07 PM GMT+9
+Location: 160-0022
+Tokyo Shinjuku
+38, Shinjuku 3-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 30, 2026 at 10:51:40 PM GMT+9
+Location: 160-0021
+Tokyo Shinjuku
+46-4, Kabukicho 2-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 30, 2026 at 11:25:57 PM GMT+9
+Location: 165-0025
+Tokyo Nakano
+8-25, Numabukuro 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 31, 2026 at 11:19:05 AM GMT+9
+Location: 165-0025
+Tokyo Nakano
+8-26, Numabukuro 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 31, 2026 at 11:30:26 AM GMT+9
+Location: Tokyo Shinjuku
+Nakai Ekimae-dori Street
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 31, 2026 at 12:01:00 PM GMT+9
+Location: 110-0005
+Tokyo Taito
+4, Ueno 4-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 31, 2026 at 12:59:01 PM GMT+9
+Location: 106-0032
+Tokyo Minato
+12-13, Roppongi 5-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 31, 2026 at 1:13:17 PM GMT+9
+Location: Tokyo Chuo
+Kiyosumi-dori Avenue
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 31, 2026 at 4:50:38 PM GMT+9
+Location: 135-0061
+Tokyo Koto
+2-19, Toyosu 2-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 31, 2026 at 4:54:13 PM GMT+9
+Location: 135-0061
+Tokyo Koto
+3-17, Toyosu 3-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: March 31, 2026 at 5:18:24 PM GMT+9
+Location: 135-0061
+Tokyo Koto
+3-17, Toyosu 3-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 1, 2026 at 9:52:57 AM GMT+9
+Location: Tokyo Nakano
+Nakano
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 1, 2026 at 10:12:55 AM GMT+9
+Location: 101-0062
+Tokyo Chiyoda
+6-1, Kandasurugadai 2-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 1, 2026 at 11:34:30 AM GMT+9
+Location: 101-0051
+Tokyo Chiyoda
+9-9, Kandajimbocho 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 1, 2026 at 11:54:38 AM GMT+9
+Location: 131-0045
+Tokyo Sumida
+1-1, Oshiage 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 1, 2026 at 3:12:16 PM GMT+9
+Location: 131-0045
+Tokyo Sumida
+1-62, Oshiage 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 1, 2026 at 3:59:25 PM GMT+9
+Location: Tokyo Nakano
+Nakano
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 1, 2026 at 8:50:12 PM GMT+9
+Location: 165-0025
+Tokyo Nakano
+8-22, Numabukuro 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 2, 2026 at 11:07:23 AM GMT+9
+Location: 165-0025
+Tokyo Nakano
+8-25, Numabukuro 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 2, 2026 at 11:24:58 AM GMT+9
+Location: 169-0075
+Tokyo Shinjuku
+35-1, Takadanobaba 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 2, 2026 at 11:38:19 AM GMT+9
+Location: 150-0001
+Tokyo Shibuya
+18-21, Jingumae 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 9:03:33 AM GMT+9
+Location: Tokyo Nakano
+Nakano
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 10:08:22 AM GMT+9
+Location: 193-0845
+Tokyo Hachioji
+1227, Hatsuzawamachi
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 10:18:10 AM GMT+9
+Location: 193-0844
+Tokyo Hachioji
+2280, Takaomachi
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 10:23:20 AM GMT+9
+Location: 193-0844
+Tokyo Hachioji
+2264-5, Takaomachi
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 2:20:29 PM GMT+9
+Location: 193-0844
+Tokyo Hachioji
+2229-1, Takaomachi
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 2:29:20 PM GMT+9
+Location: 193-0845
+Tokyo Hachioji
+1227, Hatsuzawamachi
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 3:11:13 PM GMT+9
+Location: Tokyo Suginami
+Kamiogi
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 3:53:50 PM GMT+9
+Location: 167-0043
+Tokyo Suginami
+7, Kamiogi 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 9:17:01 PM GMT+9
+Location: Tokyo Nakano
+Nakano
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 9:24:45 PM GMT+9
+Location: 151-0051
+Tokyo Shibuya
+24-55, Sendagaya 5-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 9:29:22 PM GMT+9
+Location: 160-0023
+Tokyo Shinjuku
+1-3, Nishishinjuku 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 9:42:45 PM GMT+9
+Location: 155-0031
+Tokyo Setagaya
+20-10, Kitazawa 2-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 10:46:29 PM GMT+9
+Location: Tokyo Setagaya
+Kitazawa
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 3, 2026 at 11:02:59 PM GMT+9
+Location: 160-0022
+Tokyo Shinjuku
+38-2, Shinjuku 3-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 4, 2026 at 12:42:50 AM GMT+9
+Location: 169-0073
+Tokyo Shinjuku
+17-22, Hyakunincho 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 4, 2026 at 12:53:12 AM GMT+9
+Location: Tokyo Nakano
+Nakano
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 4, 2026 at 1:34:03 PM GMT+9
+Location: 165-0025
+Tokyo Nakano
+8-26, Numabukuro 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 4, 2026 at 1:54:24 PM GMT+9
+Location: 169-0075
+Tokyo Shinjuku
+1-1, Takadanobaba 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 4, 2026 at 2:07:06 PM GMT+9
+Location: 150-0001
+Tokyo Shibuya
+18-19, Jingumae 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 4, 2026 at 7:46:51 PM GMT+9
+Location: 107-0061
+Tokyo Minato
+6-12, Kitaaoyama 3-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 4, 2026 at 7:53:44 PM GMT+9
+Location: 150-0042
+Tokyo Shibuya
+21-5, Udagawacho
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 4, 2026 at 9:01:35 PM GMT+9
+Location: Tokyo Shibuya
+Shibuya
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 4, 2026 at 9:19:53 PM GMT+9
+Location: 169-0075
+Tokyo Shinjuku
+1-1, Takadanobaba 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 4, 2026 at 9:31:07 PM GMT+9
+Location: Tokyo Nakano
+Numabukuro
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 5, 2026 at 1:03:16 PM GMT+9
+Location: 165-0025
+Tokyo Nakano
+35-5, Numabukuro 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 5, 2026 at 1:15:08 PM GMT+9
+Location: 169-0075
+Tokyo Shinjuku
+1-1, Takadanobaba 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 5, 2026 at 1:35:39 PM GMT+9
+Location: 169-0075
+Tokyo Shinjuku
+25-27, Takadanobaba 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 5, 2026 at 5:29:29 PM GMT+9
+Location: Tokyo Chuo
+Harumi-dori Avenue
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 5, 2026 at 5:46:12 PM GMT+9
+Location: Tokyo Chiyoda
+Metropolitan Expressway Route No.1 Ueno Line
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 5, 2026 at 8:12:05 PM GMT+9
+Location: 101-0021
+Tokyo Chiyoda
+17-6, Sotokanda 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 5, 2026 at 8:18:36 PM GMT+9
+Location: Tokyo Taito
+Ueno Koen-dori Avenue
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 5, 2026 at 10:06:51 PM GMT+9
+Location: Tokyo Taito
+Ueno Koen-dori Avenue
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 5, 2026 at 10:29:37 PM GMT+9
+Location: 169-0075
+Tokyo Shinjuku
+35-1, Takadanobaba 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 5, 2026 at 10:49:32 PM GMT+9
+Location: 165-0025
+Tokyo Nakano
+4-18, Numabukuro 3-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 6, 2026 at 12:38:51 PM GMT+9
+Location: 165-0025
+Tokyo Nakano
+8-25, Numabukuro 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 6, 2026 at 12:54:41 PM GMT+9
+Location: 169-0075
+Tokyo Shinjuku
+1-1, Takadanobaba 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 6, 2026 at 1:07:57 PM GMT+9
+Location: 150-0001
+Tokyo Shibuya
+18-19, Jingumae 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 6, 2026 at 3:18:31 PM GMT+9
+Location: 150-0001
+Tokyo Shibuya
+18-21, Jingumae 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 6, 2026 at 3:31:28 PM GMT+9
+Location: 169-0075
+Tokyo Shinjuku
+35-1, Takadanobaba 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 6, 2026 at 3:46:53 PM GMT+9
+Location: 165-0025
+Tokyo Nakano
+8-24, Numabukuro 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 7, 2026 at 11:25:37 AM GMT+9
+Location: Tokyo Nakano
+Nakano
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 7, 2026 at 11:50:04 AM GMT+9
+Location: 101-0062
+Tokyo Chiyoda
+5, Kandasurugadai 4-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 7, 2026 at 4:24:07 PM GMT+9
+Location: 101-0021
+Tokyo Chiyoda
+17-5, Sotokanda 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 7, 2026 at 4:55:45 PM GMT+9
+Location: 160-0023
+Tokyo Shinjuku
+1, Nishishinjuku 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 7, 2026 at 6:30:48 PM GMT+9
+Location: 160-0023
+Tokyo Shinjuku
+1, Nishishinjuku 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 7, 2026 at 6:43:57 PM GMT+9
+Location: 171-0022
+Tokyo Toshima
+28-34, Minamiikebukuro 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 7, 2026 at 8:01:39 PM GMT+9
+Location: 171-0022
+Tokyo Toshima
+28-35, Minamiikebukuro 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 7, 2026 at 8:09:22 PM GMT+9
+Location: 169-0075
+Tokyo Shinjuku
+7-7, Takadanobaba 4-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 7, 2026 at 8:28:14 PM GMT+9
+Location: 165-0025
+Tokyo Nakano
+8-24, Numabukuro 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 8, 2026 at 2:50:01 PM GMT+9
+Location: 165-0025
+Tokyo Nakano
+8-26, Numabukuro 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 8, 2026 at 3:03:14 PM GMT+9
+Location: 169-0075
+Tokyo Shinjuku
+1-1, Takadanobaba 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 8, 2026 at 3:31:09 PM GMT+9
+Location: 110-0005
+Tokyo Taito
+1, Ueno 7-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 8, 2026 at 3:33:49 PM GMT+9
+Location: Tokyo Taito
+Ueno
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 8, 2026 at 3:43:06 PM GMT+9
+Location: 111-0034
+Tokyo Taito
+19-12, Kaminarimon 2-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 8, 2026 at 5:48:21 PM GMT+9
+Location: 111-0035
+Tokyo Taito
+1-19, Nishiasakusa 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 8, 2026 at 6:25:12 PM GMT+9
+Location: Tokyo Shibuya
+Shibuya
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 8, 2026 at 8:39:22 PM GMT+9
+Location: Tokyo Shibuya
+Shibuya
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 8, 2026 at 8:56:16 PM GMT+9
+Location: 169-0075
+Tokyo Shinjuku
+1-1, Takadanobaba 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 8, 2026 at 9:13:42 PM GMT+9
+Location: 165-0025
+Tokyo Nakano
+8-25, Numabukuro 1-Chōme
+Japan
+----------------------------
+Name: Suica
+Merchant: 
+Amount: 
+Date: April 10, 2026 at 12:43:29 PM GMT+9
+Location: 165-0025
+Tokyo Nakano
+37-6, Numabukuro 1-Chōme
+Japan
+----------------------------
+Name: The Centurion Lounge A Pg
+Merchant: The Centurion Lounge A Pg
+Amount: $68.30
+Date: April 11, 2026 at 5:06:13 PM GMT+9
+Location: Tokyo Ota
+Hanedakuko
+Japan
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: April 14, 2026 at 6:10:37 PM EDT
+Location: Sherbourne
+26 Glen Rd
+Toronto ON M4X 1M5
+Canada
+----------------------------
+Name: Scotiabank Theatres
+Merchant: Scotiabank Theatres
+Amount: $19.64
+Date: April 14, 2026 at 6:33:33 PM EDT
+Location: OCAD University
+133 John St
+Toronto ON M5V 2E4
+Canada
+----------------------------
+Name: Cops Adelaide
+Merchant: Cops Adelaide
+Amount: $22.97
+Date: April 14, 2026 at 9:59:52 PM EDT
+Location: 443 Adelaide St W
+Toronto ON M5V 1S9
+Canada
+----------------------------
+Name: Presto Fare
+Merchant: Presto Fare
+Amount: $1.00
+Date: April 17, 2026 at 5:50:35 PM EDT
+Location: Bloor-Yonge
+2 Bloor St E
+Toronto ON M4W 1A8
+Canada
+----------------------------
+Name: Bellwoods Brewery
+Merchant: Bellwoods Brewery
+Amount: $51.53
+Date: April 17, 2026 at 7:55:14 PM EDT
+Location: 116–134 Ossington Ave
+Toronto ON M6J 2Z5
+Canada
+----------------------------
+Name: Bellwoods Brewery
+Merchant: Bellwoods Brewery
+Amount: $111.39
+Date: April 17, 2026 at 8:06:25 PM EDT
+Location: 126 Ossington Ave
+Toronto ON M6J 2Z5
+Canada
+----------------------------
+Name: Bobbie Sues Mac Cheese
+Merchant: Bobbie Sues Mac Cheese
+Amount: $27.61
+Date: April 17, 2026 at 8:09:01 PM EDT
+Location: 162 Ossington Ave
+Toronto ON M6J 2Z7
+Canada
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: April 18, 2026 at 8:19:05 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: April 18, 2026 at 9:06:46 PM EDT
+Location: CF Toronto Eaton Centre
+294 Yonge St
+Toronto ON M5B 2L6
+Canada
+----------------------------
+Name: Petite Bouchee
+Merchant: Petite Bouchee
+Amount: $54.90
+Date: April 23, 2026 at 10:31:23 PM EDT
+Location: 30 Sousa Mendes St
+Toronto ON M6P 0B2
+Canada
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: April 27, 2026 at 4:58:48 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Grandma Loves You
+Merchant: Grandma Loves You
+Amount: $22.36
+Date: April 27, 2026 at 5:15:57 PM EDT
+Location: 40 St Clair Ave W
+Toronto ON M4V 1M2
+Canada
+----------------------------
+Name: Pilot Coffee
+Merchant: Pilot Coffee
+Amount: $6.08
+Date: May 2, 2026 at 2:09:09 PM EDT
+Location: 130 Ivy Ave
+Toronto ON M4L 2H7
+Canada
+----------------------------
+Name: Pilot Coffee Roasters
+Merchant: Pilot Coffee Roasters
+Amount: $55.25
+Date: May 2, 2026 at 2:11:33 PM EDT
+Location: 132 Ivy Ave
+Toronto ON M4L 2H7
+Canada
+----------------------------
+Name: Left Field Brewery
+Merchant: Left Field Brewery
+Amount: $24.74
+Date: May 2, 2026 at 2:38:44 PM EDT
+Location: 36 Wagstaff Dr
+Toronto ON M4L 3W9
+Canada
+----------------------------
+Name: Lcbo
+Merchant: Lcbo
+Amount: $52.45
+Date: May 2, 2026 at 3:00:17 PM EDT
+Location: 1100 Danforth Ave
+Toronto ON M4J 1M3
+Canada
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: May 2, 2026 at 3:23:22 PM EDT
+Location: 2–14 Dewhurst Blvd
+Toronto ON M4J 3H9
+Canada
+----------------------------
+Name: Cabanos Comfort
+Merchant: Cabanos Comfort
+Amount: $23.15
+Date: May 7, 2026 at 6:00:28 PM EDT
+Location: 25 St Mary St
+Toronto ON M4Y 2S8
+Canada
+----------------------------
+Name: Circle K
+Merchant: Circle K
+Amount: $3.38
+Date: May 7, 2026 at 6:47:47 PM EDT
+Location: Sherbourne
+429A Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Lcbo
+Merchant: Lcbo
+Amount: $76.25
+Date: May 8, 2026 at 6:13:09 PM EDT
+Location: 47–49 Spadina Ave
+Toronto ON M5V 2J1
+Canada
+----------------------------
+Name: Shelbys
+Merchant: Shelbys
+Amount: $16.14
+Date: May 9, 2026 at 12:15:13 AM EDT
+Location: John & King
+287–301 King St W
+Toronto ON M5V 1J5
+Canada
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: May 9, 2026 at 12:33:08 AM EDT
+Location: St Andrew
+117–147 University Ave
+Toronto ON N0B 2S0
+Canada
+----------------------------
+Name: Imperial Oil
+Merchant: Imperial Oil
+Amount: $250.00
+Date: May 9, 2026 at 3:49:23 PM EDT
+Location: 61 Overlea Blvd
+Toronto ON M4H 1C2
+Canada
+----------------------------
+Name: Petite Bouchee
+Merchant: Petite Bouchee
+Amount: $36.00
+Date: May 9, 2026 at 10:53:24 PM EDT
+Location: 28 Sousa Mendes St
+Toronto ON M6P 0B2
+Canada
+----------------------------
+Name: Canadian Tire Store
+Merchant: Canadian Tire Store
+Amount: $193.11
+Date: May 10, 2026 at 3:48:33 PM EDT
+Location: RioCan Niagara Falls
+Niagara Falls ON L2E 7K5
+Canada
+----------------------------
+Name: Ikea 659 Toronto Aura
+Merchant: Ikea 659 Toronto Aura
+Amount: $10.98
+Date: May 11, 2026 at 6:48:38 PM EDT
+Location: 12 Gerrard St W
+Toronto ON M5G 2K2
+Canada
+----------------------------
+Name: IKEA
+Merchant: IKEA
+Amount: $31.61
+Date: May 11, 2026 at 7:03:33 PM EDT
+Location: 388 Yonge St
+Toronto ON M5B 0A4
+Canada
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: May 12, 2026 at 5:26:58 PM EDT
+Location: Morley Callaghan Footbridge
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: Ven
+Merchant: Ven
+Amount: $16.00
+Date: May 12, 2026 at 6:03:44 PM EDT
+Location: Rogers Centre
+1 Blue Jays Way
+Toronto ON M5V 1J1
+Canada
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: May 12, 2026 at 6:42:34 PM EDT
+Location: 200 King St W
+Toronto ON M5H 3X6
+Canada
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: May 12, 2026 at 9:14:17 PM EDT
+Location: 190 Yonge St
+Toronto ON M5B 2H6
+Canada
+----------------------------
+Name: Fire Sales Cannabis At Cabbagetown
+Merchant: Fire Sales Cannabis At Cabbagetown
+Amount: $19.18
+Date: May 13, 2026 at 6:37:56 PM EDT
+Location: 240 Carlton St
+Toronto ON M5A 2L1
+Canada
+----------------------------
+Name: Freshco Canada
+Merchant: Freshco Canada
+Amount: $68.45
+Date: May 15, 2026 at 4:49:40 PM EDT
+Location: 559 Sherbourne St
+Toronto ON M4X 0A1
+Canada
+----------------------------
+Name: The Broadview
+Merchant: The Broadview
+Amount: $36.59
+Date: May 16, 2026 at 12:47:38 PM EDT
+Location: 91 Danforth Ave
+Toronto ON M4K 1N2
+Canada
+----------------------------
+Name: Lcbo
+Merchant: Lcbo
+Amount: $42.85
+Date: May 16, 2026 at 12:59:55 PM EDT
+Location: 200 Danforth Ave
+Toronto ON M4K 1N5
+Canada
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: May 16, 2026 at 1:03:11 PM EDT
+Location: Broadview
+Toronto ON M4K 1N1
+Canada
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: May 16, 2026 at 4:46:26 PM EDT
+Location: Sherbourne
+443 Bloor St E
+Toronto ON M4W 1J1
+Canada
+----------------------------
+Name: American Express Cobalt® Card
+Merchant: 
+Amount: 
+Date: May 16, 2026 at 8:10:22 PM EDT
+Location: Queen
+1–13 Queen St W
+Toronto ON N0B 2S0
+Canada
+----------------------------
+Name: Booster Juice
+Merchant: Booster Juice
+Amount: $12.59
+Date: May 18, 2026 at 1:19:33 PM EDT
+Location: Hazelton Lanes Shopping Centre Administrative Office
+55 Avenue Rd
+Toronto ON M5R 3L2
+Canada

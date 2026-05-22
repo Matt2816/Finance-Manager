@@ -28,7 +28,15 @@ export function DataTableToolbar<TData>({
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="h-8 w-[150px] lg:w-[250px]"
+          className="h-8 w-[150px] lg:w-[200px]"
+        />
+        <Input
+          placeholder="Filter by location"
+          value={(table.getColumn("address")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("address")?.setFilterValue(event.target.value)
+          }
+          className="h-8 w-[150px] lg:w-[200px]"
         />
         {table.getColumn("cardType") && (
           <DataTableFacetedFilter

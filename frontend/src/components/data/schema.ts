@@ -10,6 +10,6 @@ export const transactionSchema = z.object({
   name: z.string(),
   merchant: z.string(),
   transactionDate: z.string(),
-  address: z.string(),
+  address: z.string().default(""),
   hash: z.string(),
 });

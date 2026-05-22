@@ -11,8 +11,8 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Frontend build stage
-FROM node:18-alpine AS frontend-builder
+# Frontend build stage (Next.js 16 requires Node >= 20.9)
+FROM node:20-alpine AS frontend-builder
 
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
@@ -20,32 +20,27 @@ RUN npm ci
 COPY frontend .
 RUN npm run build
 
-# Final stage
-FROM amazoncorretto:17-alpine
+# Final stage: keep Node on its own Alpine image and add Java for Spring Boot
+FROM node:20-alpine
+
+RUN apk add --no-cache openjdk17-jre-headless
+
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+ENV PATH="$JAVA_HOME/bin:$PATH"
 
 # Copy backend JAR
 COPY --from=backend-builder /app/backend/target/*.jar /app/application.jar
 
-# Copy frontend build
+# Copy frontend build artifacts
 COPY --from=frontend-builder /app/frontend/.next /app/frontend/.next
 COPY --from=frontend-builder /app/frontend/public /app/frontend/public
 COPY --from=frontend-builder /app/frontend/package*.json /app/frontend/
 
-# Install Node.js and npm
-RUN apk add --update nodejs npm
-
-# Set working directory
-WORKDIR /app
-
-# Install production dependencies for frontend
 WORKDIR /app/frontend
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
-# Set working directory back to /app
 WORKDIR /app
 
-# Expose ports for both backend and frontend
 EXPOSE 8080 3000
 
-# Start both applications
-CMD ["sh", "-c", "java -jar /app/application.jar & cd frontend && npm start"]
+CMD ["sh", "-c", "java -jar /app/application.jar & cd /app/frontend && npm start"]
