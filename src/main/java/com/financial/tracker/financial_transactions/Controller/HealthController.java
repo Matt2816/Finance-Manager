@@ -18,12 +18,12 @@ public class HealthController {
     @GetMapping("/health")
     public HealthResponse health(HttpServletRequest request) {
         ControllerRequestLogger.logIncoming(log, "health");
-        return new HealthResponse(
+        return ControllerRequestLogger.logResponseBody(log, "health", new HealthResponse(
                 "ok",
                 "Finance Manager API is running",
                 Instant.now().toString(),
                 clientAddress(request)
-        );
+        ));
     }
 
     public record HealthResponse(

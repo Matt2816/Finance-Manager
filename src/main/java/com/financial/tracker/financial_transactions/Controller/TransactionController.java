@@ -47,7 +47,7 @@ public class TransactionController {
                 + (request.getServerPort() == 80 || request.getServerPort() == 443
                 ? ""
                 : ":" + request.getServerPort());
-        return TransactionTestResponse.getHints(baseUrl);
+        return ControllerRequestLogger.logResponseBody(log, "getTest", TransactionTestResponse.getHints(baseUrl));
     }
 
     /**
@@ -60,7 +60,7 @@ public class TransactionController {
             @RequestParam(defaultValue = "false") boolean save,
             HttpServletRequest request
     ) {
-        ControllerRequestLogger.logIncoming(log, "postTest");
+        ControllerRequestLogger.logIncoming(log, "postTest", "save", save, "body", body);
         String baseUrl = request.getScheme() + "://" + request.getServerName()
                 + (request.getServerPort() == 80 || request.getServerPort() == 443
                 ? ""
@@ -78,46 +78,49 @@ public class TransactionController {
             WalletNoteImportResult importResult = walletNotesImportService.importSingleFromText(body);
             if ("created".equals(importResult.status()) || "duplicate".equals(importResult.status())) {
                 Transaction saved = importResult.transaction();
-                return ResponseEntity.ok(TransactionTestResponse.postResult(
-                        clientAddress, body, saved, true, hints
+                return ControllerRequestLogger.logResponse(log, "postTest", ResponseEntity.ok(
+                        TransactionTestResponse.postResult(clientAddress, body, saved, true, hints)
                 ));
             }
-            return ResponseEntity.unprocessableEntity().body(
+            return ControllerRequestLogger.logResponse(log, "postTest", ResponseEntity.unprocessableEntity().body(
                     TransactionTestResponse.postResult(clientAddress, body, null, false, hints)
-            );
+            ));
         }
 
-        return ResponseEntity.ok(
+        return ControllerRequestLogger.logResponse(log, "postTest", ResponseEntity.ok(
                 TransactionTestResponse.postResult(clientAddress, body, parsed, false, hints)
-        );
+        ));
     }
 
     @GetMapping
-    public List<Transaction> findAll(){
+    public List<Transaction> findAll() {
         ControllerRequestLogger.logIncoming(log, "findAll");
-        return transactionsRepo.findAll();
+        return ControllerRequestLogger.logResponseBody(log, "findAll", transactionsRepo.findAll());
     }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createTransaction(@RequestBody Transaction transaction) {
-        ControllerRequestLogger.logIncoming(log, "createTransaction");
+        ControllerRequestLogger.logIncoming(log, "createTransaction", transaction);
         if (transactionsRepo.findByHash(transaction.getHash()) != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Transaction with the same hash already exists.");
+            return ControllerRequestLogger.logResponse(log, "createTransaction",
+                    ResponseEntity.status(HttpStatus.CONFLICT).body("Transaction with the same hash already exists."));
         }
 
         transactionsRepo.save(transaction);
-        return new ResponseEntity<>("Transaction created successfully.", HttpStatus.CREATED);
+        return ControllerRequestLogger.logResponse(log, "createTransaction",
+                new ResponseEntity<>("Transaction created successfully.", HttpStatus.CREATED));
     }
 
     @PostMapping(value = "/import/wallet-notes", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<WalletNotesImportResult> importWalletNotes(
             @RequestParam("file") MultipartFile file
     ) throws IOException {
-        ControllerRequestLogger.logIncoming(log, "importWalletNotes");
+        ControllerRequestLogger.logIncoming(log, "importWalletNotes", "file", file);
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+            return ControllerRequestLogger.logResponse(log, "importWalletNotes", ResponseEntity.badRequest().build());
         }
         WalletNotesImportResult result = walletNotesImportService.importFromBytes(file.getBytes());
-        return ResponseEntity.ok(result);
+        return ControllerRequestLogger.logResponse(log, "importWalletNotes", ResponseEntity.ok(result));
     }
 
     /**
@@ -126,19 +129,19 @@ public class TransactionController {
      */
     @PostMapping(value = "/import/wallet-note", consumes = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<WalletNoteImportResult> importWalletNote(@RequestBody String body) {
-        ControllerRequestLogger.logIncoming(log, "importWalletNote");
+        ControllerRequestLogger.logIncoming(log, "importWalletNote", "body", body);
         if (body == null || body.isBlank()) {
-            return ResponseEntity.badRequest()
-                    .body(WalletNoteImportResult.skipped("Request body is empty"));
+            return ControllerRequestLogger.logResponse(log, "importWalletNote", ResponseEntity.badRequest()
+                    .body(WalletNoteImportResult.skipped("Request body is empty")));
         }
 
         WalletNoteImportResult result = walletNotesImportService.importSingleFromText(body);
 
-        return switch (result.status()) {
+        return ControllerRequestLogger.logResponse(log, "importWalletNote", switch (result.status()) {
             case "created" -> ResponseEntity.status(HttpStatus.CREATED).body(result);
             case "duplicate" -> ResponseEntity.status(HttpStatus.CONFLICT).body(result);
             default -> ResponseEntity.unprocessableEntity().body(result);
-        };
+        });
     }
 
     /**
@@ -149,10 +152,10 @@ public class TransactionController {
     public ResponseEntity<WalletNoteImportResult> importWalletNoteJson(
             @RequestBody WalletNoteJsonRequest request
     ) {
-        ControllerRequestLogger.logIncoming(log, "importWalletNoteJson");
+        ControllerRequestLogger.logIncoming(log, "importWalletNoteJson", request);
         if (request == null) {
-            return ResponseEntity.badRequest()
-                    .body(WalletNoteImportResult.skipped("Request body is required"));
+            return ControllerRequestLogger.logResponse(log, "importWalletNoteJson", ResponseEntity.badRequest()
+                    .body(WalletNoteImportResult.skipped("Request body is required")));
         }
 
         WalletNoteImportResult result = walletNotesImportService.importSingleFromFields(
@@ -163,11 +166,11 @@ public class TransactionController {
                 request.location()
         );
 
-        return switch (result.status()) {
+        return ControllerRequestLogger.logResponse(log, "importWalletNoteJson", switch (result.status()) {
             case "created" -> ResponseEntity.status(HttpStatus.CREATED).body(result);
             case "duplicate" -> ResponseEntity.status(HttpStatus.CONFLICT).body(result);
             default -> ResponseEntity.unprocessableEntity().body(result);
-        };
+        });
     }
 
     @DeleteMapping
@@ -175,17 +178,19 @@ public class TransactionController {
     public ResponseEntity<String> deleteAllTransactions() {
         ControllerRequestLogger.logIncoming(log, "deleteAllTransactions");
         transactionsRepo.deleteAll();
-        return ResponseEntity.ok("All transactions deleted successfully.");
+        return ControllerRequestLogger.logResponse(log, "deleteAllTransactions",
+                ResponseEntity.ok("All transactions deleted successfully."));
     }
+
     @GetMapping(value = "/{hash}")
     public ResponseEntity<Transaction> getTransactionByHash(@PathVariable String hash) {
-        ControllerRequestLogger.logIncoming(log, "getTransactionByHash");
+        ControllerRequestLogger.logIncoming(log, "getTransactionByHash", "hash", hash);
         Transaction transaction = transactionsRepo.findByHash(hash);
         if (transaction != null) {
-            return ResponseEntity.ok(transaction);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ControllerRequestLogger.logResponse(log, "getTransactionByHash", ResponseEntity.ok(transaction));
         }
+        return ControllerRequestLogger.logResponse(log, "getTransactionByHash",
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
 }

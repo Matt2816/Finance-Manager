@@ -17,7 +17,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class WalletNotesParser {
+
+    private static final Logger log = LoggerFactory.getLogger(WalletNotesParser.class);
 
     private static final Pattern FIELD_LINE = Pattern.compile(
             "^(Name|Merchant|Amount|Date|Location):\\s*(.*)$"
@@ -28,6 +33,9 @@ public class WalletNotesParser {
     );
 
     public ParseResult parse(String content) {
+        int contentLength = content == null ? 0 : content.length();
+        log.info("Parsing wallet notes batch, contentLength={}", contentLength);
+
         List<Transaction> transactions = new ArrayList<>();
         int skippedBlocks = 0;
 
@@ -40,9 +48,15 @@ public class WalletNotesParser {
                 transactions.add(transaction);
             } else if (block.contains("Amount:")) {
                 skippedBlocks++;
+                log.debug("Skipped wallet note block (invalid or missing amount)");
             }
         }
 
+        log.info(
+                "Parsed wallet notes batch: transactions={}, skippedBlocks={}",
+                transactions.size(),
+                skippedBlocks
+        );
         return new ParseResult(transactions, skippedBlocks);
     }
 
@@ -53,15 +67,31 @@ public class WalletNotesParser {
      */
     public Transaction parseSingle(String content) {
         if (content == null || content.isBlank()) {
+            log.info("parseSingle: empty content");
             return null;
         }
 
         String block = content.trim().replaceAll("(?m)^-{28,}\\s*$", "").trim();
         if (block.isBlank()) {
+            log.info("parseSingle: blank block after trim");
             return null;
         }
 
-        return parseBlock(block);
+        log.info("parseSingle: parsing block, length={}", block.length());
+        Transaction transaction = parseBlock(block);
+        if (transaction == null) {
+            log.info("parseSingle: failed to parse transaction");
+        } else {
+            log.info(
+                    "parseSingle: parsed name={}, merchant={}, amount={}, date={}, hash={}",
+                    transaction.getName(),
+                    transaction.getMerchant(),
+                    transaction.getAmount(),
+                    transaction.getTransactionDate(),
+                    transaction.getHash()
+            );
+        }
+        return transaction;
     }
 
     private Transaction parseBlock(String block) {
@@ -85,8 +115,18 @@ public class WalletNotesParser {
             String date,
             String location
     ) {
+        log.info(
+                "buildFromFields: name={}, merchant={}, amount={}, date={}, locationLength={}",
+                name,
+                merchant,
+                amount,
+                date,
+                location == null ? 0 : location.length()
+        );
+
         String normalizedAmount = normalizeAmount(amount);
         if (normalizedAmount == null) {
+            log.info("buildFromFields: invalid amount");
             return null;
         }
 
@@ -101,6 +141,7 @@ public class WalletNotesParser {
 
         String transactionDate = parseTransactionDate(date);
         if (transactionDate == null) {
+            log.info("buildFromFields: invalid date");
             return null;
         }
 
@@ -122,6 +163,14 @@ public class WalletNotesParser {
         transaction.setCardType(cardType);
         transaction.setHash(hash);
         transaction.setAddress(resolvedLocation);
+        log.info(
+                "buildFromFields: built transaction name={}, amount={}, date={}, cardType={}, hash={}",
+                resolvedName,
+                normalizedAmount,
+                transactionDate,
+                cardType,
+                hash
+        );
         return transaction;
     }
 

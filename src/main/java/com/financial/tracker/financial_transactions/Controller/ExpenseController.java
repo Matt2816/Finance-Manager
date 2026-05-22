@@ -31,32 +31,38 @@ public class ExpenseController {
     @GetMapping
     public List<RecurringExpense> getAllRecurringExpenses() {
         ControllerRequestLogger.logIncoming(log, "getAllRecurringExpenses");
-        return expenseRepo.findAll();
+        return ControllerRequestLogger.logResponseBody(log, "getAllRecurringExpenses", expenseRepo.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RecurringExpense> getRecurringExpenseById(@PathVariable Long id) {
-        ControllerRequestLogger.logIncoming(log, "getRecurringExpenseById");
-        return expenseRepo.findById(Math.toIntExact(id))
+        ControllerRequestLogger.logIncoming(log, "getRecurringExpenseById", "id", id);
+        ResponseEntity<RecurringExpense> response = expenseRepo.findById(Math.toIntExact(id))
                 .map(ResponseEntity::ok)
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return ControllerRequestLogger.logResponse(log, "getRecurringExpenseById", response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecurringExpense(@PathVariable Long id) {
-        ControllerRequestLogger.logIncoming(log, "deleteRecurringExpense");
+        ControllerRequestLogger.logIncoming(log, "deleteRecurringExpense", "id", id);
+        ResponseEntity<Void> response;
         if (expenseRepo.existsById(Math.toIntExact(id))) {
             expenseRepo.deleteById(Math.toIntExact(id));
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return ControllerRequestLogger.logResponse(log, "deleteRecurringExpense", response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RecurringExpense> updateRecurringExpense(@PathVariable Long id, @RequestBody RecurringExpense updatedExpense) {
-        ControllerRequestLogger.logIncoming(log, "updateRecurringExpense");
-        return expenseRepo.findById(Math.toIntExact(id))
+    public ResponseEntity<RecurringExpense> updateRecurringExpense(
+            @PathVariable Long id,
+            @RequestBody RecurringExpense updatedExpense
+    ) {
+        ControllerRequestLogger.logIncoming(log, "updateRecurringExpense", "id", id, "body", updatedExpense);
+        ResponseEntity<RecurringExpense> response = expenseRepo.findById(Math.toIntExact(id))
                 .map(expense -> {
                     expense.setMerchant(updatedExpense.getMerchant());
                     expense.setAmount(updatedExpense.getAmount());
@@ -67,21 +73,26 @@ public class ExpenseController {
                     return new ResponseEntity<>(expense, HttpStatus.OK);
                 })
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return ControllerRequestLogger.logResponse(log, "updateRecurringExpense", response);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecurringExpense> addRecurringExpense(@RequestBody RecurringExpense recurringExpense) {
-        ControllerRequestLogger.logIncoming(log, "addRecurringExpense");
-        recurringExpense.setNextPaymentDate(calculateNextPaymentDate(recurringExpense.getStartDate(), recurringExpense.getFrequency()));
+        ControllerRequestLogger.logIncoming(log, "addRecurringExpense", recurringExpense);
+        recurringExpense.setNextPaymentDate(
+                calculateNextPaymentDate(recurringExpense.getStartDate(), recurringExpense.getFrequency())
+        );
         expenseRepo.save(recurringExpense);
-        return new ResponseEntity<>(recurringExpense, HttpStatus.CREATED);
+        return ControllerRequestLogger.logResponse(log, "addRecurringExpense",
+                new ResponseEntity<>(recurringExpense, HttpStatus.CREATED));
     }
 
     @PostMapping("/testScheduler")
     public ResponseEntity<String> triggerExpenseScheduler() {
         ControllerRequestLogger.logIncoming(log, "triggerExpenseScheduler");
         recurringExpenseService.processRecurringExpenses();
-        return new ResponseEntity<>("Recurring Expense Scheduler triggered successfully", HttpStatus.OK);
+        return ControllerRequestLogger.logResponse(log, "triggerExpenseScheduler",
+                new ResponseEntity<>("Recurring Expense Scheduler triggered successfully", HttpStatus.OK));
     }
 
     private LocalDate calculateNextPaymentDate(LocalDate startDate, Frequency frequency) {
@@ -103,5 +114,3 @@ public class ExpenseController {
         }
     }
 }
-
-

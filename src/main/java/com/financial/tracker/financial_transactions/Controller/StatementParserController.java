@@ -29,7 +29,7 @@ public class StatementParserController {
 
     @PostMapping("/upload")
     public ResponseEntity<List<List<String>>> uploadFile(@RequestParam("file") MultipartFile file) {
-        ControllerRequestLogger.logIncoming(log, "uploadFile");
+        ControllerRequestLogger.logIncoming(log, "uploadFile", "file", file);
         String fileName = file.getOriginalFilename();
         List<List<String>> transactions = new ArrayList<>();
 
@@ -41,12 +41,15 @@ public class StatementParserController {
             } else if (fileName.endsWith(".pdf")) {
                 transactions = parsePDF(file.getInputStream());
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+                return ControllerRequestLogger.logResponse(log, "uploadFile",
+                        ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
             }
 
-            return ResponseEntity.ok(transactions);
+            return ControllerRequestLogger.logResponse(log, "uploadFile", ResponseEntity.ok(transactions));
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            log.error("uploadFile: failed to parse file {}", fileName, e);
+            return ControllerRequestLogger.logResponse(log, "uploadFile",
+                    ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null));
         }
     }
 
