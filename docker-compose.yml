@@ -23,7 +23,7 @@ services:
 
 
   financial-db:
-    image: postgres
+    image: postgres:17
     container_name: financial-db
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
