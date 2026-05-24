@@ -2,6 +2,9 @@ package com.financial.tracker.financial_transactions.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "transactions")
 public class Transaction {
@@ -14,6 +17,12 @@ public class Transaction {
     private String cardType;
     @Column(name = "amount")
     private String amount;
+    @Column(name = "amount_value")
+    private BigDecimal amountValue;
+    @Column(name = "occurred_on")
+    private LocalDate occurredOn;
+    @Column(name = "currency")
+    private String currency;
     @Column(name = "name")
     private String name;
     @Column(name = "merchant")
@@ -24,6 +33,8 @@ public class Transaction {
     private String hash;
     @Column(name = "address")
     private String address;
+    @Column(name = "recurring_generated")
+    private boolean recurringGenerated;
 
     public Transaction(String cardType, String amount, String name, String merchant, String transactionDate, String hash, String address) {
         this.cardType = cardType;
@@ -34,8 +45,8 @@ public class Transaction {
         this.hash = hash;
         this.address = address;
     }
-    public Transaction() {}
 
+    public Transaction() {}
 
     public int getId() {
         return id;
@@ -59,6 +70,30 @@ public class Transaction {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    public BigDecimal getAmountValue() {
+        return amountValue;
+    }
+
+    public void setAmountValue(BigDecimal amountValue) {
+        this.amountValue = amountValue;
+    }
+
+    public LocalDate getOccurredOn() {
+        return occurredOn;
+    }
+
+    public void setOccurredOn(LocalDate occurredOn) {
+        this.occurredOn = occurredOn;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public String getName() {
@@ -85,14 +120,29 @@ public class Transaction {
         this.transactionDate = transactionDate;
     }
 
+    public String getHash() {
+        return hash;
+    }
 
-    public String getHash() {return hash;}
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
 
-    public void setHash(String hash) {this.hash = hash;}
+    public String getAddress() {
+        return address;
+    }
 
-    public String getAddress() {return address;}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-    public void setAddress(String address) {this.address = address;}
+    public boolean isRecurringGenerated() {
+        return recurringGenerated;
+    }
+
+    public void setRecurringGenerated(boolean recurringGenerated) {
+        this.recurringGenerated = recurringGenerated;
+    }
 
     @Override
     public String toString() {
@@ -100,11 +150,14 @@ public class Transaction {
                 "id=" + id +
                 ", cardType='" + cardType + '\'' +
                 ", amount='" + amount + '\'' +
+                ", amountValue=" + amountValue +
+                ", occurredOn=" + occurredOn +
                 ", name='" + name + '\'' +
                 ", merchant='" + merchant + '\'' +
                 ", transactionDate='" + transactionDate + '\'' +
                 ", hash='" + hash + '\'' +
                 ", address='" + address + '\'' +
+                ", recurringGenerated=" + recurringGenerated +
                 '}';
     }
 }

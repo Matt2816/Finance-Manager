@@ -1,5 +1,6 @@
 package com.financial.tracker.financial_transactions.Services;
 
+import com.financial.tracker.financial_transactions.analytics.normalization.TransactionNormalizationService;
 import com.financial.tracker.financial_transactions.model.Transaction;
 import com.financial.tracker.financial_transactions.repo.TransactionsRepo;
 import org.slf4j.Logger;
@@ -17,9 +18,14 @@ public class WalletNotesImportService {
 
     private final WalletNotesParser parser = new WalletNotesParser();
     private final TransactionsRepo transactionsRepo;
+    private final TransactionNormalizationService normalizationService;
 
-    public WalletNotesImportService(TransactionsRepo transactionsRepo) {
+    public WalletNotesImportService(
+            TransactionsRepo transactionsRepo,
+            TransactionNormalizationService normalizationService
+    ) {
         this.transactionsRepo = transactionsRepo;
+        this.normalizationService = normalizationService;
     }
 
     public WalletNotesImportResult importFromText(String content) {
@@ -35,7 +41,8 @@ public class WalletNotesImportService {
                 log.debug("importFromText: duplicate hash={}, skipping", transaction.getHash());
                 continue;
             }
-            transactionsRepo.save(transaction);
+            Transaction saved = transactionsRepo.save(transaction);
+            normalizationService.normalizeOne(saved.getId());
             imported++;
             log.debug(
                     "importFromText: saved name={}, amount={}, hash={}",
@@ -110,8 +117,9 @@ public class WalletNotesImportService {
             return result;
         }
 
-        transactionsRepo.save(transaction);
-        WalletNoteImportResult result = WalletNoteImportResult.created(transaction);
+        Transaction saved = transactionsRepo.save(transaction);
+        normalizationService.normalizeOne(saved.getId());
+        WalletNoteImportResult result = WalletNoteImportResult.created(saved);
         log.info("{}: result={}", operation, result);
         return result;
     }

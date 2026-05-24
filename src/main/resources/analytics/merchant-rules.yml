@@ -1,0 +1,68 @@
+categories:
+  - slug: coffee
+    displayName: Coffee
+  - slug: groceries
+    displayName: Groceries
+  - slug: dining
+    displayName: Dining
+  - slug: transit
+    displayName: Transit
+  - slug: entertainment
+    displayName: Entertainment
+  - slug: shopping
+    displayName: Shopping
+  - slug: utilities
+    displayName: Utilities
+  - slug: health
+    displayName: Health
+  - slug: travel
+    displayName: Travel
+  - slug: alcohol
+    displayName: Alcohol
+  - slug: subscriptions
+    displayName: Subscriptions
+  - slug: gas
+    displayName: Gas
+  - slug: uncategorized
+    displayName: Uncategorized
+
+rules:
+  - pattern: "(?i)starbucks|tim hortons|second cup|coffee|espresso|booster juice|kava coffee|pilot coffee|mos mos|black sheep coffee|greta yyz|edna|lite bite|midnight cookie|scooped|its tea|la diperie|sp butter baker|good gang ice cream|acai brazil|tropical joe's|grandma loves you|bobbie sue's"
+    category: coffee
+    priority: 10
+  - pattern: "(?i)costco|loblaws|sobeys|metro|walmart|no frills|freshco|grocery|whole foods"
+    category: groceries
+    priority: 20
+  - pattern: "(?i)wendys|mcdonald|burger|pizza|restaurant|uber eats|doordash|skip the dishes|cherry st bbq|aanch|halibut house|hojo's|oklahoma burgers|king fresh|bricks & barley|st louis|gb hand-pulled|richmond station|tst-cabano's|dominos|chick-fil-a|jimmy the greek|quesada|fat bastard|m.t. bellies|swiss chalet|mcdonald's|tst-nature's|ls crock|muni robata|thorowest|chica's|mandarin|eaton ruby thai|555 boat|ikkousha|mizzica|minami|poulet rouge|kost|shake shack|craft beer|maple leaf|el charro|tst-bff|tst-gusto|tst-old school|tst-fox|tst-gus|tst-tahini|tst-burgers|tst-cherry's|tst-laissez|hi bowl|rfbt|mandarin scarborough|tst-terroni|union chicken|the wren|wanas shawarma|tst-gus tacos|tst-fox on john|tst-cherry's high dive|tst-burgers n' fries|tst-laissez faire"
+    category: dining
+    priority: 30
+  - pattern: "(?i)ttc|presto|uber|lyft|bolt|bike share|metrolinx|go transit"
+    category: transit
+    priority: 40
+  - pattern: "(?i)netflix|spotify|cinema|theatre|steam|cineplex"
+    category: entertainment
+    priority: 50
+  - pattern: "(?i)amazon|best buy|indigo|winners|mall|rock auto|walmart.ca|canadiantire.ca|sportchek|aerosom|airwalxhk|name-cheap|dollarama|shoppers|homesense|michaels|ikea|marshalls|gap|old navy|north face|columbia|new balance|american eagle|marks|sephora|etsy|rw & co.|sp mejuri|limestone organic|macewen|onroute|01786 circle k|oldnavy.com|the home depot|dr. diaa|anthropic|whole foods|apple store"
+    category: shopping
+    priority: 60
+  - pattern: "(?i)hydro|rogers|bell|telus|internet|utility"
+    category: utilities
+    priority: 70
+  - pattern: "(?i)pharmacy|shoppers|rexall|hospital|dental|clinic|dr. diaa"
+    category: health
+    priority: 80
+  - pattern: "(?i)airbnb|air transat|via rail|hotwire|mount st louis|sodexo live|airalo"
+    category: travel
+    priority: 90
+  - pattern: "(?i)lcbo|molson"
+    category: alcohol
+    priority: 100
+  - pattern: "(?i)amazon prime|apple.com/bill|spotify|freedom mobile|microsoft|anthropic|netflix|membership fee|uber one"
+    category: subscriptions
+    priority: 110
+  - pattern: "(?i)petro-canada|esso|circle k|canadian tire gas|pioneer|gales gas|shell|husky|co-op|ultramar|mohawk|chevron|kum & go|7-eleven"
+    category: gas
+    priority: 120
+  - pattern: "(?i)copernicus lodge"
+    category: uncategorized
+    priority: 130

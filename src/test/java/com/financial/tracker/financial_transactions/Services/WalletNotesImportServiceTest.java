@@ -1,5 +1,6 @@
 package com.financial.tracker.financial_transactions.Services;
 
+import com.financial.tracker.financial_transactions.analytics.normalization.TransactionNormalizationService;
 import com.financial.tracker.financial_transactions.model.Transaction;
 import com.financial.tracker.financial_transactions.repo.TransactionsRepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,11 +22,14 @@ class WalletNotesImportServiceTest {
     @Mock
     private TransactionsRepo transactionsRepo;
 
+    @Mock
+    private TransactionNormalizationService normalizationService;
+
     private WalletNotesImportService importService;
 
     @BeforeEach
     void setUp() {
-        importService = new WalletNotesImportService(transactionsRepo);
+        importService = new WalletNotesImportService(transactionsRepo, normalizationService);
     }
 
     @Test
@@ -41,6 +45,7 @@ class WalletNotesImportServiceTest {
                 """;
 
         when(transactionsRepo.findByHash(any())).thenReturn(null);
+        when(transactionsRepo.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
         WalletNoteImportResult result = importService.importSingleFromText(note);
 
@@ -75,6 +80,7 @@ class WalletNotesImportServiceTest {
     @Test
     void importSingleFromFields_savesNewTransaction() {
         when(transactionsRepo.findByHash(any())).thenReturn(null);
+        when(transactionsRepo.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
         WalletNoteImportResult result = importService.importSingleFromFields(
                 "Wendys 6758",

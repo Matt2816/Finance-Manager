@@ -30,7 +30,9 @@ class WalletNotesParserTest {
         assertEquals("Wendys 6758", transaction.getName());
         assertEquals("Wendys 6758", transaction.getMerchant());
         assertEquals("18.06", transaction.getAmount());
+        assertEquals(new java.math.BigDecimal("18.06"), transaction.getAmountValue());
         assertEquals("2025-06-27", transaction.getTransactionDate());
+        assertEquals(java.time.LocalDate.of(2025, 6, 27), transaction.getOccurredOn());
         assertEquals("other", transaction.getCardType());
         assertEquals("370 King St W\nToronto ON M5V 1J9\nCanada", transaction.getAddress());
         assertNotNull(transaction.getHash());

@@ -123,6 +123,12 @@ All backend routes are under `/api`:
 | `GET/POST /api/income` | Recurring income |
 | `GET/POST /api/expense` | Recurring expenses |
 | `POST /api/statement/upload` | Parse uploaded statements (CSV, Excel, PDF) |
+| `GET /api/insights` | Cached lifestyle spending insights |
+| `GET /api/insights/trends` | Cached trend analysis (moving averages, seasonality) |
+| `GET /api/forecasts` | Cached spending forecasts (`scope`, `horizon`) |
+| `GET /api/forecasts/category/{slug}` | Forecasts for a spending category |
+| `GET /api/analytics/status` | Last analytics refresh job status |
+| `POST /api/analytics/refresh` | Trigger analytics refresh (async) |
 
 ## Import Apple Wallet notes
 
@@ -251,3 +257,4 @@ cd Finance-Manager
 ## Further reading
 
 - [frontend/README.md](frontend/README.md) — UI structure, scripts, and environment variables
+- [docs/SPENDING_INSIGHTS_ARCHITECTURE.md](docs/SPENDING_INSIGHTS_ARCHITECTURE.md) — Spending insights, trends, and prediction backend

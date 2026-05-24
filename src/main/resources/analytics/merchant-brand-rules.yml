@@ -1,0 +1,59 @@
+# Brand normalization rules
+# Maps merchant name patterns to canonical brand names for grouping
+# Patterns are matched in order, first match wins
+
+brandRules:
+  - pattern: "(?i)^amazon"
+    canonical: amazon
+    priority: 10
+  - pattern: "(?i)^amzn"
+    canonical: amazon
+    priority: 11
+  - pattern: "(?i)^walmart"
+    canonical: walmart
+    priority: 20
+  - pattern: "(?i)^wm\\s"
+    canonical: walmart
+    priority: 21
+  - pattern: "(?i)^costco"
+    canonical: costco
+    priority: 30
+  - pattern: "(?i)^target"
+    canonical: target
+    priority: 40
+  - pattern: "(?i)^best\\s+buy"
+    canonical: best buy
+    priority: 50
+  - pattern: "(?i)^bestbuy"
+    canonical: best buy
+    priority: 51
+  - pattern: "(?i)^apple"
+    canonical: apple
+    priority: 60
+  - pattern: "(?i)^itunes"
+    canonical: apple
+    priority: 61
+  - pattern: "(?i)^google"
+    canonical: google
+    priority: 70
+  - pattern: "(?i)^youtube"
+    canonical: google
+    priority: 71
+  - pattern: "(?i)^microsoft"
+    canonical: microsoft
+    priority: 80
+  - pattern: "(?i)^msft"
+    canonical: microsoft
+    priority: 81
+  - pattern: "(?i)^netflix"
+    canonical: netflix
+    priority: 90
+  - pattern: "(?i)^spotify"
+    canonical: spotify
+    priority: 100
+  - pattern: "(?i)^uber"
+    canonical: uber
+    priority: 110
+  - pattern: "(?i)^lyft"
+    canonical: lyft
+    priority: 120

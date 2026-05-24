@@ -1,5 +1,7 @@
 package com.financial.tracker.financial_transactions.Controller;
 
+import com.financial.tracker.financial_transactions.Services.ExcelStatementImportResult;
+import com.financial.tracker.financial_transactions.Services.ExcelStatementImportService;
 import com.financial.tracker.financial_transactions.Services.WalletNoteImportResult;
 import com.financial.tracker.financial_transactions.Services.WalletNotesImportResult;
 import com.financial.tracker.financial_transactions.Services.WalletNotesImportService;
@@ -29,15 +31,18 @@ public class TransactionController {
     private final TransactionsRepo transactionsRepo;
     private final WalletNotesImportService walletNotesImportService;
     private final WalletNotesParser walletNotesParser;
+    private final ExcelStatementImportService excelStatementImportService;
     private final ObjectMapper objectMapper;
 
     public TransactionController(
             TransactionsRepo transactionsRepo,
             WalletNotesImportService walletNotesImportService,
+            ExcelStatementImportService excelStatementImportService,
             ObjectMapper objectMapper
     ) {
         this.transactionsRepo = transactionsRepo;
         this.walletNotesImportService = walletNotesImportService;
+        this.excelStatementImportService = excelStatementImportService;
         this.walletNotesParser = new WalletNotesParser();
         this.objectMapper = objectMapper;
     }
@@ -126,6 +131,23 @@ public class TransactionController {
         }
         WalletNotesImportResult result = walletNotesImportService.importFromBytes(file.getBytes());
         return ControllerRequestLogger.logResponse(log, "importWalletNotes", ResponseEntity.ok(result));
+    }
+
+    /**
+     * Accepts an Excel statement file (.xlsx) with transaction data.
+     * Headers start at line 12, transactions start at line 13.
+     * Column A: Date, Column C: Description, Column D: Amount
+     */
+    @PostMapping(value = "/import/excel-statement", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ExcelStatementImportResult> importExcelStatement(
+            @RequestParam("file") MultipartFile file
+    ) throws IOException {
+        ControllerRequestLogger.logIncoming(log, "importExcelStatement", "file", file);
+        if (file.isEmpty()) {
+            return ControllerRequestLogger.logResponse(log, "importExcelStatement", ResponseEntity.badRequest().build());
+        }
+        ExcelStatementImportResult result = excelStatementImportService.importFromBytes(file.getBytes());
+        return ControllerRequestLogger.logResponse(log, "importExcelStatement", ResponseEntity.ok(result));
     }
 
     /**
