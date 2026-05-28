@@ -3,27 +3,59 @@
 # Patterns are Java regex; replacement is the substitution string
 
 normalizationRules:
-  - ruleName: "Strip terminal reference codes"
-    pattern: "\\s+[A-Z0-9]{5,}$"
+  - ruleName: "Expand TIMHORTONS to TIM HORTONS"
+    pattern: "^TIMHORTONS\\b"
+    replacement: "TIM HORTONS"
+    priority: 5
+  - ruleName: "Expand TIMS to TIM HORTONS"
+    pattern: "^TIMS\\b"
+    replacement: "TIM HORTONS"
+    priority: 6
+  - ruleName: "Collapse AMAZON.CA prefix"
+    pattern: "^AMAZON\\.CA\\b"
+    replacement: "AMAZON"
+    priority: 7
+  - ruleName: "Collapse WAL-MART prefix"
+    pattern: "^WAL-MART\\b"
+    replacement: "WALMART"
+    priority: 8
+  - ruleName: "Strip domain suffixes"
+    pattern: "\.(COM|CA|NET|ORG)"
     replacement: ""
-    priority: 10
+    priority: 12
+  - ruleName: "Strip common merchant suffixes"
+    pattern: "\s+(BILL|ONLINE|PURCHASE|PMT|PAYMENT|SUBSCRIPTION|RECURRING)\s*$"
+    replacement: ""
+    priority: 14
+  - ruleName: "Strip trailing city names"
+    pattern: "\s+(TORONTO|MISSISSAUGA|SCARBOROUGH|BRAMPTON|MARKHAM|VAUGHAN|RICHMOND HILL|OAKVILLE|BURLINGTON|HAMILTON|KITCHENER|WATERLOO|LONDON|WINDSOR|OTTAWA|CALGARY|EDMONTON|VANCOUVER|BURNABY|RICHMOND|SURREY|COQUITLAM|MONTREAL|QUEBEC|WINNIPEG|NIAGARA FALLS)\s*$"
+    replacement: ""
+    priority: 15
+  - ruleName: "Strip terminal reference codes"
+    pattern: "\s+(?=[A-Z0-9]*[0-9])(?=[A-Z0-9]*[A-Z])[A-Z0-9]{5,}$"
+    replacement: ""
+    priority: 18
   - ruleName: "Strip store numbers"
-    pattern: "\\s*#\\d+"
+    pattern: "\s*#\d+"
     replacement: ""
     priority: 20
   - ruleName: "Strip geographic suffixes"
-    pattern: "\\s+(ON|BC|AB|QC|CA|USA)\\s*$"
+    pattern: "\s+(ON|BC|AB|QC|CA|USA)\s*$"
     replacement: ""
     priority: 30
+  - ruleName: "Strip phone numbers"
+    pattern: "\s+\d{3}[-.]?\d{3}[-.]?\d{4}$"
+    replacement: ""
+    priority: 35
   - ruleName: "Strip special characters"
-    pattern: "[*/\\\\]"
+    pattern: "[*/\\]"
     replacement: " "
     priority: 40
   - ruleName: "Strip trailing 3+ digit numbers"
-    pattern: "\\s+\\d{3,}$"
+    pattern: "\s+\d{3,}$"
     replacement: ""
     priority: 50
   - ruleName: "Strip numeric store IDs after brand"
-    pattern: "\\s+\\d+$"
+    pattern: "\s+\d+$"
     replacement: ""
     priority: 60

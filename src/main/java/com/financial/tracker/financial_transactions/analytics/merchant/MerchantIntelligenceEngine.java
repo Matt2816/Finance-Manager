@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -21,21 +23,26 @@ public class MerchantIntelligenceEngine {
     private final MerchantCategoryRuleRepository ruleRepository;
     private final SpendingCategoryRepository categoryRepository;
     private final MerchantResolutionPipeline resolutionPipeline;
+    private final MerchantResolutionMetrics metrics;
 
     public MerchantIntelligenceEngine(
             NormalizedTransactionRepository normalizedRepo,
             MerchantCategoryRuleRepository ruleRepository,
             SpendingCategoryRepository categoryRepository,
-            MerchantResolutionPipeline resolutionPipeline
+            MerchantResolutionPipeline resolutionPipeline,
+            MerchantResolutionMetrics metrics
     ) {
         this.normalizedRepo = normalizedRepo;
         this.ruleRepository = ruleRepository;
         this.categoryRepository = categoryRepository;
         this.resolutionPipeline = resolutionPipeline;
+        this.metrics = metrics;
     }
 
     @Transactional
     public ProcessResult processAll() {
+        metrics.reset();
+
         List<MerchantCategoryRule> dbRules = ruleRepository.findAllByOrderByPriorityAsc();
         List<CompiledCategoryRule> compiledRules = new ArrayList<>();
         for (MerchantCategoryRule rule : dbRules) {
@@ -57,7 +64,9 @@ public class MerchantIntelligenceEngine {
             normalizedRepo.save(normalized);
             updated++;
         }
-        return new ProcessResult(updated);
+
+        Map<String, Object> resolutionStats = new LinkedHashMap<>(metrics.snapshot());
+        return new ProcessResult(updated, resolutionStats);
     }
 
     private Long classify(
@@ -65,17 +74,20 @@ public class MerchantIntelligenceEngine {
             List<CompiledCategoryRule> rules,
             Long uncategorizedId
     ) {
-        // Try the new two-tier resolution pipeline first
         Optional<ResolvedMerchant> resolved = resolutionPipeline.resolve(normalized.getMerchantRaw());
         if (resolved.isPresent()) {
             normalized.setResolvedMerchantId(resolved.get().merchantId());
-            // Map category string to category ID via SpendingCategoryRepository
-            return categoryRepository.findBySlug(resolved.get().category().toLowerCase().replace(" ", "-"))
+            Long merchantCategoryId = categoryRepository.findBySlug(
+                            resolved.get().category().toLowerCase().replace(" ", "-"))
                     .map(SpendingCategory::getId)
-                    .orElse(uncategorizedId);
+                    .orElse(null);
+            if (merchantCategoryId != null) {
+                return merchantCategoryId;
+            }
+        } else {
+            normalized.setResolvedMerchantId(null);
         }
 
-        // Fall back to regex category rules
         String searchText = normalized.getMerchantRaw() + " " + normalized.getMerchantKey();
         for (CompiledCategoryRule rule : rules) {
             if (rule.pattern().matcher(searchText).find()) {
@@ -89,5 +101,5 @@ public class MerchantIntelligenceEngine {
     private record CompiledCategoryRule(Pattern pattern, Long categoryId) {
     }
 
-    public record ProcessResult(int transactionsUpdated) {}
+    public record ProcessResult(int transactionsUpdated, Map<String, Object> resolutionStats) {}
 }

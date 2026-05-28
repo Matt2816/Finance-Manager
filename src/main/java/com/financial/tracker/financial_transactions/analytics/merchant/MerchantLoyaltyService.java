@@ -23,19 +23,16 @@ public class MerchantLoyaltyService {
     private final NormalizedTransactionRepository normalizedRepo;
     private final MerchantLoyaltyMetricsRepository loyaltyRepository;
     private final MerchantRepository merchantRepository;
-    private final MerchantNormalizer normalizer;
     private final AtomicBoolean calculating = new AtomicBoolean(false);
 
     public MerchantLoyaltyService(
             NormalizedTransactionRepository normalizedRepo,
             MerchantLoyaltyMetricsRepository loyaltyRepository,
-            MerchantRepository merchantRepository,
-            MerchantNormalizer normalizer
+            MerchantRepository merchantRepository
     ) {
         this.normalizedRepo = normalizedRepo;
         this.loyaltyRepository = loyaltyRepository;
         this.merchantRepository = merchantRepository;
-        this.normalizer = normalizer;
     }
 
     @Transactional
@@ -46,22 +43,15 @@ public class MerchantLoyaltyService {
         try {
             List<NormalizedTransaction> transactions = normalizedRepo.findAll();
 
-            // Group by resolvedMerchantId when available, otherwise by normalized merchantKey
             Map<String, List<NormalizedTransaction>> transactionsByMerchant = transactions.stream()
-                    .filter(t -> t.getMerchantKey() != null)
-                    .collect(Collectors.groupingBy(t -> {
-                        if (t.getResolvedMerchantId() != null) {
-                            return t.getResolvedMerchantId().toString();
-                        }
-                        return normalizer.normalize(t.getMerchantKey());
-                    }));
+                    .filter(t -> t.getMerchantKey() != null && !t.getMerchantKey().isBlank())
+                    .collect(Collectors.groupingBy(this::loyaltyGroupKey));
 
-            // Load existing metrics for upsert
             Map<String, MerchantLoyaltyMetrics> existingByKey = loyaltyRepository.findAll().stream()
                     .collect(Collectors.toMap(
                             MerchantLoyaltyMetrics::getMerchantKey,
                             m -> m,
-                            (a, b) -> a
+                            (a, b) -> a.getId() != null && b.getId() != null && a.getId() < b.getId() ? a : b
                     ));
 
             List<MerchantLoyaltyMetrics> toSave = new ArrayList<>();
@@ -79,7 +69,6 @@ public class MerchantLoyaltyService {
                 processedKeys.add(key);
             }
 
-            // Remove metrics for merchants no longer present in transactions
             for (MerchantLoyaltyMetrics existing : existingByKey.values()) {
                 if (!processedKeys.contains(existing.getMerchantKey())) {
                     loyaltyRepository.delete(existing);
@@ -93,52 +82,62 @@ public class MerchantLoyaltyService {
         }
     }
 
-    private MerchantLoyaltyMetrics calculateMetrics(MerchantLoyaltyMetrics metrics, String merchantKeyOrId, List<NormalizedTransaction> transactions) {
-        // Try to look up canonical name and category from Merchant entity
+    private String loyaltyGroupKey(NormalizedTransaction transaction) {
+        if (transaction.getResolvedMerchantId() != null) {
+            return transaction.getResolvedMerchantId().toString();
+        }
+        return transaction.getMerchantKey();
+    }
+
+    private MerchantLoyaltyMetrics calculateMetrics(
+            MerchantLoyaltyMetrics metrics,
+            String merchantKeyOrId,
+            List<NormalizedTransaction> transactions
+    ) {
         String canonicalName = merchantKeyOrId;
-        Long categoryId = metrics.getCategoryId();
+        Long categoryId = null;
+
         try {
-            java.util.UUID merchantId = java.util.UUID.fromString(merchantKeyOrId);
+            UUID merchantId = UUID.fromString(merchantKeyOrId);
             Optional<Merchant> merchantOpt = merchantRepository.findById(merchantId);
             if (merchantOpt.isPresent()) {
                 Merchant merchant = merchantOpt.get();
                 canonicalName = merchant.getCanonicalName();
-                // Note: category is a String on Merchant; categoryId would need mapping
             }
         } catch (IllegalArgumentException e) {
-            // Not a UUID, use the normalized key as canonical name
+            canonicalName = merchantKeyOrId;
+        }
+
+        Optional<NormalizedTransaction> sample = transactions.stream().findFirst();
+        if (sample.isPresent() && sample.get().getCategoryId() != null) {
+            categoryId = sample.get().getCategoryId();
         }
 
         metrics.setCanonicalName(canonicalName);
         metrics.setCategoryId(categoryId);
         metrics.setCalculatedAt(LocalDate.now());
 
-        // Sort transactions by date
         transactions.sort(Comparator.comparing(NormalizedTransaction::getOccurredOn));
 
-        // Basic counts
         int totalTransactions = transactions.size();
         metrics.setTotalTransactions(totalTransactions);
 
-        // Total and average spend
         BigDecimal totalSpend = transactions.stream()
                 .map(NormalizedTransaction::getAmount)
                 .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         metrics.setTotalSpend(totalSpend);
 
-        BigDecimal avgTransactionSize = totalTransactions > 0 
+        BigDecimal avgTransactionSize = totalTransactions > 0
                 ? totalSpend.divide(BigDecimal.valueOf(totalTransactions), 2, RoundingMode.HALF_UP)
                 : BigDecimal.ZERO;
         metrics.setAvgTransactionSize(avgTransactionSize);
 
-        // Visit dates
         LocalDate firstVisit = transactions.get(0).getOccurredOn();
         LocalDate lastVisit = transactions.get(transactions.size() - 1).getOccurredOn();
         metrics.setFirstVisit(firstVisit);
         metrics.setLastVisit(lastVisit);
 
-        // Visit frequency (average days between visits)
         if (totalTransactions > 1) {
             long daysBetween = ChronoUnit.DAYS.between(firstVisit, lastVisit);
             double frequency = (double) daysBetween / (totalTransactions - 1);
@@ -147,17 +146,14 @@ public class MerchantLoyaltyService {
             metrics.setVisitFrequencyDays(null);
         }
 
-        // Loyalty score calculation (0-100)
-        // Factors: frequency (40%), total spend (30%), consistency (20%), recency (10%)
         double loyaltyScore = calculateLoyaltyScore(
-                totalTransactions, 
-                totalSpend, 
-                metrics.getVisitFrequencyDays(), 
+                totalTransactions,
+                totalSpend,
+                metrics.getVisitFrequencyDays(),
                 lastVisit
         );
         metrics.setLoyaltyScore(loyaltyScore);
 
-        // Spend growth rate (compare first half vs second half of transactions)
         if (totalTransactions >= 4) {
             int midPoint = totalTransactions / 2;
             List<NormalizedTransaction> firstHalf = transactions.subList(0, midPoint);
@@ -187,31 +183,28 @@ public class MerchantLoyaltyService {
         return metrics;
     }
 
-    private double calculateLoyaltyScore(int totalTransactions, BigDecimal totalSpend, 
-                                         Double visitFrequencyDays, LocalDate lastVisit) {
+    private double calculateLoyaltyScore(
+            int totalTransactions,
+            BigDecimal totalSpend,
+            Double visitFrequencyDays,
+            LocalDate lastVisit
+    ) {
         double score = 0.0;
 
-        // Frequency score (0-40): more transactions = higher score
-        // Cap at 20 transactions for full points
         double frequencyScore = Math.min(40, (totalTransactions / 20.0) * 40);
         score += frequencyScore;
 
-        // Spend score (0-30): higher spend = higher score
-        // Use logarithmic scale to avoid extreme values
         if (totalSpend.compareTo(BigDecimal.ZERO) > 0) {
             double logSpend = Math.log10(totalSpend.doubleValue() + 1);
             double spendScore = Math.min(30, logSpend * 10);
             score += spendScore;
         }
 
-        // Consistency score (0-20): lower frequency days = higher score
         if (visitFrequencyDays != null && visitFrequencyDays > 0) {
-            // Ideal is weekly visits (7 days), penalty for longer gaps
             double consistencyScore = Math.max(0, 20 - (visitFrequencyDays / 7.0) * 5);
             score += Math.min(20, consistencyScore);
         }
 
-        // Recency score (0-10): more recent visits = higher score
         long daysSinceLastVisit = ChronoUnit.DAYS.between(lastVisit, LocalDate.now());
         double recencyScore = Math.max(0, 10 - (daysSinceLastVisit / 30.0) * 10);
         score += recencyScore;

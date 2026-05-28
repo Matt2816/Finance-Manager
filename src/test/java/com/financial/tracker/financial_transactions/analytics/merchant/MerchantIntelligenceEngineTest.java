@@ -16,7 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,22 +36,20 @@ class MerchantIntelligenceEngineTest {
     private SpendingCategoryRepository categoryRepository;
     @Mock
     private MerchantResolutionPipeline resolutionPipeline;
+    @Mock
+    private MerchantResolutionMetrics metrics;
 
     private MerchantIntelligenceEngine engine;
 
     @BeforeEach
     void setUp() {
         engine = new MerchantIntelligenceEngine(
-                normalizedRepo, ruleRepository, categoryRepository, resolutionPipeline
+                normalizedRepo, ruleRepository, categoryRepository, resolutionPipeline, metrics
         );
     }
 
     @Test
     void processAll_assignsCategoryFromRule() {
-        SpendingCategory coffee = new SpendingCategory();
-        coffee.setId(1L);
-        coffee.setSlug("coffee");
-
         MerchantCategoryRule rule = new MerchantCategoryRule();
         rule.setPattern("(?i)starbucks");
         rule.setCategoryId(1L);
@@ -57,7 +57,7 @@ class MerchantIntelligenceEngineTest {
 
         NormalizedTransaction tx = new NormalizedTransaction();
         tx.setMerchantRaw("Starbucks King St");
-        tx.setMerchantKey("starbucks king st");
+        tx.setMerchantKey("STARBUCKS KING ST");
         tx.setAmount(BigDecimal.TEN);
         tx.setOccurredOn(LocalDate.now());
         tx.setDirection(TransactionDirection.DEBIT);
@@ -68,9 +68,40 @@ class MerchantIntelligenceEngineTest {
         when(resolutionPipeline.resolve(any())).thenReturn(Optional.empty());
         when(normalizedRepo.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
-        engine.processAll();
+        MerchantIntelligenceEngine.ProcessResult result = engine.processAll();
 
         assertEquals(1L, tx.getCategoryId());
+        assertEquals(1, result.transactionsUpdated());
         verify(normalizedRepo).save(tx);
+        verify(metrics).reset();
+    }
+
+    @Test
+    void processAll_assignsCategoryFromResolvedMerchant() {
+        UUID merchantId = UUID.randomUUID();
+        NormalizedTransaction tx = new NormalizedTransaction();
+        tx.setMerchantRaw("AMZN MKTP CA");
+        tx.setMerchantKey("AMAZON");
+        tx.setAmount(BigDecimal.TEN);
+        tx.setOccurredOn(LocalDate.now());
+        tx.setDirection(TransactionDirection.DEBIT);
+
+        SpendingCategory shopping = new SpendingCategory();
+        shopping.setId(6L);
+        shopping.setSlug("shopping");
+
+        when(normalizedRepo.findAll()).thenReturn(List.of(tx));
+        when(ruleRepository.findAllByOrderByPriorityAsc()).thenReturn(List.of());
+        when(categoryRepository.findBySlug("uncategorized")).thenReturn(Optional.empty());
+        when(resolutionPipeline.resolve("AMZN MKTP CA")).thenReturn(Optional.of(
+                new ResolvedMerchant(merchantId, "AMAZON", "shopping", null, ResolutionTier.EXACT_MATCH, 1.0, "AMAZON")
+        ));
+        when(categoryRepository.findBySlug("shopping")).thenReturn(Optional.of(shopping));
+        when(normalizedRepo.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        engine.processAll();
+
+        assertEquals(merchantId, tx.getResolvedMerchantId());
+        assertEquals(6L, tx.getCategoryId());
     }
 }

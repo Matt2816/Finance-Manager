@@ -19,14 +19,17 @@ public class MerchantNormalizer {
 
     private final NormalizationRuleRepository ruleRepository;
     private final AbbreviationMappingRepository abbreviationRepository;
+    private final BrandCanonicalizer brandCanonicalizer;
 
     private volatile List<CompiledRule> compiledRules = List.of();
     private volatile Map<String, String> abbreviationMap = Map.of();
 
     public MerchantNormalizer(NormalizationRuleRepository ruleRepository,
-                              AbbreviationMappingRepository abbreviationRepository) {
+                              AbbreviationMappingRepository abbreviationRepository,
+                              BrandCanonicalizer brandCanonicalizer) {
         this.ruleRepository = ruleRepository;
         this.abbreviationRepository = abbreviationRepository;
+        this.brandCanonicalizer = brandCanonicalizer;
     }
 
     @PostConstruct
@@ -47,7 +50,11 @@ public class MerchantNormalizer {
                 .collect(Collectors.toUnmodifiableMap(AbbreviationMapping::getAbbreviation, AbbreviationMapping::getExpansion));
     }
 
-    public String normalize(String raw) {
+    /**
+     * Base normalization: uppercase, regex cleanup, abbreviation expansion.
+     * Does not apply brand-family canonicalization.
+     */
+    public String baseNormalize(String raw) {
         if (StringUtils.isBlank(raw)) {
             return "";
         }
@@ -59,9 +66,18 @@ public class MerchantNormalizer {
         }
 
         result = expandAbbreviations(result);
-        result = StringUtils.normalizeSpace(result);
+        return StringUtils.normalizeSpace(result);
+    }
 
-        return result;
+    /**
+     * Full normalization including brand-family canonicalization.
+     */
+    public String normalize(String raw) {
+        String base = baseNormalize(raw);
+        if (base.isEmpty()) {
+            return base;
+        }
+        return brandCanonicalizer.canonicalize(base);
     }
 
     private String expandAbbreviations(String input) {
@@ -78,6 +94,7 @@ public class MerchantNormalizer {
 
     public void reloadRules() {
         loadRules();
+        brandCanonicalizer.reloadRules();
     }
 
     private record CompiledRule(String name, Pattern pattern, String replacement) {

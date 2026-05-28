@@ -66,8 +66,13 @@ public class TransactionNormalizationService {
                 .orElse(new NormalizedTransaction());
         normalized.setTransactionId(transaction.getId());
         normalized.setOccurredOn(transaction.getOccurredOn());
-        normalized.setAmount(transaction.getAmountValue().abs());
-        normalized.setDirection(TransactionDirection.DEBIT);
+        BigDecimal originalAmount = transaction.getAmountValue();
+        normalized.setAmount(originalAmount.abs());
+        normalized.setDirection(
+                originalAmount != null && originalAmount.compareTo(BigDecimal.ZERO) < 0
+                        ? TransactionDirection.CREDIT
+                        : TransactionDirection.DEBIT
+        );
         normalized.setMerchantRaw(merchantRaw);
         normalized.setMerchantKey(merchantKey);
         normalized.setRecurringGenerated(transaction.isRecurringGenerated());

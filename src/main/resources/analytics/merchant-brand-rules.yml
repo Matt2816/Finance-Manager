@@ -4,15 +4,15 @@
 
 brandRules:
   - pattern: "(?i)^amazon"
-    canonical: amazon
+    canonical: AMAZON
     priority: 10
   - pattern: "(?i)^amzn"
-    canonical: amazon
+    canonical: AMAZON
     priority: 11
   - pattern: "(?i)^walmart"
     canonical: walmart
     priority: 20
-  - pattern: "(?i)^wm\\s"
+  - pattern: "(?i)^wm\s"
     canonical: walmart
     priority: 21
   - pattern: "(?i)^costco"
@@ -21,7 +21,7 @@ brandRules:
   - pattern: "(?i)^target"
     canonical: target
     priority: 40
-  - pattern: "(?i)^best\\s+buy"
+  - pattern: "(?i)^best\s+buy"
     canonical: best buy
     priority: 50
   - pattern: "(?i)^bestbuy"
@@ -57,3 +57,36 @@ brandRules:
   - pattern: "(?i)^lyft"
     canonical: lyft
     priority: 120
+  - pattern: "(?i)^tim hortons"
+    canonical: TIM HORTONS
+    priority: 130
+  - pattern: "(?i)^tims\\b"
+    canonical: TIM HORTONS
+    priority: 131
+  - pattern: "(?i)^timhortons"
+    canonical: TIM HORTONS
+    priority: 132
+  - pattern: "(?i)^wal-mart"
+    canonical: WALMART
+    priority: 133
+  - pattern: "(?i)^lite bite"
+    canonical: lite bite
+    priority: 140
+  - pattern: "(?i)^freedom mobile"
+    canonical: freedom mobile
+    priority: 150
+  - pattern: "(?i)^presto"
+    canonical: presto
+    priority: 160
+  - pattern: "(?i)^metro"
+    canonical: metro
+    priority: 170
+  - pattern: "(?i)^sobeys"
+    canonical: sobeys
+    priority: 180
+  - pattern: "(?i)^loblaws"
+    canonical: loblaws
+    priority: 190
+  - pattern: "(?i)^shoppers drug mart"
+    canonical: shoppers drug mart
+    priority: 200

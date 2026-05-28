@@ -3,6 +3,7 @@ package com.financial.tracker.financial_transactions.analytics.aggregation;
 import com.financial.tracker.financial_transactions.analytics.model.NormalizedTransaction;
 import com.financial.tracker.financial_transactions.analytics.model.SnapshotGrain;
 import com.financial.tracker.financial_transactions.analytics.model.SpendingSnapshot;
+import com.financial.tracker.financial_transactions.analytics.model.TransactionDirection;
 import com.financial.tracker.financial_transactions.analytics.repo.NormalizedTransactionRepository;
 import com.financial.tracker.financial_transactions.analytics.repo.SpendingSnapshotRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,6 +56,9 @@ public class SpendingAggregationService {
                 continue;
             }
             BigDecimal amount = tx.getAmount();
+            if (tx.getDirection() == TransactionDirection.CREDIT) {
+                amount = amount.negate();
+            }
             LocalDate day = tx.getOccurredOn();
 
             accumulate(dailyByCategory, key(day, day, SnapshotGrain.DAILY, tx.getCategoryId(), null),
