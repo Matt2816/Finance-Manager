@@ -3,12 +3,12 @@ package com.financial.tracker.financial_transactions.analytics.merchant;
 import com.financial.tracker.financial_transactions.analytics.model.Merchant;
 import com.financial.tracker.financial_transactions.analytics.model.MerchantLoyaltyMetrics;
 import com.financial.tracker.financial_transactions.analytics.model.NormalizedTransaction;
+import com.financial.tracker.financial_transactions.analytics.model.TransactionDirection;
 import com.financial.tracker.financial_transactions.analytics.repo.MerchantLoyaltyMetricsRepository;
 import com.financial.tracker.financial_transactions.analytics.repo.MerchantRepository;
 import com.financial.tracker.financial_transactions.analytics.repo.NormalizedTransactionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -36,18 +36,18 @@ public class MerchantLoyaltyService {
     }
 
     @Transactional
-    public CalculationResult calculateAllLoyaltyMetrics() {
+    public CalculationResult calculateAllLoyaltyMetrics(Long userId) {
         if (!calculating.compareAndSet(false, true)) {
             throw new IllegalStateException("Loyalty metrics calculation already in progress");
         }
         try {
-            List<NormalizedTransaction> transactions = normalizedRepo.findAll();
+            List<NormalizedTransaction> transactions = normalizedRepo.findByUserId(userId);
 
             Map<String, List<NormalizedTransaction>> transactionsByMerchant = transactions.stream()
                     .filter(t -> t.getMerchantKey() != null && !t.getMerchantKey().isBlank())
                     .collect(Collectors.groupingBy(this::loyaltyGroupKey));
 
-            Map<String, MerchantLoyaltyMetrics> existingByKey = loyaltyRepository.findAll().stream()
+            Map<String, MerchantLoyaltyMetrics> existingByKey = loyaltyRepository.findByUserIdOrderByLoyaltyScoreDesc(userId).stream()
                     .collect(Collectors.toMap(
                             MerchantLoyaltyMetrics::getMerchantKey,
                             m -> m,
@@ -62,6 +62,7 @@ public class MerchantLoyaltyService {
                 MerchantLoyaltyMetrics metrics = existingByKey.get(key);
                 if (metrics == null) {
                     metrics = new MerchantLoyaltyMetrics();
+                    metrics.setUserId(userId);
                     metrics.setMerchantKey(key);
                 }
                 calculateMetrics(metrics, key, entry.getValue());
@@ -123,7 +124,7 @@ public class MerchantLoyaltyService {
         metrics.setTotalTransactions(totalTransactions);
 
         BigDecimal totalSpend = transactions.stream()
-                .map(NormalizedTransaction::getAmount)
+                .map(this::signedAmount)
                 .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         metrics.setTotalSpend(totalSpend);
@@ -160,11 +161,11 @@ public class MerchantLoyaltyService {
             List<NormalizedTransaction> secondHalf = transactions.subList(midPoint, totalTransactions);
 
             BigDecimal firstHalfSpend = firstHalf.stream()
-                    .map(NormalizedTransaction::getAmount)
+                    .map(this::signedAmount)
                     .filter(Objects::nonNull)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
             BigDecimal secondHalfSpend = secondHalf.stream()
-                    .map(NormalizedTransaction::getAmount)
+                    .map(this::signedAmount)
                     .filter(Objects::nonNull)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
 
@@ -210,6 +211,16 @@ public class MerchantLoyaltyService {
         score += recencyScore;
 
         return Math.min(100, Math.max(0, score));
+    }
+
+    private BigDecimal signedAmount(NormalizedTransaction t) {
+        BigDecimal amount = t.getAmount();
+        if (amount == null) {
+            return null;
+        }
+        return t.getDirection() == TransactionDirection.CREDIT
+                ? amount.negate()
+                : amount;
     }
 
     public record CalculationResult(int merchantsCalculated) {}

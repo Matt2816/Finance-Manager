@@ -52,7 +52,7 @@ export function MerchantLoyaltyMetrics() {
                     {getLoyaltyLabel(merchant.loyaltyScore)}
                   </Badge>
                 </div>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <ShoppingBag className="h-3 w-3" />
                     <span>{merchant.totalTransactions} visits</span>

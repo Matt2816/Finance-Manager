@@ -1,0 +1,12 @@
+UPDATE transactions SET user_id = (SELECT id FROM users WHERE username = 'default') WHERE user_id IS NULL;
+UPDATE normalized_transactions SET user_id = (SELECT id FROM users WHERE username = 'default') WHERE user_id IS NULL;
+UPDATE recurring_transactions SET user_id = (SELECT id FROM users WHERE username = 'default') WHERE user_id IS NULL;
+UPDATE "recurringIncome" SET user_id = (SELECT id FROM users WHERE username = 'default') WHERE user_id IS NULL;
+UPDATE "recurringExpense" SET user_id = (SELECT id FROM users WHERE username = 'default') WHERE user_id IS NULL;
+UPDATE spending_categories SET user_id = (SELECT id FROM users WHERE username = 'default') WHERE user_id IS NULL;
+UPDATE spending_snapshots SET user_id = (SELECT id FROM users WHERE username = 'default') WHERE user_id IS NULL;
+UPDATE spending_forecasts SET user_id = (SELECT id FROM users WHERE username = 'default') WHERE user_id IS NULL;
+UPDATE insight_cache SET user_id = (SELECT id FROM users WHERE username = 'default') WHERE user_id IS NULL;
+UPDATE merchant_loyalty_metrics SET user_id = (SELECT id FROM users WHERE username = 'default') WHERE user_id IS NULL;
+UPDATE merchant_category_rules SET user_id = (SELECT id FROM users WHERE username = 'default') WHERE user_id IS NULL;
+UPDATE analytics_refresh_runs SET user_id = (SELECT id FROM users WHERE username = 'default') WHERE user_id IS NULL;

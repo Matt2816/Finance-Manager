@@ -7,7 +7,6 @@ import com.financial.tracker.financial_transactions.util.TransactionExclusionFil
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -31,7 +30,7 @@ public class ExcelStatementImportService {
         this.parser = new ExcelStatementParser(exclusionFilter);
     }
 
-    public ExcelStatementImportResult importFromBytes(byte[] bytes) throws IOException {
+    public ExcelStatementImportResult importFromBytes(byte[] bytes, Long userId) throws IOException {
         log.info("importFromBytes: size={}", bytes.length);
         ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
         ExcelStatementParser.ParseResult parseResult = parser.parse(inputStream);
@@ -40,11 +39,12 @@ public class ExcelStatementImportService {
         int skippedDuplicates = 0;
 
         for (Transaction transaction : parsed) {
-            if (transactionsRepo.findByHash(transaction.getHash()) != null) {
+            if (transactionsRepo.findByHashAndUserId(transaction.getHash(), userId) != null) {
                 skippedDuplicates++;
                 log.debug("importFromBytes: duplicate hash={}, skipping", transaction.getHash());
                 continue;
             }
+            transaction.setUserId(userId);
             Transaction saved = transactionsRepo.save(transaction);
             normalizationService.normalizeOne(saved.getId());
             imported++;

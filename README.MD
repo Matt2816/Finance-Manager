@@ -47,7 +47,16 @@ POSTGRES_DB=finance
 SPRING_DATASOURCE_URL=jdbc:postgresql://financial-db:5432/finance
 SPRING_DATASOURCE_USERNAME=finance
 SPRING_DATASOURCE_PASSWORD=finance
+
+# Required once auth is implemented (see docs/auth-plan.md)
+JWT_SECRET=change-me-to-a-random-string-at-least-32-characters
+JWT_EXPIRATION_MS=86400000
 ```
+
+| Variable | Required | Default | Purpose |
+| -------- | -------- | ------- | ------- |
+| `JWT_SECRET` | Yes (with auth) | — | HS256 signing key for JWT tokens (≥32 characters) |
+| `JWT_EXPIRATION_MS` | No | `86400000` (24h) | Access token lifetime in milliseconds |
 
 `financial-db` is the PostgreSQL service hostname **inside** the Docker network. The app container also receives `BACKEND_API_URL=http://127.0.0.1:8080/api` so the Next.js server can reach the API in the same container.
 
@@ -129,6 +138,16 @@ All backend routes are under `/api`:
 | `GET /api/forecasts/category/{slug}` | Forecasts for a spending category |
 | `GET /api/analytics/status` | Last analytics refresh job status |
 | `POST /api/analytics/refresh` | Trigger analytics refresh (async) |
+| `GET /api/analytics/income-summary?from=&to=` | Income, expenses, net savings, savings rate |
+| `DELETE /api/categories/{id}` | Delete category (re-assigns tx to Uncategorized) |
+| `GET /api/recurring` | List active recurring transactions |
+| `GET /api/recurring?direction=CREDIT|DEBIT` | Filter recurring by direction |
+| `GET /api/recurring/{id}` | Get recurring transaction by ID |
+| `POST /api/recurring` | Create recurring transaction (auto-backfills) |
+| `PUT /api/recurring/{id}` | Update recurring transaction |
+| `DELETE /api/recurring/{id}` | Soft delete (pause) recurring transaction |
+| `POST /api/recurring/{id}/resume` | Resume paused recurring transaction |
+| `POST /api/recurring/{id}/generate-now` | Force generate child transactions now |
 
 ## Import Apple Wallet notes
 

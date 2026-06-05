@@ -9,7 +9,6 @@ import com.financial.tracker.financial_transactions.repo.TransactionsRepo;
 import com.financial.tracker.financial_transactions.util.TransactionFieldParser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
@@ -33,10 +32,10 @@ public class TransactionNormalizationService {
     }
 
     @Transactional
-    public ReconcileResult reconcileAll() {
+    public ReconcileResult reconcileAll(Long userId) {
         int normalized = 0;
         int skipped = 0;
-        for (Transaction transaction : transactionsRepo.findAll()) {
+        for (Transaction transaction : transactionsRepo.findByUserId(userId)) {
             if (normalizeTransaction(transaction).isPresent()) {
                 normalized++;
             } else {
@@ -64,6 +63,7 @@ public class TransactionNormalizationService {
 
         NormalizedTransaction normalized = normalizedRepo.findByTransactionId(transaction.getId())
                 .orElse(new NormalizedTransaction());
+        normalized.setUserId(transaction.getUserId());
         normalized.setTransactionId(transaction.getId());
         normalized.setOccurredOn(transaction.getOccurredOn());
         BigDecimal originalAmount = transaction.getAmountValue();
@@ -75,6 +75,7 @@ public class TransactionNormalizationService {
         );
         normalized.setMerchantRaw(merchantRaw);
         normalized.setMerchantKey(merchantKey);
+        normalized.setCategoryId(transaction.getCategoryId());
         normalized.setRecurringGenerated(transaction.isRecurringGenerated());
         normalized.setNormalizedAt(Instant.now());
 

@@ -20,15 +20,15 @@ export function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-1 flex-wrap items-center gap-2">
         <Input
           placeholder="Filter by name"
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="h-8 w-[150px] lg:w-[200px]"
+          className="h-8 w-full sm:w-[150px] lg:w-[200px]"
         />
         <Input
           placeholder="Filter by location"
@@ -36,7 +36,7 @@ export function DataTableToolbar<TData>({
           onChange={(event) =>
             table.getColumn("address")?.setFilterValue(event.target.value)
           }
-          className="h-8 w-[150px] lg:w-[200px]"
+          className="h-8 w-full sm:w-[150px] lg:w-[200px]"
         />
         {table.getColumn("cardType") && (
           <DataTableFacetedFilter
@@ -70,7 +70,9 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={table} />
+      <div className="shrink-0">
+        <DataTableViewOptions table={table} />
+      </div>
     </div>
   );
 }

@@ -9,9 +9,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,11 +25,14 @@ class WalletNotesImportServiceTest {
     @Mock
     private TransactionNormalizationService normalizationService;
 
+    @Mock
+    private TransactionImportPipeline importPipeline;
+
     private WalletNotesImportService importService;
 
     @BeforeEach
     void setUp() {
-        importService = new WalletNotesImportService(transactionsRepo, normalizationService);
+        importService = new WalletNotesImportService(transactionsRepo, normalizationService, importPipeline);
     }
 
     @Test
@@ -44,14 +47,14 @@ class WalletNotesImportServiceTest {
                 Canada
                 """;
 
-        when(transactionsRepo.findByHash(any())).thenReturn(null);
-        when(transactionsRepo.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(transactionsRepo.findByHashAndUserId(any(), anyLong())).thenReturn(null);
+        when(importPipeline.saveNew(any(), anyLong())).thenAnswer(inv -> inv.getArgument(0));
 
-        WalletNoteImportResult result = importService.importSingleFromText(note);
+        WalletNoteImportResult result = importService.importSingleFromText(note, 1L);
 
         assertEquals("created", result.status());
         ArgumentCaptor<Transaction> captor = ArgumentCaptor.forClass(Transaction.class);
-        verify(transactionsRepo).save(captor.capture());
+        verify(importPipeline).saveNew(captor.capture(), anyLong());
         assertEquals("18.06", captor.getValue().getAmount());
         assertEquals("Wendys 6758", captor.getValue().getName());
     }
@@ -69,30 +72,31 @@ class WalletNotesImportServiceTest {
 
         Transaction existing = new Transaction();
         existing.setHash("existing");
-        when(transactionsRepo.findByHash(any())).thenReturn(existing);
+        when(transactionsRepo.findByHashAndUserId(any(), anyLong())).thenReturn(existing);
 
-        WalletNoteImportResult result = importService.importSingleFromText(note);
+        WalletNoteImportResult result = importService.importSingleFromText(note, 1L);
 
         assertEquals("duplicate", result.status());
-        verify(transactionsRepo, never()).save(any());
+        verify(importPipeline, never()).saveNew(any(), anyLong());
     }
 
     @Test
     void importSingleFromFields_savesNewTransaction() {
-        when(transactionsRepo.findByHash(any())).thenReturn(null);
-        when(transactionsRepo.save(any())).thenAnswer(inv -> inv.getArgument(0));
+        when(transactionsRepo.findByHashAndUserId(any(), anyLong())).thenReturn(null);
+        when(importPipeline.saveNew(any(), anyLong())).thenAnswer(inv -> inv.getArgument(0));
 
         WalletNoteImportResult result = importService.importSingleFromFields(
                 "Wendys 6758",
                 "Wendys 6758",
                 "$18.06",
                 "June 27, 2025 at 8:37:02 PM EDT",
-                "370 King St W\nToronto ON M5V 1J9\nCanada"
+                "370 King St W\nToronto ON M5V 1J9\nCanada",
+                1L
         );
 
         assertEquals("created", result.status());
         ArgumentCaptor<Transaction> captor = ArgumentCaptor.forClass(Transaction.class);
-        verify(transactionsRepo).save(captor.capture());
+        verify(importPipeline).saveNew(captor.capture(), anyLong());
         assertEquals("18.06", captor.getValue().getAmount());
         assertEquals("2025-06-27", captor.getValue().getTransactionDate());
     }

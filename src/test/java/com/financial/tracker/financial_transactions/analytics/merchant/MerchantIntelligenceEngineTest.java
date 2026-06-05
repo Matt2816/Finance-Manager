@@ -35,6 +35,8 @@ class MerchantIntelligenceEngineTest {
     @Mock
     private SpendingCategoryRepository categoryRepository;
     @Mock
+    private com.financial.tracker.financial_transactions.repo.TransactionsRepo transactionsRepo;
+    @Mock
     private MerchantResolutionPipeline resolutionPipeline;
     @Mock
     private MerchantResolutionMetrics metrics;
@@ -44,31 +46,33 @@ class MerchantIntelligenceEngineTest {
     @BeforeEach
     void setUp() {
         engine = new MerchantIntelligenceEngine(
-                normalizedRepo, ruleRepository, categoryRepository, resolutionPipeline, metrics
+                normalizedRepo, ruleRepository, categoryRepository, transactionsRepo, resolutionPipeline, metrics
         );
     }
 
     @Test
     void processAll_assignsCategoryFromRule() {
+        Long userId = 1L;
         MerchantCategoryRule rule = new MerchantCategoryRule();
         rule.setPattern("(?i)starbucks");
         rule.setCategoryId(1L);
         rule.setPriority(10);
 
         NormalizedTransaction tx = new NormalizedTransaction();
+        tx.setUserId(userId);
         tx.setMerchantRaw("Starbucks King St");
         tx.setMerchantKey("STARBUCKS KING ST");
         tx.setAmount(BigDecimal.TEN);
         tx.setOccurredOn(LocalDate.now());
         tx.setDirection(TransactionDirection.DEBIT);
 
-        when(normalizedRepo.findAll()).thenReturn(List.of(tx));
-        when(ruleRepository.findAllByOrderByPriorityAsc()).thenReturn(List.of(rule));
-        when(categoryRepository.findBySlug("uncategorized")).thenReturn(Optional.empty());
+        when(normalizedRepo.findByUserId(userId)).thenReturn(List.of(tx));
+        when(ruleRepository.findByUserIdOrderByPriorityAsc(userId)).thenReturn(List.of(rule));
+        when(categoryRepository.findBySlugAndUserId("uncategorized", userId)).thenReturn(Optional.empty());
         when(resolutionPipeline.resolve(any())).thenReturn(Optional.empty());
         when(normalizedRepo.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
-        MerchantIntelligenceEngine.ProcessResult result = engine.processAll();
+        MerchantIntelligenceEngine.ProcessResult result = engine.processAll(userId);
 
         assertEquals(1L, tx.getCategoryId());
         assertEquals(1, result.transactionsUpdated());
@@ -78,8 +82,10 @@ class MerchantIntelligenceEngineTest {
 
     @Test
     void processAll_assignsCategoryFromResolvedMerchant() {
+        Long userId = 1L;
         UUID merchantId = UUID.randomUUID();
         NormalizedTransaction tx = new NormalizedTransaction();
+        tx.setUserId(userId);
         tx.setMerchantRaw("AMZN MKTP CA");
         tx.setMerchantKey("AMAZON");
         tx.setAmount(BigDecimal.TEN);
@@ -90,16 +96,16 @@ class MerchantIntelligenceEngineTest {
         shopping.setId(6L);
         shopping.setSlug("shopping");
 
-        when(normalizedRepo.findAll()).thenReturn(List.of(tx));
-        when(ruleRepository.findAllByOrderByPriorityAsc()).thenReturn(List.of());
-        when(categoryRepository.findBySlug("uncategorized")).thenReturn(Optional.empty());
+        when(normalizedRepo.findByUserId(userId)).thenReturn(List.of(tx));
+        when(ruleRepository.findByUserIdOrderByPriorityAsc(userId)).thenReturn(List.of());
+        when(categoryRepository.findBySlugAndUserId("uncategorized", userId)).thenReturn(Optional.empty());
         when(resolutionPipeline.resolve("AMZN MKTP CA")).thenReturn(Optional.of(
                 new ResolvedMerchant(merchantId, "AMAZON", "shopping", null, ResolutionTier.EXACT_MATCH, 1.0, "AMAZON")
         ));
-        when(categoryRepository.findBySlug("shopping")).thenReturn(Optional.of(shopping));
+        when(categoryRepository.findBySlugAndUserId("shopping", userId)).thenReturn(Optional.of(shopping));
         when(normalizedRepo.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
-        engine.processAll();
+        engine.processAll(userId);
 
         assertEquals(merchantId, tx.getResolvedMerchantId());
         assertEquals(6L, tx.getCategoryId());

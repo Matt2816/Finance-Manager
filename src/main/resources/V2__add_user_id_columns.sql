@@ -1,0 +1,12 @@
+ALTER TABLE transactions ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES users(id);
+ALTER TABLE normalized_transactions ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES users(id);
+ALTER TABLE recurring_transactions ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES users(id);
+ALTER TABLE "recurringIncome" ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES users(id);
+ALTER TABLE "recurringExpense" ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES users(id);
+ALTER TABLE spending_categories ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES users(id);
+ALTER TABLE spending_snapshots ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES users(id);
+ALTER TABLE spending_forecasts ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES users(id);
+ALTER TABLE insight_cache ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES users(id);
+ALTER TABLE merchant_loyalty_metrics ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES users(id);
+ALTER TABLE merchant_category_rules ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES users(id);
+ALTER TABLE analytics_refresh_runs ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES users(id);

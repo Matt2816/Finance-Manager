@@ -17,7 +17,7 @@ export function TransactionSummary({ transactions }: TransactionSummaryProps) {
     transactions.length > 0 ? totalAmount / transactions.length : 0;
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <Card>
         <CardHeader>
           <CardTitle>Total Transactions</CardTitle>

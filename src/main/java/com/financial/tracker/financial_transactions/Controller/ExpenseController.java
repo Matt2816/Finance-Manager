@@ -4,13 +4,14 @@ import com.financial.tracker.financial_transactions.Services.RecurringExpenseSer
 import com.financial.tracker.financial_transactions.model.Frequency;
 import com.financial.tracker.financial_transactions.model.RecurringExpense;
 import com.financial.tracker.financial_transactions.repo.ExpenseRepo;
+import com.financial.tracker.financial_transactions.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -31,27 +32,31 @@ public class ExpenseController {
     @GetMapping
     public List<RecurringExpense> getAllRecurringExpenses() {
         ControllerRequestLogger.logIncoming(log, "getAllRecurringExpenses");
-        return ControllerRequestLogger.logResponseBody(log, "getAllRecurringExpenses", expenseRepo.findAll());
+        Long userId = SecurityUtils.getCurrentUserId();
+        return ControllerRequestLogger.logResponseBody(log, "getAllRecurringExpenses", expenseRepo.findByUserId(userId));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RecurringExpense> getRecurringExpenseById(@PathVariable Long id) {
         ControllerRequestLogger.logIncoming(log, "getRecurringExpenseById", "id", id);
-        ResponseEntity<RecurringExpense> response = expenseRepo.findById(Math.toIntExact(id))
+        Long userId = SecurityUtils.getCurrentUserId();
+        ResponseEntity<RecurringExpense> response = expenseRepo.findByIdAndUserId(Math.toIntExact(id), userId)
                 .map(ResponseEntity::ok)
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .orElse(ResponseEntity.notFound().build());
         return ControllerRequestLogger.logResponse(log, "getRecurringExpenseById", response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecurringExpense(@PathVariable Long id) {
         ControllerRequestLogger.logIncoming(log, "deleteRecurringExpense", "id", id);
+        Long userId = SecurityUtils.getCurrentUserId();
+        int expenseId = Math.toIntExact(id);
         ResponseEntity<Void> response;
-        if (expenseRepo.existsById(Math.toIntExact(id))) {
-            expenseRepo.deleteById(Math.toIntExact(id));
+        if (expenseRepo.existsByIdAndUserId(expenseId, userId)) {
+            expenseRepo.deleteById(expenseId);
             response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            response = ResponseEntity.notFound().build();
         }
         return ControllerRequestLogger.logResponse(log, "deleteRecurringExpense", response);
     }
@@ -62,7 +67,8 @@ public class ExpenseController {
             @RequestBody RecurringExpense updatedExpense
     ) {
         ControllerRequestLogger.logIncoming(log, "updateRecurringExpense", "id", id, "body", updatedExpense);
-        ResponseEntity<RecurringExpense> response = expenseRepo.findById(Math.toIntExact(id))
+        Long userId = SecurityUtils.getCurrentUserId();
+        ResponseEntity<RecurringExpense> response = expenseRepo.findByIdAndUserId(Math.toIntExact(id), userId)
                 .map(expense -> {
                     expense.setMerchant(updatedExpense.getMerchant());
                     expense.setAmount(updatedExpense.getAmount());
@@ -72,13 +78,15 @@ public class ExpenseController {
                     expenseRepo.save(expense);
                     return new ResponseEntity<>(expense, HttpStatus.OK);
                 })
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .orElse(ResponseEntity.notFound().build());
         return ControllerRequestLogger.logResponse(log, "updateRecurringExpense", response);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecurringExpense> addRecurringExpense(@RequestBody RecurringExpense recurringExpense) {
         ControllerRequestLogger.logIncoming(log, "addRecurringExpense", recurringExpense);
+        Long userId = SecurityUtils.getCurrentUserId();
+        recurringExpense.setUserId(userId);
         recurringExpense.setNextPaymentDate(
                 calculateNextPaymentDate(recurringExpense.getStartDate(), recurringExpense.getFrequency())
         );
@@ -87,6 +95,7 @@ public class ExpenseController {
                 new ResponseEntity<>(recurringExpense, HttpStatus.CREATED));
     }
 
+    @Profile("dev")
     @PostMapping("/testScheduler")
     public ResponseEntity<String> triggerExpenseScheduler() {
         ControllerRequestLogger.logIncoming(log, "triggerExpenseScheduler");

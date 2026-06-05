@@ -1,13 +1,21 @@
-import { Suspense } from "react";
-import { TransactionDashboard } from "@/components/transaction-dashboard";
-import { DashboardSkeleton } from "@/components/dashboard-skeleton";
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/auth-context";
+
 export default function Home() {
+  const { isAuthenticated, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoading) return;
+    router.replace(isAuthenticated ? "/dashboard" : "/login");
+  }, [isAuthenticated, isLoading, router]);
+
   return (
-    <main className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Financial Dashboard</h1>
-      <Suspense fallback={<DashboardSkeleton />}>
-        <TransactionDashboard />
-      </Suspense>
-    </main>
+    <div className="flex min-h-screen items-center justify-center bg-muted/30">
+      <p className="text-sm text-muted-foreground">Redirecting...</p>
+    </div>
   );
 }

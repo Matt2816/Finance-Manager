@@ -1,7 +1,6 @@
 package com.financial.tracker.financial_transactions.analytics.model;
 
 import jakarta.persistence.*;
-
 import java.time.Instant;
 import java.time.LocalDate;
 
@@ -12,6 +11,9 @@ public class InsightCache {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @Column(name = "insight_type", nullable = false)
     private String insightType;
@@ -50,6 +52,14 @@ public class InsightCache {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getInsightType() {

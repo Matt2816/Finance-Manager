@@ -128,7 +128,7 @@ export function TransactionComparisonChart({
     ((totalThisMonth - totalLastMonth) / totalLastMonth) * 100;
 
   return (
-    <Card className="col-span-1">
+    <Card>
       <CardHeader>
         <CardTitle>Cumulative Spending Comparison</CardTitle>
         <CardDescription>
@@ -206,9 +206,9 @@ export function TransactionComparisonChart({
         </ChartContainer>
       </CardContent>
       <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
+        <div className="flex w-full flex-wrap items-start gap-2 text-sm">
           <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
+            <div className="flex flex-wrap items-center gap-2 font-medium leading-none">
               {percentageChange >= 0 ? (
                 <>
                   Projected to increase by {percentageChange.toFixed(1)}% this
@@ -222,7 +222,7 @@ export function TransactionComparisonChart({
                 </>
               )}
             </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-2 leading-none text-muted-foreground">
               This Month (Projected): ${totalThisMonth.toFixed(1)} | Last Month:
               ${totalLastMonth.toFixed(1)}
             </div>

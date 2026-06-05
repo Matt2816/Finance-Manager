@@ -1,7 +1,6 @@
 package com.financial.tracker.financial_transactions.model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
@@ -11,6 +10,9 @@ public class RecurringIncome {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @Column(name = "incomeSource")
     private String incomeSource;
@@ -41,6 +43,10 @@ public class RecurringIncome {
     public int getId() {return id;}
 
     public void setId(int id) {this.id = id;}
+
+    public Long getUserId() {return userId;}
+
+    public void setUserId(Long userId) {this.userId = userId;}
 
     public String getIncomeSource() {return incomeSource;}
 

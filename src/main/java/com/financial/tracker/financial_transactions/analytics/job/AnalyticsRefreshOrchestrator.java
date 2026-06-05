@@ -12,13 +12,16 @@ import com.financial.tracker.financial_transactions.analytics.normalization.Tran
 import com.financial.tracker.financial_transactions.analytics.prediction.PredictionEngine;
 import com.financial.tracker.financial_transactions.analytics.repo.AnalyticsRefreshRunRepository;
 import com.financial.tracker.financial_transactions.analytics.trend.SpendingTrendAnalysisService;
+import com.financial.tracker.financial_transactions.model.User;
+import com.financial.tracker.financial_transactions.repo.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -27,6 +30,7 @@ public class AnalyticsRefreshOrchestrator {
     private static final Logger log = LoggerFactory.getLogger(AnalyticsRefreshOrchestrator.class);
 
     private final AnalyticsRefreshRunRepository refreshRunRepository;
+    private final UserRepository userRepository;
     private final TransactionBackfillService backfillService;
     private final TransactionNormalizationService normalizationService;
     private final MerchantIntelligenceEngine merchantEngine;
@@ -39,6 +43,7 @@ public class AnalyticsRefreshOrchestrator {
 
     public AnalyticsRefreshOrchestrator(
             AnalyticsRefreshRunRepository refreshRunRepository,
+            UserRepository userRepository,
             TransactionBackfillService backfillService,
             TransactionNormalizationService normalizationService,
             MerchantIntelligenceEngine merchantEngine,
@@ -50,6 +55,7 @@ public class AnalyticsRefreshOrchestrator {
             ObjectMapper objectMapper
     ) {
         this.refreshRunRepository = refreshRunRepository;
+        this.userRepository = userRepository;
         this.backfillService = backfillService;
         this.normalizationService = normalizationService;
         this.merchantEngine = merchantEngine;
@@ -61,30 +67,39 @@ public class AnalyticsRefreshOrchestrator {
         this.objectMapper = objectMapper;
     }
 
+    public List<AnalyticsRefreshRun> runRefresh() {
+        List<AnalyticsRefreshRun> runs = new ArrayList<>();
+        for (User user : userRepository.findAll()) {
+            runs.add(runRefresh(user.getId()));
+        }
+        return runs;
+    }
+
     @Transactional
-    public AnalyticsRefreshRun runRefresh() {
+    public AnalyticsRefreshRun runRefresh(Long userId) {
         AnalyticsRefreshRun run = new AnalyticsRefreshRun();
+        run.setUserId(userId);
         run.setStatus(RefreshRunStatus.RUNNING);
         run.setStartedAt(Instant.now());
         run = refreshRunRepository.save(run);
 
         Map<String, Object> metadata = new LinkedHashMap<>();
         try {
-            metadata.put("backfill", backfillService.backfillAll());
-            metadata.put("normalization", normalizationService.reconcileAll());
-            metadata.put("merchant", merchantEngine.processAll());
-            metadata.put("loyalty", loyaltyService.calculateAllLoyaltyMetrics());
-            metadata.put("snapshots", aggregationService.rebuildSnapshots());
-            metadata.put("insights", insightEngine.generateAll(run.getId()));
-            metadata.put("trends", trendService.generateAll(run.getId()));
-            metadata.put("forecasts", predictionEngine.generateForecasts(run.getId()));
+            metadata.put("backfill", backfillService.backfillAll(userId));
+            metadata.put("normalization", normalizationService.reconcileAll(userId));
+            metadata.put("merchant", merchantEngine.processAll(userId));
+            metadata.put("loyalty", loyaltyService.calculateAllLoyaltyMetrics(userId));
+            metadata.put("snapshots", aggregationService.rebuildSnapshots(userId));
+            metadata.put("insights", insightEngine.generateAll(run.getId(), userId));
+            metadata.put("trends", trendService.generateAll(run.getId(), userId));
+            metadata.put("forecasts", predictionEngine.generateForecasts(run.getId(), userId));
 
             run.setStatus(RefreshRunStatus.SUCCESS);
             run.setMetadataJson(objectMapper.writeValueAsString(metadata));
             run.setFinishedAt(Instant.now());
-            log.info("Analytics refresh completed: {}", metadata);
+            log.info("Analytics refresh completed for user {}: {}", userId, metadata);
         } catch (Exception ex) {
-            log.error("Analytics refresh failed", ex);
+            log.error("Analytics refresh failed for user {}", userId, ex);
             run.setStatus(RefreshRunStatus.FAILED);
             run.setErrorLog(ex.getMessage());
             run.setFinishedAt(Instant.now());

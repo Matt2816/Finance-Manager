@@ -4,13 +4,14 @@ import com.financial.tracker.financial_transactions.Services.RecurringIncomeServ
 import com.financial.tracker.financial_transactions.model.Frequency;
 import com.financial.tracker.financial_transactions.model.RecurringIncome;
 import com.financial.tracker.financial_transactions.repo.IncomeRepo;
+import com.financial.tracker.financial_transactions.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -31,27 +32,31 @@ public class IncomeController {
     @GetMapping
     public List<RecurringIncome> getAllRecurringIncomes() {
         ControllerRequestLogger.logIncoming(log, "getAllRecurringIncomes");
-        return ControllerRequestLogger.logResponseBody(log, "getAllRecurringIncomes", incomeRepo.findAll());
+        Long userId = SecurityUtils.getCurrentUserId();
+        return ControllerRequestLogger.logResponseBody(log, "getAllRecurringIncomes", incomeRepo.findByUserId(userId));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RecurringIncome> getRecurringIncomeById(@PathVariable Long id) {
         ControllerRequestLogger.logIncoming(log, "getRecurringIncomeById", "id", id);
-        ResponseEntity<RecurringIncome> response = incomeRepo.findById(Math.toIntExact(id))
+        Long userId = SecurityUtils.getCurrentUserId();
+        ResponseEntity<RecurringIncome> response = incomeRepo.findByIdAndUserId(Math.toIntExact(id), userId)
                 .map(ResponseEntity::ok)
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .orElse(ResponseEntity.notFound().build());
         return ControllerRequestLogger.logResponse(log, "getRecurringIncomeById", response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecurringIncome(@PathVariable Long id) {
         ControllerRequestLogger.logIncoming(log, "deleteRecurringIncome", "id", id);
+        Long userId = SecurityUtils.getCurrentUserId();
+        int incomeId = Math.toIntExact(id);
         ResponseEntity<Void> response;
-        if (incomeRepo.existsById(Math.toIntExact(id))) {
-            incomeRepo.deleteById(Math.toIntExact(id));
+        if (incomeRepo.existsByIdAndUserId(incomeId, userId)) {
+            incomeRepo.deleteById(incomeId);
             response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            response = ResponseEntity.notFound().build();
         }
         return ControllerRequestLogger.logResponse(log, "deleteRecurringIncome", response);
     }
@@ -62,7 +67,8 @@ public class IncomeController {
             @RequestBody RecurringIncome updatedIncome
     ) {
         ControllerRequestLogger.logIncoming(log, "updateRecurringIncome", "id", id, "body", updatedIncome);
-        ResponseEntity<RecurringIncome> response = incomeRepo.findById(Math.toIntExact(id))
+        Long userId = SecurityUtils.getCurrentUserId();
+        ResponseEntity<RecurringIncome> response = incomeRepo.findByIdAndUserId(Math.toIntExact(id), userId)
                 .map(income -> {
                     income.setIncomeSource(updatedIncome.getIncomeSource());
                     income.setAmount(updatedIncome.getAmount());
@@ -72,13 +78,15 @@ public class IncomeController {
                     incomeRepo.save(income);
                     return new ResponseEntity<>(income, HttpStatus.OK);
                 })
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .orElse(ResponseEntity.notFound().build());
         return ControllerRequestLogger.logResponse(log, "updateRecurringIncome", response);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecurringIncome> addRecurringIncome(@RequestBody RecurringIncome recurringIncome) {
         ControllerRequestLogger.logIncoming(log, "addRecurringIncome", recurringIncome);
+        Long userId = SecurityUtils.getCurrentUserId();
+        recurringIncome.setUserId(userId);
         recurringIncome.setNextPaymentDate(
                 calculateNextPaymentDate(recurringIncome.getStartDate(), recurringIncome.getFrequency())
         );
@@ -87,6 +95,7 @@ public class IncomeController {
                 new ResponseEntity<>(recurringIncome, HttpStatus.CREATED));
     }
 
+    @Profile("dev")
     @PostMapping("/testScheduler")
     public ResponseEntity<String> triggerIncomeScheduler() {
         ControllerRequestLogger.logIncoming(log, "triggerIncomeScheduler");

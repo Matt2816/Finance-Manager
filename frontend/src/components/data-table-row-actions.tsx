@@ -23,10 +23,18 @@ import { transactionSchema } from "@/components/data/schema";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
+  onEdit?: (tx: any) => void;
+  onDelete?: (tx: any) => void;
+  onCategorize?: (tx: any, categoryId: number) => void;
+  categories?: { id: number; displayName: string }[];
 }
 
 export function DataTableRowActions<TData>({
   row,
+  onEdit,
+  onDelete,
+  onCategorize,
+  categories,
 }: DataTableRowActionsProps<TData>) {
   const transaction = transactionSchema.parse(row.original);
 
@@ -41,10 +49,32 @@ export function DataTableRowActions<TData>({
           <span className="sr-only">Open menu</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+      <DropdownMenuContent align="end" className="w-[180px]">
+        <DropdownMenuItem onClick={() => onEdit?.(transaction)}>
+          Edit
+        </DropdownMenuItem>
         <DropdownMenuItem>Favorite</DropdownMenuItem>
         <DropdownMenuSeparator />
+        {categories && categories.length > 0 && onCategorize && (
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Categorize</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuRadioGroup
+                value={transaction.categoryId?.toString() ?? ""}
+              >
+                {categories.map((cat) => (
+                  <DropdownMenuRadioItem
+                    key={cat.id}
+                    value={cat.id.toString()}
+                    onClick={() => onCategorize(transaction, cat.id)}
+                  >
+                    {cat.displayName}
+                  </DropdownMenuRadioItem>
+                ))}
+              </DropdownMenuRadioGroup>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+        )}
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
@@ -58,7 +88,10 @@ export function DataTableRowActions<TData>({
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => onDelete?.(transaction)}
+          className="text-red-600 focus:text-red-600"
+        >
           Delete
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>

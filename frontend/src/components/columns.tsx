@@ -12,6 +12,7 @@ import { DataTableRowActions } from "@/components/data-table-row-actions";
 import { LocationMapPopover } from "@/components/location-map-popover";
 
 import { Transaction } from "@/types/transaction";
+import { ArrowDownLeft, ArrowUpRight, Repeat } from "lucide-react";
 
 export const columns: ColumnDef<Transaction>[] = [
   {
@@ -44,14 +45,34 @@ export const columns: ColumnDef<Transaction>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Amount" />
     ),
-    cell: ({ row }) => (
-      <div className="w-[80px]">
-        {new Intl.NumberFormat("en-CA", {
-          style: "currency",
-          currency: "CAD",
-        }).format(row.getValue("amount"))}
-      </div>
-    ),
+    cell: ({ row }) => {
+      const amountStr = row.getValue("amount") as string;
+      const amountNum = parseFloat(amountStr.replace("$", ""));
+      const isIncome = amountNum < 0;
+      const displayAmount = Math.abs(amountNum);
+      const isRecurring = !!row.original.recurringParentId;
+
+      return (
+        <div className="flex items-center gap-1.5 w-[110px]">
+          {isIncome ? (
+            <ArrowDownLeft className="h-3.5 w-3.5 text-green-600 shrink-0" />
+          ) : (
+            <ArrowUpRight className="h-3.5 w-3.5 text-red-600 shrink-0" />
+          )}
+          <span className={isIncome ? "text-green-600" : "text-red-600"}>
+            {new Intl.NumberFormat("en-CA", {
+              style: "currency",
+              currency: "CAD",
+            }).format(displayAmount)}
+          </span>
+          {isRecurring && (
+            <span title="Recurring">
+              <Repeat className="h-3 w-3 text-muted-foreground shrink-0" />
+            </span>
+          )}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "name",
@@ -104,12 +125,15 @@ export const columns: ColumnDef<Transaction>[] = [
       <DataTableColumnHeader column={column} title="Date" />
     ),
     cell: ({ row }) => {
-      const date = new Date(row.getValue("date"));
+      const raw = row.getValue("date") as string;
+      const date = new Date(raw + "T00:00:00");
       return <div>{date.toLocaleDateString()}</div>;
     },
     sortingFn: (rowA, rowB, columnId) => {
-      const dateA = new Date(rowA.getValue(columnId));
-      const dateB = new Date(rowB.getValue(columnId));
+      const rawA = rowA.getValue(columnId) as string;
+      const rawB = rowB.getValue(columnId) as string;
+      const dateA = new Date(rawA + "T00:00:00");
+      const dateB = new Date(rawB + "T00:00:00");
       return dateA.getTime() - dateB.getTime();
     },
   },
@@ -198,7 +222,41 @@ export const columns: ColumnDef<Transaction>[] = [
     },
   },
   {
+    accessorKey: "categoryId",
+    id: "category",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Category" />
+    ),
+    cell: ({ row, table }) => {
+      const meta = table.options.meta as any;
+      const categories: { id: number; displayName: string }[] = meta?.categories ?? [];
+      const categoryId = row.getValue("category") as number | null;
+      const category = categories.find((c) => c.id === categoryId);
+      return (
+        <div className="flex w-[100px] items-center">
+          {category ? (
+            <Badge variant="secondary">{category.displayName}</Badge>
+          ) : (
+            <Badge variant="outline" className="text-muted-foreground">—</Badge>
+          )}
+        </div>
+      );
+    },
+    enableSorting: false,
+  },
+  {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row, table }) => {
+      const meta = table.options.meta as any;
+      return (
+        <DataTableRowActions
+          row={row}
+          onEdit={meta?.onEdit}
+          onDelete={meta?.onDelete}
+          onCategorize={meta?.onCategorize}
+          categories={meta?.categories}
+        />
+      );
+    },
   },
 ];

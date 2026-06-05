@@ -6,7 +6,6 @@ import com.financial.tracker.financial_transactions.repo.TransactionsRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -19,16 +18,19 @@ public class WalletNotesImportService {
     private final WalletNotesParser parser = new WalletNotesParser();
     private final TransactionsRepo transactionsRepo;
     private final TransactionNormalizationService normalizationService;
+    private final TransactionImportPipeline importPipeline;
 
     public WalletNotesImportService(
             TransactionsRepo transactionsRepo,
-            TransactionNormalizationService normalizationService
+            TransactionNormalizationService normalizationService,
+            TransactionImportPipeline importPipeline
     ) {
         this.transactionsRepo = transactionsRepo;
         this.normalizationService = normalizationService;
+        this.importPipeline = importPipeline;
     }
 
-    public WalletNotesImportResult importFromText(String content) {
+    public WalletNotesImportResult importFromText(String content, Long userId) {
         log.info("importFromText: starting batch import, contentLength={}", content == null ? 0 : content.length());
         WalletNotesParser.ParseResult parseResult = parser.parse(content);
         List<Transaction> parsed = parseResult.transactions();
@@ -36,11 +38,12 @@ public class WalletNotesImportService {
         int skippedDuplicates = 0;
 
         for (Transaction transaction : parsed) {
-            if (transactionsRepo.findByHash(transaction.getHash()) != null) {
+            if (transactionsRepo.findByHashAndUserId(transaction.getHash(), userId) != null) {
                 skippedDuplicates++;
                 log.debug("importFromText: duplicate hash={}, skipping", transaction.getHash());
                 continue;
             }
+            transaction.setUserId(userId);
             Transaction saved = transactionsRepo.save(transaction);
             normalizationService.normalizeOne(saved.getId());
             imported++;
@@ -62,13 +65,13 @@ public class WalletNotesImportService {
         return result;
     }
 
-    public WalletNotesImportResult importFromBytes(byte[] bytes) throws IOException {
+    public WalletNotesImportResult importFromBytes(byte[] bytes, Long userId) throws IOException {
         log.info("importFromBytes: size={}", bytes.length);
         String content = new String(bytes, StandardCharsets.UTF_8);
-        return importFromText(content);
+        return importFromText(content, userId);
     }
 
-    public WalletNoteImportResult importSingleFromText(String content) {
+    public WalletNoteImportResult importSingleFromText(String content, Long userId) {
         log.info("importSingleFromText: contentLength={}", content == null ? 0 : content.length());
         Transaction transaction = parser.parseSingle(content);
         if (transaction == null) {
@@ -79,7 +82,7 @@ public class WalletNotesImportService {
             return result;
         }
 
-        return saveIfNew(transaction, "importSingleFromText");
+        return saveIfNew(transaction, "importSingleFromText", userId);
     }
 
     public WalletNoteImportResult importSingleFromFields(
@@ -87,7 +90,8 @@ public class WalletNotesImportService {
             String merchant,
             String amount,
             String date,
-            String location
+            String location,
+            Long userId
     ) {
         log.info(
                 "importSingleFromFields: name={}, merchant={}, amount={}, date={}",
@@ -105,20 +109,19 @@ public class WalletNotesImportService {
             return result;
         }
 
-        return saveIfNew(transaction, "importSingleFromFields");
+        return saveIfNew(transaction, "importSingleFromFields", userId);
     }
 
-    private WalletNoteImportResult saveIfNew(Transaction transaction, String operation) {
+    private WalletNoteImportResult saveIfNew(Transaction transaction, String operation, Long userId) {
         log.info("saveIfNew: hash={}, name={}, amount={}", transaction.getHash(), transaction.getName(), transaction.getAmount());
-        Transaction existing = transactionsRepo.findByHash(transaction.getHash());
+        Transaction existing = transactionsRepo.findByHashAndUserId(transaction.getHash(), userId);
         if (existing != null) {
             WalletNoteImportResult result = WalletNoteImportResult.duplicate(existing);
             log.info("{}: result={}", operation, result);
             return result;
         }
 
-        Transaction saved = transactionsRepo.save(transaction);
-        normalizationService.normalizeOne(saved.getId());
+        Transaction saved = importPipeline.saveNew(transaction, userId);
         WalletNoteImportResult result = WalletNoteImportResult.created(saved);
         log.info("{}: result={}", operation, result);
         return result;

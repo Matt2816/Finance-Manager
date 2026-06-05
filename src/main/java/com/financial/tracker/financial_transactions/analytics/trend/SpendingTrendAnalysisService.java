@@ -14,7 +14,6 @@ import com.financial.tracker.financial_transactions.analytics.repo.SpendingSnaps
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
@@ -51,20 +50,20 @@ public class SpendingTrendAnalysisService {
     }
 
     @Transactional
-    public int generateAll(Long refreshRunId) {
+    public int generateAll(Long refreshRunId, Long userId) {
         List<InsightCache> trends = new ArrayList<>();
-        trends.add(movingAverages(refreshRunId));
-        trends.add(categoryShare(refreshRunId));
-        trends.add(velocity(refreshRunId));
-        trends.addAll(seasonality(refreshRunId));
+        trends.add(movingAverages(refreshRunId, userId));
+        trends.add(categoryShare(refreshRunId, userId));
+        trends.add(velocity(refreshRunId, userId));
+        trends.addAll(seasonality(refreshRunId, userId));
         insightCacheRepository.saveAll(trends);
         return trends.size();
     }
 
-    private InsightCache movingAverages(Long refreshRunId) {
+    private InsightCache movingAverages(Long refreshRunId, Long userId) {
         LocalDate end = LocalDate.now();
         LocalDate start = end.minusDays(60);
-        List<Object[]> daily = normalizedRepository.sumByDayBetween(start, end);
+        List<Object[]> daily = normalizedRepository.sumByDayBetween(userId, start, end);
         BigDecimal last7 = sumLastDays(daily, 7);
         BigDecimal last30 = sumLastDays(daily, 30);
         String body = String.format(
@@ -78,7 +77,8 @@ public class SpendingTrendAnalysisService {
                 body,
                 Map.of("total7Day", last7, "total30Day", last30),
                 last30.doubleValue(),
-                refreshRunId
+                refreshRunId,
+                userId
         );
     }
 
@@ -90,18 +90,18 @@ public class SpendingTrendAnalysisService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private InsightCache categoryShare(Long refreshRunId) {
+    private InsightCache categoryShare(Long refreshRunId, Long userId) {
         LocalDate end = LocalDate.now();
         LocalDate start = end.minusMonths(3);
         Map<String, BigDecimal> byCategory = new HashMap<>();
         BigDecimal total = BigDecimal.ZERO;
-        for (Object[] row : normalizedRepository.sumByCategoryBetween(start, end)) {
+        for (Object[] row : normalizedRepository.sumByCategoryBetween(userId, start, end)) {
             Long categoryId = (Long) row[0];
             BigDecimal amount = (BigDecimal) row[1];
             if (categoryId == null) {
                 continue;
             }
-            String slug = categoryRepository.findById(categoryId)
+            String slug = categoryRepository.findByIdAndUserId(categoryId, userId)
                     .map(SpendingCategory::getSlug)
                     .orElse("unknown");
             byCategory.merge(slug, amount, BigDecimal::add);
@@ -122,12 +122,13 @@ public class SpendingTrendAnalysisService {
                 "Spending share by category over the last 3 months.",
                 Map.of("sharesPercent", shares),
                 total.doubleValue(),
-                refreshRunId
+                refreshRunId,
+                userId
         );
     }
 
-    private InsightCache velocity(Long refreshRunId) {
-        List<Double> monthly = snapshotRepository.findAll().stream()
+    private InsightCache velocity(Long refreshRunId, Long userId) {
+        List<Double> monthly = snapshotRepository.findByUserId(userId).stream()
                 .filter(s -> s.getGrain() == SnapshotGrain.MONTHLY && s.getCategoryId() != null)
                 .collect(Collectors.groupingBy(
                         s -> s.getPeriodStart().withDayOfMonth(1),
@@ -153,18 +154,19 @@ public class SpendingTrendAnalysisService {
                 body,
                 Map.of("monthlySlope", slope, "monthsAnalyzed", monthly.size()),
                 Math.abs(slope),
-                refreshRunId
+                refreshRunId,
+                userId
         );
     }
 
-    private List<InsightCache> seasonality(Long refreshRunId) {
+    private List<InsightCache> seasonality(Long refreshRunId, Long userId) {
         List<InsightCache> result = new ArrayList<>();
-        for (SpendingCategory category : categoryRepository.findAll()) {
+        for (SpendingCategory category : categoryRepository.findByUserId(userId)) {
             if ("uncategorized".equals(category.getSlug())) {
                 continue;
             }
-            List<SpendingSnapshot> monthly = snapshotRepository.findByGrainAndCategoryId(
-                    SnapshotGrain.MONTHLY, category.getId());
+            List<SpendingSnapshot> monthly = snapshotRepository.findByUserIdAndGrainAndCategoryId(
+                    userId, SnapshotGrain.MONTHLY, category.getId());
             if (monthly.size() < 12) {
                 continue;
             }
@@ -200,7 +202,8 @@ public class SpendingTrendAnalysisService {
                     "High-spend months detected for " + category.getDisplayName() + ".",
                     Map.of("categorySlug", category.getSlug(), "seasonalIndices", indices, "highSeasonMonths", highSeason),
                     50,
-                    refreshRunId
+                    refreshRunId,
+                    userId
             ));
         }
         return result;
@@ -212,9 +215,11 @@ public class SpendingTrendAnalysisService {
             String body,
             Map<String, Object> payload,
             double rankScore,
-            Long refreshRunId
+            Long refreshRunId,
+            Long userId
     ) {
         InsightCache insight = new InsightCache();
+        insight.setUserId(userId);
         insight.setInsightType(type);
         insight.setTitle(title);
         insight.setBody(body);

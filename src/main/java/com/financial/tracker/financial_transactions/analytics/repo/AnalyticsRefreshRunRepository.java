@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface AnalyticsRefreshRunRepository extends ListCrudRepository<AnalyticsRefreshRun, Long> {
     Optional<AnalyticsRefreshRun> findFirstByOrderByStartedAtDesc();
+
+    Optional<AnalyticsRefreshRun> findFirstByUserIdOrderByStartedAtDesc(Long userId);
 }

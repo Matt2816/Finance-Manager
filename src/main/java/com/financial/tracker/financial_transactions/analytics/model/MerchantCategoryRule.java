@@ -10,7 +10,10 @@ public class MerchantCategoryRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 1000)
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @Column(nullable = false, length = 4000)
     private String pattern;
 
     @Column(name = "category_id", nullable = false)
@@ -25,6 +28,14 @@ public class MerchantCategoryRule {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getPattern() {

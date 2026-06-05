@@ -13,7 +13,6 @@ import com.financial.tracker.financial_transactions.repo.ExpenseRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
@@ -51,23 +50,28 @@ public class PredictionEngine {
     }
 
     @Transactional
-    public int generateForecasts(Long refreshRunId) {
-        forecastRepository.deleteAll();
+    public int generateForecasts(Long refreshRunId, Long userId) {
+        forecastRepository.deleteByUserId(userId);
         List<SpendingForecast> forecasts = new ArrayList<>();
-        forecasts.addAll(forecastScope(ForecastScope.TOTAL, null, refreshRunId));
-        for (SpendingCategory category : categoryRepository.findAll()) {
+        forecasts.addAll(forecastScope(userId, ForecastScope.TOTAL, null, refreshRunId));
+        for (SpendingCategory category : categoryRepository.findByUserId(userId)) {
             if ("uncategorized".equals(category.getSlug())) {
                 continue;
             }
-            forecasts.addAll(forecastScope(ForecastScope.CATEGORY, category.getSlug(), refreshRunId));
+            forecasts.addAll(forecastScope(userId, ForecastScope.CATEGORY, category.getSlug(), refreshRunId));
         }
-        forecasts.addAll(forecastRecurring(refreshRunId));
+        forecasts.addAll(forecastRecurring(userId, refreshRunId));
         forecastRepository.saveAll(forecasts);
         return forecasts.size();
     }
 
-    private List<SpendingForecast> forecastScope(ForecastScope scope, String scopeKey, Long refreshRunId) {
-        List<SpendingSnapshot> monthly = loadMonthlySeries(scope, scopeKey);
+    private List<SpendingForecast> forecastScope(
+            Long userId,
+            ForecastScope scope,
+            String scopeKey,
+            Long refreshRunId
+    ) {
+        List<SpendingSnapshot> monthly = loadMonthlySeries(userId, scope, scopeKey);
         double[] series = monthly.stream()
                 .mapToDouble(s -> s.getTotalAmount().doubleValue())
                 .toArray();
@@ -87,6 +91,7 @@ public class PredictionEngine {
             BigDecimal upper = BigDecimal.valueOf(blend.upper()).setScale(2, RoundingMode.HALF_UP);
 
             SpendingForecast forecast = new SpendingForecast();
+            forecast.setUserId(userId);
             forecast.setForecastDate(target.atDay(1));
             forecast.setScope(scope);
             forecast.setScopeKey(scopeKey);
@@ -102,10 +107,11 @@ public class PredictionEngine {
         return result;
     }
 
-    private List<SpendingSnapshot> loadMonthlySeries(ForecastScope scope, String scopeKey) {
+    private List<SpendingSnapshot> loadMonthlySeries(Long userId, ForecastScope scope, String scopeKey) {
         if (scope == ForecastScope.CATEGORY) {
-            return categoryRepository.findBySlug(scopeKey)
-                    .map(cat -> snapshotRepository.findByGrainAndCategoryId(SnapshotGrain.MONTHLY, cat.getId()))
+            return categoryRepository.findBySlugAndUserId(scopeKey, userId)
+                    .map(cat -> snapshotRepository.findByUserIdAndGrainAndCategoryId(
+                            userId, SnapshotGrain.MONTHLY, cat.getId()))
                     .orElse(List.of())
                     .stream()
                     .sorted(Comparator.comparing(SpendingSnapshot::getPeriodStart))
@@ -113,7 +119,7 @@ public class PredictionEngine {
         }
 
         Map<YearMonth, BigDecimal> byMonth = new HashMap<>();
-        for (SpendingSnapshot s : snapshotRepository.findAll()) {
+        for (SpendingSnapshot s : snapshotRepository.findByUserId(userId)) {
             if (s.getGrain() != SnapshotGrain.MONTHLY || s.getCategoryId() == null) {
                 continue;
             }
@@ -188,8 +194,8 @@ public class PredictionEngine {
         return new ForecastBlend(predicted, lower, upper, method, confidence);
     }
 
-    private List<SpendingForecast> forecastRecurring(Long refreshRunId) {
-        double monthlyRecurring = expenseRepo.findAll().stream()
+    private List<SpendingForecast> forecastRecurring(Long userId, Long refreshRunId) {
+        double monthlyRecurring = expenseRepo.findByUserId(userId).stream()
                 .mapToDouble(RecurringExpense::getAmount)
                 .sum();
 
@@ -198,6 +204,7 @@ public class PredictionEngine {
         for (int h = 0; h < horizonMonths; h++) {
             YearMonth target = start.plusMonths(h);
             SpendingForecast forecast = new SpendingForecast();
+            forecast.setUserId(userId);
             forecast.setForecastDate(target.atDay(1));
             forecast.setScope(ForecastScope.TOTAL);
             forecast.setScopeKey("recurring");

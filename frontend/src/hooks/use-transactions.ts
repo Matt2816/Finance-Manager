@@ -1,8 +1,9 @@
 import useSWR from "swr";
 import { Transaction } from "@/types/transaction";
+import { authenticatedFetch } from "@/lib/authenticated-fetch";
 
 async function fetcher(url: string): Promise<Transaction[]> {
-  const res = await fetch(url);
+  const res = await authenticatedFetch(url);
   const data = await res.json();
 
   if (!res.ok) {
@@ -40,7 +41,7 @@ function cleanTransactions(data: Transaction[]): Transaction[] {
 }
 
 export function useTransactions() {
-  const { data, error, isLoading } = useSWR<Transaction[]>(
+  const { data, error, isLoading, mutate } = useSWR<Transaction[]>(
     "/api/transactions",
     fetcher
   );
@@ -51,5 +52,6 @@ export function useTransactions() {
     transactions,
     isLoading,
     error,
+    mutate,
   };
 }

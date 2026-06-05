@@ -12,7 +12,11 @@ export default async function handler(
   }
 
   try {
-    const data = await fetchBackend<Transaction[]>("/transaction");
+    const headers: HeadersInit = {};
+    if (req.headers.authorization) {
+      headers.Authorization = req.headers.authorization;
+    }
+    const data = await fetchBackend<Transaction[]>("/transaction", { headers });
     return res.status(200).json(Array.isArray(data) ? data : []);
   } catch (error) {
     const message =

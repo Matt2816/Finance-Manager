@@ -12,4 +12,6 @@ export const transactionSchema = z.object({
   transactionDate: z.string(),
   address: z.string().default(""),
   hash: z.string(),
+  categoryId: z.number().nullable().optional(),
+  recurringParentId: z.number().nullable().optional(),
 });

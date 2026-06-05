@@ -9,7 +9,6 @@ import com.financial.tracker.financial_transactions.analytics.repo.SpendingSnaps
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.Instant;
@@ -38,13 +37,13 @@ public class SpendingAggregationService {
     }
 
     @Transactional
-    public int rebuildSnapshots() {
+    public int rebuildSnapshots(Long userId) {
         LocalDate end = LocalDate.now();
         LocalDate start = end.minusMonths(snapshotMonths).withDayOfMonth(1);
-        snapshotRepository.deleteAll();
+        snapshotRepository.deleteByUserId(userId);
 
         List<NormalizedTransaction> transactions =
-                normalizedRepo.findByOccurredOnBetween(start, end);
+                normalizedRepo.findByUserIdAndOccurredOnBetween(userId, start, end);
 
         Map<String, SpendingSnapshot> dailyByCategory = new HashMap<>();
         Map<String, SpendingSnapshot> weeklyByCategory = new HashMap<>();
@@ -62,21 +61,21 @@ public class SpendingAggregationService {
             LocalDate day = tx.getOccurredOn();
 
             accumulate(dailyByCategory, key(day, day, SnapshotGrain.DAILY, tx.getCategoryId(), null),
-                    day, day, SnapshotGrain.DAILY, tx.getCategoryId(), null, amount);
+                    day, day, SnapshotGrain.DAILY, tx.getCategoryId(), null, amount, userId);
             LocalDate weekStart = day.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
             LocalDate weekEnd = weekStart.plusDays(6);
             accumulate(weeklyByCategory, key(weekStart, weekEnd, SnapshotGrain.WEEKLY, tx.getCategoryId(), null),
-                    weekStart, weekEnd, SnapshotGrain.WEEKLY, tx.getCategoryId(), null, amount);
+                    weekStart, weekEnd, SnapshotGrain.WEEKLY, tx.getCategoryId(), null, amount, userId);
 
             LocalDate monthStart = day.withDayOfMonth(1);
             LocalDate monthEnd = day.with(TemporalAdjusters.lastDayOfMonth());
             accumulate(monthlyByCategory, key(monthStart, monthEnd, SnapshotGrain.MONTHLY, tx.getCategoryId(), null),
-                    monthStart, monthEnd, SnapshotGrain.MONTHLY, tx.getCategoryId(), null, amount);
+                    monthStart, monthEnd, SnapshotGrain.MONTHLY, tx.getCategoryId(), null, amount, userId);
 
             if (tx.getMerchantKey() != null) {
                 accumulate(merchantMonthly,
                         key(monthStart, monthEnd, SnapshotGrain.MERCHANT_MONTHLY, null, tx.getMerchantKey()),
-                        monthStart, monthEnd, SnapshotGrain.MERCHANT_MONTHLY, null, tx.getMerchantKey(), amount);
+                        monthStart, monthEnd, SnapshotGrain.MERCHANT_MONTHLY, null, tx.getMerchantKey(), amount, userId);
             }
         }
 
@@ -111,10 +110,12 @@ public class SpendingAggregationService {
             SnapshotGrain grain,
             Long categoryId,
             String merchantKey,
-            BigDecimal amount
+            BigDecimal amount,
+            Long userId
     ) {
         SpendingSnapshot snapshot = map.computeIfAbsent(mapKey, k -> {
             SpendingSnapshot s = new SpendingSnapshot();
+            s.setUserId(userId);
             s.setPeriodStart(periodStart);
             s.setPeriodEnd(periodEnd);
             s.setGrain(grain);

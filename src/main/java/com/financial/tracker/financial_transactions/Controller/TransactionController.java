@@ -9,16 +9,19 @@ import com.financial.tracker.financial_transactions.Services.WalletNotesParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import com.financial.tracker.financial_transactions.analytics.repo.NormalizedTransactionRepository;
 import com.financial.tracker.financial_transactions.model.Transaction;
 import com.financial.tracker.financial_transactions.repo.TransactionsRepo;
+import com.financial.tracker.financial_transactions.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -29,6 +32,7 @@ public class TransactionController {
     private static final Logger log = LoggerFactory.getLogger(TransactionController.class);
 
     private final TransactionsRepo transactionsRepo;
+    private final NormalizedTransactionRepository normalizedRepo;
     private final WalletNotesImportService walletNotesImportService;
     private final WalletNotesParser walletNotesParser;
     private final ExcelStatementImportService excelStatementImportService;
@@ -36,11 +40,13 @@ public class TransactionController {
 
     public TransactionController(
             TransactionsRepo transactionsRepo,
+            NormalizedTransactionRepository normalizedRepo,
             WalletNotesImportService walletNotesImportService,
             ExcelStatementImportService excelStatementImportService,
             ObjectMapper objectMapper
     ) {
         this.transactionsRepo = transactionsRepo;
+        this.normalizedRepo = normalizedRepo;
         this.walletNotesImportService = walletNotesImportService;
         this.excelStatementImportService = excelStatementImportService;
         this.walletNotesParser = new WalletNotesParser();
@@ -50,6 +56,7 @@ public class TransactionController {
     /**
      * Quick connectivity check from a browser on your phone (GET, no body).
      */
+    @Profile("dev")
     @GetMapping("/test")
     public TransactionTestResponse getTest(HttpServletRequest request) {
         ControllerRequestLogger.logIncoming(log, "getTest");
@@ -64,6 +71,7 @@ public class TransactionController {
      * Dry-run POST from Shortcuts: echoes body, reports whether it parses.
      * Add ?save=true to actually write one transaction (for end-to-end tests).
      */
+    @Profile("dev")
     @PostMapping(value = "/test", consumes = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<TransactionTestResponse> postTest(
             @RequestBody(required = false) String body,
@@ -71,6 +79,7 @@ public class TransactionController {
             HttpServletRequest request
     ) {
         ControllerRequestLogger.logIncoming(log, "postTest", "save", save, "body", body);
+        Long userId = SecurityUtils.getCurrentUserId();
         String baseUrl = request.getScheme() + "://" + request.getServerName()
                 + (request.getServerPort() == 80 || request.getServerPort() == 443
                 ? ""
@@ -85,7 +94,7 @@ public class TransactionController {
         String clientAddress = HealthController.clientAddress(request);
 
         if (save && parsed != null) {
-            WalletNoteImportResult importResult = walletNotesImportService.importSingleFromText(body);
+            WalletNoteImportResult importResult = walletNotesImportService.importSingleFromText(body, userId);
             if ("created".equals(importResult.status()) || "duplicate".equals(importResult.status())) {
                 Transaction saved = importResult.transaction();
                 return ControllerRequestLogger.logResponse(log, "postTest", ResponseEntity.ok(
@@ -105,20 +114,45 @@ public class TransactionController {
     @GetMapping
     public List<Transaction> findAll() {
         ControllerRequestLogger.logIncoming(log, "findAll");
-        return ControllerRequestLogger.logResponseBody(log, "findAll", transactionsRepo.findAll());
+        Long userId = SecurityUtils.getCurrentUserId();
+        return ControllerRequestLogger.logResponseBody(log, "findAll", transactionsRepo.findByUserId(userId));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createTransaction(@RequestBody Transaction transaction) {
         ControllerRequestLogger.logIncoming(log, "createTransaction", transaction);
-        if (transactionsRepo.findByHash(transaction.getHash()) != null) {
+        Long userId = SecurityUtils.getCurrentUserId();
+        if (transactionsRepo.findByHashAndUserId(transaction.getHash(), userId) != null) {
             return ControllerRequestLogger.logResponse(log, "createTransaction",
                     ResponseEntity.status(HttpStatus.CONFLICT).body("Transaction with the same hash already exists."));
         }
 
+        transaction.setUserId(userId);
         transactionsRepo.save(transaction);
         return ControllerRequestLogger.logResponse(log, "createTransaction",
                 new ResponseEntity<>("Transaction created successfully.", HttpStatus.CREATED));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateTransaction(
+            @PathVariable int id,
+            @RequestBody Transaction transaction) {
+        ControllerRequestLogger.logIncoming(log, "updateTransaction", "id", id, "body", transaction);
+        Long userId = SecurityUtils.getCurrentUserId();
+        return transactionsRepo.findByIdAndUserId(id, userId)
+                .map(existing -> {
+                    existing.setName(transaction.getName());
+                    existing.setMerchant(transaction.getMerchant());
+                    existing.setAmount(transaction.getAmount());
+                    existing.setCardType(transaction.getCardType());
+                    existing.setTransactionDate(transaction.getTransactionDate());
+                    existing.setAddress(transaction.getAddress());
+                    transactionsRepo.save(existing);
+                    return ControllerRequestLogger.logResponse(log, "updateTransaction",
+                            ResponseEntity.ok("Transaction updated successfully."));
+                })
+                .orElseGet(() -> ControllerRequestLogger.logResponse(log, "updateTransaction",
+                        ResponseEntity.notFound().build()));
     }
 
     @PostMapping(value = "/import/wallet-notes", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -129,7 +163,8 @@ public class TransactionController {
         if (file.isEmpty()) {
             return ControllerRequestLogger.logResponse(log, "importWalletNotes", ResponseEntity.badRequest().build());
         }
-        WalletNotesImportResult result = walletNotesImportService.importFromBytes(file.getBytes());
+        Long userId = SecurityUtils.getCurrentUserId();
+        WalletNotesImportResult result = walletNotesImportService.importFromBytes(file.getBytes(), userId);
         return ControllerRequestLogger.logResponse(log, "importWalletNotes", ResponseEntity.ok(result));
     }
 
@@ -146,7 +181,8 @@ public class TransactionController {
         if (file.isEmpty()) {
             return ControllerRequestLogger.logResponse(log, "importExcelStatement", ResponseEntity.badRequest().build());
         }
-        ExcelStatementImportResult result = excelStatementImportService.importFromBytes(file.getBytes());
+        Long userId = SecurityUtils.getCurrentUserId();
+        ExcelStatementImportResult result = excelStatementImportService.importFromBytes(file.getBytes(), userId);
         return ControllerRequestLogger.logResponse(log, "importExcelStatement", ResponseEntity.ok(result));
     }
 
@@ -162,7 +198,8 @@ public class TransactionController {
                     .body(WalletNoteImportResult.skipped("Request body is empty")));
         }
 
-        WalletNoteImportResult result = walletNotesImportService.importSingleFromText(body);
+        Long userId = SecurityUtils.getCurrentUserId();
+        WalletNoteImportResult result = walletNotesImportService.importSingleFromText(body, userId);
 
         return ControllerRequestLogger.logResponse(log, "importWalletNote", switch (result.status()) {
             case "created" -> ResponseEntity.status(HttpStatus.CREATED).body(result);
@@ -194,12 +231,14 @@ public class TransactionController {
         }
         ControllerRequestLogger.logIncoming(log, "importWalletNoteJson", "parsed", request);
 
+        Long userId = SecurityUtils.getCurrentUserId();
         WalletNoteImportResult result = walletNotesImportService.importSingleFromFields(
                 request.name(),
                 request.merchant(),
                 request.amount(),
                 request.date(),
-                request.location()
+                request.location(),
+                userId
         );
 
         return ControllerRequestLogger.logResponse(log, "importWalletNoteJson", switch (result.status()) {
@@ -209,11 +248,31 @@ public class TransactionController {
         });
     }
 
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<String> deleteTransaction(@PathVariable int id) {
+        ControllerRequestLogger.logIncoming(log, "deleteTransaction", "id", id);
+        Long userId = SecurityUtils.getCurrentUserId();
+        return transactionsRepo.findByIdAndUserId(id, userId)
+                .map(existing -> {
+                    transactionsRepo.deleteById(id);
+                    normalizedRepo.deleteByTransactionIdAndUserId(id, userId);
+                    return ControllerRequestLogger.logResponse(log, "deleteTransaction",
+                            ResponseEntity.ok("Transaction deleted successfully."));
+                })
+                .orElseGet(() -> ControllerRequestLogger.logResponse(log, "deleteTransaction",
+                        ResponseEntity.notFound().build()));
+    }
+
+    @Profile("dev")
     @DeleteMapping
     @ResponseBody
+    @Transactional
     public ResponseEntity<String> deleteAllTransactions() {
         ControllerRequestLogger.logIncoming(log, "deleteAllTransactions");
-        transactionsRepo.deleteAll();
+        Long userId = SecurityUtils.getCurrentUserId();
+        transactionsRepo.deleteByUserId(userId);
+        normalizedRepo.deleteByUserId(userId);
         return ControllerRequestLogger.logResponse(log, "deleteAllTransactions",
                 ResponseEntity.ok("All transactions deleted successfully."));
     }
@@ -221,12 +280,12 @@ public class TransactionController {
     @GetMapping(value = "/{hash}")
     public ResponseEntity<Transaction> getTransactionByHash(@PathVariable String hash) {
         ControllerRequestLogger.logIncoming(log, "getTransactionByHash", "hash", hash);
-        Transaction transaction = transactionsRepo.findByHash(hash);
+        Long userId = SecurityUtils.getCurrentUserId();
+        Transaction transaction = transactionsRepo.findByHashAndUserId(hash, userId);
         if (transaction != null) {
             return ControllerRequestLogger.logResponse(log, "getTransactionByHash", ResponseEntity.ok(transaction));
         }
-        return ControllerRequestLogger.logResponse(log, "getTransactionByHash",
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+        return ControllerRequestLogger.logResponse(log, "getTransactionByHash", ResponseEntity.notFound().build());
     }
 
 }

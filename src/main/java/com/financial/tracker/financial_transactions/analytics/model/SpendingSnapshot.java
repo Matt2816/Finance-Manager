@@ -1,7 +1,6 @@
 package com.financial.tracker.financial_transactions.analytics.model;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -15,6 +14,9 @@ public class SpendingSnapshot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @Column(name = "period_start", nullable = false)
     private LocalDate periodStart;
@@ -47,6 +49,14 @@ public class SpendingSnapshot {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public LocalDate getPeriodStart() {

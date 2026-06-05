@@ -1,7 +1,6 @@
 package com.financial.tracker.financial_transactions.analytics.model;
 
 import jakarta.persistence.*;
-
 import java.time.Instant;
 
 @Entity
@@ -11,6 +10,9 @@ public class AnalyticsRefreshRun {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -34,6 +36,14 @@ public class AnalyticsRefreshRun {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public RefreshRunStatus getStatus() {

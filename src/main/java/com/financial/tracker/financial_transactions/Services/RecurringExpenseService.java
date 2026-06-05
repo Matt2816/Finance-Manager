@@ -4,12 +4,13 @@ import com.financial.tracker.financial_transactions.analytics.normalization.Tran
 import com.financial.tracker.financial_transactions.model.Frequency;
 import com.financial.tracker.financial_transactions.model.RecurringExpense;
 import com.financial.tracker.financial_transactions.model.Transaction;
+import com.financial.tracker.financial_transactions.model.User;
 import com.financial.tracker.financial_transactions.repo.ExpenseRepo;
 import com.financial.tracker.financial_transactions.repo.TransactionsRepo;
+import com.financial.tracker.financial_transactions.repo.UserRepository;
 import com.financial.tracker.financial_transactions.util.RecurringTransactionFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,20 +20,29 @@ public class RecurringExpenseService {
     private final ExpenseRepo expenseRepo;
     private final TransactionsRepo transactionsRepo;
     private final TransactionNormalizationService normalizationService;
+    private final UserRepository userRepository;
 
     public RecurringExpenseService(
             ExpenseRepo expenseRepo,
             TransactionsRepo transactionsRepo,
-            TransactionNormalizationService normalizationService
+            TransactionNormalizationService normalizationService,
+            UserRepository userRepository
     ) {
         this.expenseRepo = expenseRepo;
         this.transactionsRepo = transactionsRepo;
         this.normalizationService = normalizationService;
+        this.userRepository = userRepository;
     }
 
     @Scheduled(cron = "0 0 0 * * ?")
     public void processRecurringExpenses() {
-        List<RecurringExpense> recurringExpenses = expenseRepo.findAll();
+        for (User user : userRepository.findAll()) {
+            processRecurringExpensesForUser(user.getId());
+        }
+    }
+
+    public void processRecurringExpensesForUser(Long userId) {
+        List<RecurringExpense> recurringExpenses = expenseRepo.findByUserId(userId);
 
         for (RecurringExpense expense : recurringExpenses) {
             LocalDate today = LocalDate.now();
@@ -43,6 +53,7 @@ public class RecurringExpenseService {
                         expense.getAmount(),
                         today
                 );
+                transaction.setUserId(userId);
 
                 Transaction saved = transactionsRepo.save(transaction);
                 normalizationService.normalizeOne(saved.getId());

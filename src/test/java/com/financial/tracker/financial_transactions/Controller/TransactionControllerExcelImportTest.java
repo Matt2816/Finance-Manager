@@ -4,18 +4,22 @@ import com.financial.tracker.financial_transactions.Services.ExcelStatementImpor
 import com.financial.tracker.financial_transactions.Services.ExcelStatementImportService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
+import com.financial.tracker.financial_transactions.config.TestAuthHelper;
+import com.financial.tracker.financial_transactions.config.TestSecurityConfig;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.io.ByteArrayOutputStream;
-
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -23,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(TestSecurityConfig.class)
 class TransactionControllerExcelImportTest {
 
     @Autowired
@@ -31,10 +36,20 @@ class TransactionControllerExcelImportTest {
     @MockBean
     private ExcelStatementImportService excelStatementImportService;
 
+    @BeforeEach
+    void setUpAuth() {
+        TestAuthHelper.setAuthenticatedUser(1L, "test");
+    }
+
+    @AfterEach
+    void tearDownAuth() {
+        TestAuthHelper.clearAuthentication();
+    }
+
     @Test
     void importExcelStatement_returnsImportResult() throws Exception {
         ExcelStatementImportResult mockResult = new ExcelStatementImportResult(3, 0, 0, 0, 3);
-        when(excelStatementImportService.importFromBytes(any())).thenReturn(mockResult);
+        when(excelStatementImportService.importFromBytes(any(), anyLong())).thenReturn(mockResult);
 
         byte[] excelData = createTestExcelFile();
         MockMultipartFile file = new MockMultipartFile(
@@ -57,7 +72,7 @@ class TransactionControllerExcelImportTest {
     @Test
     void importExcelStatement_withSkippedRows() throws Exception {
         ExcelStatementImportResult mockResult = new ExcelStatementImportResult(2, 1, 0, 0, 3);
-        when(excelStatementImportService.importFromBytes(any())).thenReturn(mockResult);
+        when(excelStatementImportService.importFromBytes(any(), anyLong())).thenReturn(mockResult);
 
         byte[] excelData = createTestExcelFile();
         MockMultipartFile file = new MockMultipartFile(
@@ -80,7 +95,7 @@ class TransactionControllerExcelImportTest {
     @Test
     void importExcelStatement_withDuplicates() throws Exception {
         ExcelStatementImportResult mockResult = new ExcelStatementImportResult(1, 0, 0, 2, 3);
-        when(excelStatementImportService.importFromBytes(any())).thenReturn(mockResult);
+        when(excelStatementImportService.importFromBytes(any(), anyLong())).thenReturn(mockResult);
 
         byte[] excelData = createTestExcelFile();
         MockMultipartFile file = new MockMultipartFile(

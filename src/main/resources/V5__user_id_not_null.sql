@@ -1,0 +1,12 @@
+ALTER TABLE transactions ALTER COLUMN user_id SET NOT NULL;
+ALTER TABLE normalized_transactions ALTER COLUMN user_id SET NOT NULL;
+ALTER TABLE recurring_transactions ALTER COLUMN user_id SET NOT NULL;
+ALTER TABLE "recurringIncome" ALTER COLUMN user_id SET NOT NULL;
+ALTER TABLE "recurringExpense" ALTER COLUMN user_id SET NOT NULL;
+ALTER TABLE spending_categories ALTER COLUMN user_id SET NOT NULL;
+ALTER TABLE spending_snapshots ALTER COLUMN user_id SET NOT NULL;
+ALTER TABLE spending_forecasts ALTER COLUMN user_id SET NOT NULL;
+ALTER TABLE insight_cache ALTER COLUMN user_id SET NOT NULL;
+ALTER TABLE merchant_loyalty_metrics ALTER COLUMN user_id SET NOT NULL;
+ALTER TABLE merchant_category_rules ALTER COLUMN user_id SET NOT NULL;
+ALTER TABLE analytics_refresh_runs ALTER COLUMN user_id SET NOT NULL;

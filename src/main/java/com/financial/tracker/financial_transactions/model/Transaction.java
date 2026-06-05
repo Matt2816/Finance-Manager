@@ -1,7 +1,6 @@
 package com.financial.tracker.financial_transactions.model;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -12,6 +11,9 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @Column(name = "cardtype")
     private String cardType;
@@ -36,6 +38,12 @@ public class Transaction {
     @Column(name = "recurring_generated")
     private boolean recurringGenerated;
 
+    @Column(name = "recurring_parent_id")
+    private Integer recurringParentId;
+
+    @Column(name = "category_id")
+    private Long categoryId;
+
     public Transaction(String cardType, String amount, String name, String merchant, String transactionDate, String hash, String address) {
         this.cardType = cardType;
         this.amount = amount;
@@ -54,6 +62,14 @@ public class Transaction {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getCardType() {
@@ -142,6 +158,22 @@ public class Transaction {
 
     public void setRecurringGenerated(boolean recurringGenerated) {
         this.recurringGenerated = recurringGenerated;
+    }
+
+    public Integer getRecurringParentId() {
+        return recurringParentId;
+    }
+
+    public void setRecurringParentId(Integer recurringParentId) {
+        this.recurringParentId = recurringParentId;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     @Override

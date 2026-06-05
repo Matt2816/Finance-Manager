@@ -14,7 +14,6 @@ import com.financial.tracker.financial_transactions.analytics.repo.SpendingSnaps
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.DayOfWeek;
@@ -55,14 +54,14 @@ public class InsightEngine {
     }
 
     @Transactional
-    public int generateAll(Long refreshRunId) {
-        insightCacheRepository.deleteAll();
+    public int generateAll(Long refreshRunId, Long userId) {
+        insightCacheRepository.deleteByUserId(userId);
         List<InsightCache> insights = new ArrayList<>();
-        insights.addAll(categoryMonthlyAverages(refreshRunId));
-        insights.addAll(topMerchant(refreshRunId));
-        insights.addAll(weekdayPattern(refreshRunId));
-        insights.addAll(frequencyInsights(refreshRunId));
-        insights.addAll(monthOverMonth(refreshRunId));
+        insights.addAll(categoryMonthlyAverages(refreshRunId, userId));
+        insights.addAll(topMerchant(refreshRunId, userId));
+        insights.addAll(weekdayPattern(refreshRunId, userId));
+        insights.addAll(frequencyInsights(refreshRunId, userId));
+        insights.addAll(monthOverMonth(refreshRunId, userId));
 
         insights.sort(Comparator.comparingDouble(InsightCache::getRankScore).reversed());
         if (insights.size() > maxResults * 2) {
@@ -72,15 +71,15 @@ public class InsightEngine {
         return insights.size();
     }
 
-    private List<InsightCache> categoryMonthlyAverages(Long refreshRunId) {
+    private List<InsightCache> categoryMonthlyAverages(Long refreshRunId, Long userId) {
         List<InsightCache> result = new ArrayList<>();
         LocalDate now = LocalDate.now();
-        for (SpendingCategory category : categoryRepository.findAll()) {
+        for (SpendingCategory category : categoryRepository.findByUserId(userId)) {
             if ("uncategorized".equals(category.getSlug())) {
                 continue;
             }
-            List<SpendingSnapshot> monthly = snapshotRepository.findByGrainAndCategoryId(
-                    SnapshotGrain.MONTHLY, category.getId());
+            List<SpendingSnapshot> monthly = snapshotRepository.findByUserIdAndGrainAndCategoryId(
+                    userId, SnapshotGrain.MONTHLY, category.getId());
             List<BigDecimal> lastSix = monthly.stream()
                     .filter(s -> YearMonth.from(s.getPeriodStart()).isBefore(YearMonth.from(now)))
                     .sorted(Comparator.comparing(SpendingSnapshot::getPeriodStart).reversed())
@@ -107,16 +106,17 @@ public class InsightEngine {
                     InsightSeverity.info,
                     Map.of("categorySlug", category.getSlug(), "monthlyAverage", avg),
                     avg.doubleValue(),
-                    refreshRunId
+                    refreshRunId,
+                    userId
             ));
         }
         return result;
     }
 
-    private List<InsightCache> topMerchant(Long refreshRunId) {
+    private List<InsightCache> topMerchant(Long refreshRunId, Long userId) {
         LocalDate end = LocalDate.now();
         LocalDate start = end.minusDays(90);
-        return normalizedRepository.sumByMerchantBetween(start, end).stream()
+        return normalizedRepository.sumByMerchantBetween(userId, start, end).stream()
                 .max(Comparator.comparing(row -> (BigDecimal) row[1]))
                 .map(row -> {
                     String merchantKey = (String) row[0];
@@ -134,13 +134,14 @@ public class InsightEngine {
                             InsightSeverity.info,
                             Map.of("merchantKey", merchantKey, "total", total),
                             total.doubleValue(),
-                            refreshRunId
+                            refreshRunId,
+                            userId
                     ));
                 })
                 .orElse(List.of());
     }
 
-    private List<InsightCache> weekdayPattern(Long refreshRunId) {
+    private List<InsightCache> weekdayPattern(Long refreshRunId, Long userId) {
         LocalDate end = LocalDate.now();
         LocalDate start = end.minusMonths(3);
         BigDecimal weekend = BigDecimal.ZERO;
@@ -148,7 +149,7 @@ public class InsightEngine {
         int weekendDays = 0;
         int weekdayDays = 0;
 
-        for (Object[] row : normalizedRepository.sumByDayBetween(start, end)) {
+        for (Object[] row : normalizedRepository.sumByDayBetween(userId, start, end)) {
             LocalDate day = (LocalDate) row[0];
             BigDecimal total = (BigDecimal) row[1];
             DayOfWeek dow = day.getDayOfWeek();
@@ -180,20 +181,21 @@ public class InsightEngine {
                 InsightSeverity.info,
                 Map.of("weekendDailyAvg", weekendAvg, "weekdayDailyAvg", weekdayAvg, "percentDifference", pct),
                 Math.abs(pct),
-                refreshRunId
+                refreshRunId,
+                userId
         ));
     }
 
-    private List<InsightCache> frequencyInsights(Long refreshRunId) {
+    private List<InsightCache> frequencyInsights(Long refreshRunId, Long userId) {
         List<InsightCache> result = new ArrayList<>();
         LocalDate end = LocalDate.now();
         LocalDate start = end.withDayOfMonth(1);
-        for (SpendingCategory category : categoryRepository.findAll()) {
+        for (SpendingCategory category : categoryRepository.findByUserId(userId)) {
             if ("uncategorized".equals(category.getSlug())) {
                 continue;
             }
-            long count = normalizedRepository.countByCategoryIdAndOccurredOnBetween(
-                    category.getId(), start, end);
+            long count = normalizedRepository.countByUserIdAndCategoryIdAndOccurredOnBetween(
+                    userId, category.getId(), start, end);
             if (count < 2) {
                 continue;
             }
@@ -205,23 +207,24 @@ public class InsightEngine {
                     InsightSeverity.info,
                     Map.of("categorySlug", category.getSlug(), "count", count),
                     count,
-                    refreshRunId
+                    refreshRunId,
+                    userId
             ));
         }
         return result;
     }
 
-    private List<InsightCache> monthOverMonth(Long refreshRunId) {
+    private List<InsightCache> monthOverMonth(Long refreshRunId, Long userId) {
         List<InsightCache> result = new ArrayList<>();
         YearMonth current = YearMonth.now().minusMonths(1);
         YearMonth previous = current.minusMonths(1);
 
-        for (SpendingCategory category : categoryRepository.findAll()) {
+        for (SpendingCategory category : categoryRepository.findByUserId(userId)) {
             if ("uncategorized".equals(category.getSlug())) {
                 continue;
             }
-            BigDecimal currentTotal = totalForMonth(category.getId(), current);
-            BigDecimal previousTotal = totalForMonth(category.getId(), previous);
+            BigDecimal currentTotal = totalForMonth(userId, category.getId(), current);
+            BigDecimal previousTotal = totalForMonth(userId, category.getId(), previous);
             if (previousTotal.compareTo(BigDecimal.ZERO) <= 0 || currentTotal.compareTo(BigDecimal.ZERO) <= 0) {
                 continue;
             }
@@ -246,14 +249,15 @@ public class InsightEngine {
                     pct > 15 ? InsightSeverity.warning : InsightSeverity.info,
                     Map.of("categorySlug", category.getSlug(), "percentChange", pct),
                     Math.abs(pct),
-                    refreshRunId
+                    refreshRunId,
+                    userId
             ));
         }
         return result;
     }
 
-    private BigDecimal totalForMonth(Long categoryId, YearMonth month) {
-        return snapshotRepository.findByGrainAndCategoryId(SnapshotGrain.MONTHLY, categoryId).stream()
+    private BigDecimal totalForMonth(Long userId, Long categoryId, YearMonth month) {
+        return snapshotRepository.findByUserIdAndGrainAndCategoryId(userId, SnapshotGrain.MONTHLY, categoryId).stream()
                 .filter(s -> YearMonth.from(s.getPeriodStart()).equals(month))
                 .map(SpendingSnapshot::getTotalAmount)
                 .findFirst()
@@ -267,9 +271,11 @@ public class InsightEngine {
             InsightSeverity severity,
             Map<String, Object> payload,
             double rankScore,
-            Long refreshRunId
+            Long refreshRunId,
+            Long userId
     ) {
         InsightCache insight = new InsightCache();
+        insight.setUserId(userId);
         insight.setInsightType(type);
         insight.setTitle(title);
         insight.setBody(body);

@@ -9,9 +9,12 @@ export function getBackendApiUrl(): string {
   ).replace(/\/$/, "");
 }
 
-export async function fetchBackend<T>(path: string): Promise<T> {
+export async function fetchBackend<T>(
+  path: string,
+  init: RequestInit = {}
+): Promise<T> {
   const url = `${getBackendApiUrl()}${path.startsWith("/") ? path : `/${path}`}`;
-  const response = await fetch(url);
+  const response = await fetch(url, init);
 
   if (!response.ok) {
     const body = await response.text();
