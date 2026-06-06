@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import java.time.Duration;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -64,7 +64,7 @@ public class SplitwiseApiClient {
     public List<SplitwiseExpenseDto> getExpenses(
             String apiKey,
             Long groupId,
-            Instant updatedAfter,
+            ZonedDateTime updatedAfter,
             LocalDate datedAfter
     ) {
         int limit = properties.getPageSize();
@@ -97,7 +97,7 @@ public class SplitwiseApiClient {
     private SplitwiseExpensesResponse fetchExpensePage(
             String apiKey,
             Long groupId,
-            Instant updatedAfter,
+            ZonedDateTime updatedAfter,
             LocalDate datedAfter,
             int limit,
             int offset

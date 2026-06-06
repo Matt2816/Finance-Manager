@@ -1,7 +1,7 @@
 package com.financial.tracker.financial_transactions.analytics.model;
 
 import jakarta.persistence.*;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "analytics_refresh_runs")
@@ -19,10 +19,10 @@ public class AnalyticsRefreshRun {
     private RefreshRunStatus status;
 
     @Column(name = "started_at", nullable = false)
-    private Instant startedAt;
+    private ZonedDateTime startedAt;
 
     @Column(name = "finished_at")
-    private Instant finishedAt;
+    private ZonedDateTime finishedAt;
 
     @Column(name = "error_log", length = 4000)
     private String errorLog;
@@ -54,19 +54,19 @@ public class AnalyticsRefreshRun {
         this.status = status;
     }
 
-    public Instant getStartedAt() {
+    public ZonedDateTime getStartedAt() {
         return startedAt;
     }
 
-    public void setStartedAt(Instant startedAt) {
+    public void setStartedAt(ZonedDateTime startedAt) {
         this.startedAt = startedAt;
     }
 
-    public Instant getFinishedAt() {
+    public ZonedDateTime getFinishedAt() {
         return finishedAt;
     }
 
-    public void setFinishedAt(Instant finishedAt) {
+    public void setFinishedAt(ZonedDateTime finishedAt) {
         this.finishedAt = finishedAt;
     }
 

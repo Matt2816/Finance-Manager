@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Service
 public class AuthService {
@@ -56,7 +56,7 @@ public class AuthService {
         user.setUsername(request.username());
         user.setEmail(request.email());
         user.setPasswordHash(passwordEncoder.encode(request.password()));
-        user.setCreatedAt(Instant.now());
+        user.setCreatedAt(ZonedDateTime.now());
         user = userRepository.save(user);
 
         categorySeedService.seedForUser(user.getId());

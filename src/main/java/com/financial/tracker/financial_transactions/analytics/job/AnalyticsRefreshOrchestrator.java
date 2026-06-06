@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -80,7 +80,7 @@ public class AnalyticsRefreshOrchestrator {
         AnalyticsRefreshRun run = new AnalyticsRefreshRun();
         run.setUserId(userId);
         run.setStatus(RefreshRunStatus.RUNNING);
-        run.setStartedAt(Instant.now());
+        run.setStartedAt(ZonedDateTime.now());
         run = refreshRunRepository.save(run);
 
         Map<String, Object> metadata = new LinkedHashMap<>();
@@ -96,13 +96,13 @@ public class AnalyticsRefreshOrchestrator {
 
             run.setStatus(RefreshRunStatus.SUCCESS);
             run.setMetadataJson(objectMapper.writeValueAsString(metadata));
-            run.setFinishedAt(Instant.now());
+            run.setFinishedAt(ZonedDateTime.now());
             log.info("Analytics refresh completed for user {}: {}", userId, metadata);
         } catch (Exception ex) {
             log.error("Analytics refresh failed for user {}", userId, ex);
             run.setStatus(RefreshRunStatus.FAILED);
             run.setErrorLog(ex.getMessage());
-            run.setFinishedAt(Instant.now());
+            run.setFinishedAt(ZonedDateTime.now());
         }
         return refreshRunRepository.save(run);
     }

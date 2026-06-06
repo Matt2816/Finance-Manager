@@ -6,8 +6,16 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { useToast } from "@/components/toast-provider";
 import { getApiBaseUrl } from "@/lib/api-config";
+import { formatDateEDT } from "@/lib/date-utils";
 import { authenticatedFetch, authenticatedJson } from "@/lib/authenticated-fetch";
 import {
   RefreshCw,
@@ -23,6 +31,9 @@ import {
   PiggyBank,
   Percent,
   Users,
+  ArrowDownCircle,
+  Trash2,
+  SkipForward,
 } from "lucide-react";
 
 interface HealthResponse {
@@ -77,6 +88,27 @@ interface SplitwiseStatus {
   skippedCount: number;
 }
 
+interface TransactionSummary {
+  description: string;
+  amount: string;
+  date: string;
+  groupName: string;
+  reason: string | null;
+}
+
+interface SplitwiseSyncResult {
+  status: string;
+  message: string;
+  importedCount: number;
+  updatedCount: number;
+  deletedCount: number;
+  skippedCount: number;
+  imported: TransactionSummary[];
+  updated: TransactionSummary[];
+  deleted: TransactionSummary[];
+  skipped: TransactionSummary[];
+}
+
 export default function SettingsPage() {
   const { showToast } = useToast();
   const baseUrl = getApiBaseUrl();
@@ -105,6 +137,8 @@ export default function SettingsPage() {
   const [splitwiseEnabled, setSplitwiseEnabled] = useState(false);
   const [splitwiseSaving, setSplitwiseSaving] = useState(false);
   const [splitwiseSyncing, setSplitwiseSyncing] = useState(false);
+  const [syncResult, setSyncResult] = useState<SplitwiseSyncResult | null>(null);
+  const [syncResultOpen, setSyncResultOpen] = useState(false);
 
   const fetchHealth = useCallback(async () => {
     setHealthLoading(true);
@@ -224,8 +258,10 @@ export default function SettingsPage() {
     try {
       const res = await authenticatedFetch(`${baseUrl}/api/splitwise/sync`, { method: "POST" });
       if (!res.ok) throw new Error(await res.text());
-      const data = await res.json();
-      showToast(data.message || "Splitwise sync started");
+      const data: SplitwiseSyncResult = await res.json();
+      setSyncResult(data);
+      setSyncResultOpen(true);
+      showToast(data.message || "Splitwise sync completed");
       setTimeout(() => fetchSplitwiseStatus(), 2000);
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Splitwise sync failed", "error");
@@ -587,6 +623,99 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
       </section>
+
+      {/* Splitwise Sync Result Modal */}
+      <Dialog open={syncResultOpen} onOpenChange={setSyncResultOpen}>
+        <DialogContent className="sm:max-w-2xl max-h-[85dvh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Splitwise Sync Results</DialogTitle>
+            <DialogDescription>
+              {syncResult?.message ?? "Sync completed"}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 pt-2">
+            {syncResult && syncResult.importedCount > 0 && (
+              <div className="space-y-2">
+                <h4 className="text-sm font-semibold flex items-center gap-2 text-green-600">
+                  <ArrowDownCircle className="h-4 w-4" />
+                  Imported ({syncResult.importedCount})
+                </h4>
+                <div className="space-y-1 max-h-48 overflow-y-auto rounded-lg border divide-y">
+                  {syncResult.imported.map((tx, i) => (
+                    <div key={i} className="flex items-center justify-between px-3 py-2 text-sm">
+                      <div className="flex flex-col">
+                        <span className="font-medium">{tx.description}</span>
+                        <span className="text-xs text-muted-foreground">{formatDateEDT(tx.date)} &middot; {tx.groupName}</span>
+                      </div>
+                      <span className="font-medium text-green-600">{tx.amount}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {syncResult && syncResult.updatedCount > 0 && (
+              <div className="space-y-2">
+                <h4 className="text-sm font-semibold flex items-center gap-2 text-blue-600">
+                  <RefreshCw className="h-4 w-4" />
+                  Updated ({syncResult.updatedCount})
+                </h4>
+                <div className="space-y-1 max-h-48 overflow-y-auto rounded-lg border divide-y">
+                  {syncResult.updated.map((tx, i) => (
+                    <div key={i} className="flex items-center justify-between px-3 py-2 text-sm">
+                      <div className="flex flex-col">
+                        <span className="font-medium">{tx.description}</span>
+                        <span className="text-xs text-muted-foreground">{formatDateEDT(tx.date)} &middot; {tx.groupName}</span>
+                      </div>
+                      <span className="font-medium text-blue-600">{tx.amount}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {syncResult && syncResult.deletedCount > 0 && (
+              <div className="space-y-2">
+                <h4 className="text-sm font-semibold flex items-center gap-2 text-red-600">
+                  <Trash2 className="h-4 w-4" />
+                  Deleted ({syncResult.deletedCount})
+                </h4>
+                <div className="space-y-1 max-h-48 overflow-y-auto rounded-lg border divide-y">
+                  {syncResult.deleted.map((tx, i) => (
+                    <div key={i} className="flex items-center justify-between px-3 py-2 text-sm">
+                      <div className="flex flex-col">
+                        <span className="font-medium">{tx.description}</span>
+                        <span className="text-xs text-muted-foreground">{formatDateEDT(tx.date)} &middot; {tx.groupName}</span>
+                      </div>
+                      <span className="font-medium text-red-600">{tx.amount}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {syncResult && syncResult.skippedCount > 0 && (
+              <div className="space-y-2">
+                <h4 className="text-sm font-semibold flex items-center gap-2 text-muted-foreground">
+                  <SkipForward className="h-4 w-4" />
+                  Skipped ({syncResult.skippedCount})
+                </h4>
+                <div className="space-y-1 max-h-48 overflow-y-auto rounded-lg border divide-y">
+                  {syncResult.skipped.map((tx, i) => (
+                    <div key={i} className="flex items-center justify-between px-3 py-2 text-sm">
+                      <div className="flex flex-col">
+                        <span className="font-medium">{tx.description}</span>
+                        <span className="text-xs text-muted-foreground">{formatDateEDT(tx.date)} &middot; {tx.groupName}</span>
+                        {tx.reason && (
+                          <span className="text-xs text-amber-600">{tx.reason}</span>
+                        )}
+                      </div>
+                      <span className="font-medium text-muted-foreground">{tx.amount}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

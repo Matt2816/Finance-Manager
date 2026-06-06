@@ -8,7 +8,7 @@ import com.financial.tracker.financial_transactions.util.TransactionFieldParser;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.Map;
@@ -97,7 +97,7 @@ public class SplitwiseExpenseMapper {
             if (date.length() >= 10) {
                 return LocalDate.parse(date.substring(0, 10));
             }
-            return Instant.parse(date).atZone(ZoneOffset.UTC).toLocalDate();
+            return ZonedDateTime.parse(date).toLocalDate();
         } catch (Exception ex) {
             return TransactionFieldParser.parseOccurredOn(date);
         }

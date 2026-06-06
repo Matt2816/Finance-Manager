@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -232,7 +232,7 @@ public class SpendingTrendAnalysisService {
         LocalDate today = LocalDate.now();
         insight.setValidFrom(today);
         insight.setValidTo(today.plusMonths(1));
-        insight.setGeneratedAt(Instant.now());
+        insight.setGeneratedAt(ZonedDateTime.now());
         insight.setRefreshRunId(refreshRunId);
         insight.setRankScore(rankScore);
         return insight;

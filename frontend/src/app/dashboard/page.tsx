@@ -8,6 +8,7 @@ import { InsightCardsGrid } from "@/components/insight-cards-grid";
 import { UncategorizedPrompt } from "@/components/uncategorized-prompt";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTransactions } from "@/hooks/use-transactions";
+import { formatDateEDT } from "@/lib/date-utils";
 import { ArrowUpRight, ArrowDownRight, Receipt } from "lucide-react";
 
 function RecentTransactionsPreview() {
@@ -54,7 +55,7 @@ function RecentTransactionsPreview() {
               >
                 <div className="min-w-0">
                   <p className="text-sm font-medium truncate">{tx.name || tx.merchant}</p>
-                  <p className="text-xs text-muted-foreground">{tx.transactionDate}</p>
+                  <p className="text-xs text-muted-foreground">{formatDateEDT(tx.transactionDate)}</p>
                 </div>
                 <div className="flex items-center gap-1 text-sm font-medium shrink-0 ml-2">
                   {isPositive ? (

@@ -2,14 +2,14 @@ package com.financial.tracker.financial_transactions.splitwise.controller.dto;
 
 import com.financial.tracker.financial_transactions.model.SplitwiseImportState;
 import com.financial.tracker.financial_transactions.model.SplitwiseSyncRun;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 public record SplitwiseStatusDto(
         String lastStatus,
-        Instant lastStartedAt,
-        Instant lastFinishedAt,
-        Instant lastPollAt,
-        Instant lastSuccessAt,
+        ZonedDateTime lastStartedAt,
+        ZonedDateTime lastFinishedAt,
+        ZonedDateTime lastPollAt,
+        ZonedDateTime lastSuccessAt,
         String lastError,
         int importedCount,
         int updatedCount,

@@ -6,7 +6,7 @@ import { useCategorySpending, useForecasts } from "@/hooks/use-analytics";
 import { Bar, BarChart, Line, LineChart, Pie, PieChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from "recharts";
 import { Button } from "@/components/ui/button";
 
-type Range = "1M" | "3M" | "6M" | "1Y" | "All";
+type Range = "MTD" | "1M" | "3M" | "6M" | "1Y" | "All";
 
 const PIE_COLORS = [
   "#3b82f6", "#ef4444", "#22c55e", "#f59e0b", "#8b5cf6",
@@ -15,6 +15,7 @@ const PIE_COLORS = [
 ];
 
 const ranges: { value: Range; label: string }[] = [
+  { value: "MTD", label: "Month to Date" },
   { value: "1M", label: "1 Month" },
   { value: "3M", label: "3 Months" },
   { value: "6M", label: "6 Months" },
@@ -27,6 +28,9 @@ function getDateRange(range: Range) {
   const to = now.toISOString().split("T")[0];
   let from = "";
   switch (range) {
+    case "MTD":
+      from = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split("T")[0];
+      break;
     case "1M":
       from = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate()).toISOString().split("T")[0];
       break;
@@ -48,7 +52,7 @@ function getDateRange(range: Range) {
 
 export function SpendingCharts() {
   const { forecasts, isLoading: forecastsLoading } = useForecasts("TOTAL", 12);
-  const [range, setRange] = useState<Range>("1Y");
+  const [range, setRange] = useState<Range>("MTD");
   const { from, to } = useMemo(() => getDateRange(range), [range]);
   const { categorySpending, isLoading: categoryLoading } = useCategorySpending(from || undefined, to || undefined);
 
@@ -57,7 +61,7 @@ export function SpendingCharts() {
   }
 
   const forecastData = forecasts?.map(f => ({
-    date: new Date(f.forecastDate).toLocaleDateString("en-US", { month: "short" }),
+    date: new Date(f.forecastDate).toLocaleDateString("en-US", { timeZone: "America/New_York", month: "short" }),
     predicted: f.predictedAmount,
     lower: f.lowerBound,
     upper: f.upperBound,

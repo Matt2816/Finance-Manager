@@ -1,7 +1,7 @@
 package com.financial.tracker.financial_transactions.analytics.model;
 
 import jakarta.persistence.*;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 
 @Entity
@@ -38,7 +38,7 @@ public class InsightCache {
     private LocalDate validTo;
 
     @Column(name = "generated_at", nullable = false)
-    private Instant generatedAt;
+    private ZonedDateTime generatedAt;
 
     @Column(name = "refresh_run_id")
     private Long refreshRunId;
@@ -118,11 +118,11 @@ public class InsightCache {
         this.validTo = validTo;
     }
 
-    public Instant getGeneratedAt() {
+    public ZonedDateTime getGeneratedAt() {
         return generatedAt;
     }
 
-    public void setGeneratedAt(Instant generatedAt) {
+    public void setGeneratedAt(ZonedDateTime generatedAt) {
         this.generatedAt = generatedAt;
     }
 

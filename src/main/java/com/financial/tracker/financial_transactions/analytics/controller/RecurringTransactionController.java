@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -96,7 +96,7 @@ public class RecurringTransactionController {
         rt.setCategoryId(request.categoryId);
         rt.setCardType(request.cardType);
         rt.setActive(true);
-        rt.setCreatedAt(Instant.now());
+        rt.setCreatedAt(ZonedDateTime.now());
 
         RecurringTransaction saved = repository.save(rt);
         log.info("Created recurring transaction {}", saved.getId());

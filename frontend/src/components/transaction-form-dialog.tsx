@@ -42,10 +42,16 @@ interface TransactionFormDialogProps {
   categories?: Category[];
 }
 
+function toLocalISODate(d: Date): string {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 function formatDateForInput(dateStr: string): string {
   try {
-    const d = new Date(dateStr);
-    return d.toISOString().split("T")[0];
+    return toLocalISODate(new Date(dateStr));
   } catch {
     return "";
   }
@@ -88,7 +94,7 @@ export function TransactionFormDialog({
       setMerchant("");
       setAmount("");
       setCardType("other");
-      setTransactionDate(new Date().toISOString().split("T")[0]);
+      setTransactionDate(toLocalISODate(new Date()));
       // address defaults to empty for manually added transactions
       setCategoryId("");
       setError(null);

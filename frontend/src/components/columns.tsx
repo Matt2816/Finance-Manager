@@ -12,6 +12,7 @@ import { DataTableRowActions } from "@/components/data-table-row-actions";
 import { LocationMapPopover } from "@/components/location-map-popover";
 
 import { Transaction } from "@/types/transaction";
+import { formatDateEDT } from "@/lib/date-utils";
 import { ArrowDownLeft, ArrowUpRight, Repeat } from "lucide-react";
 
 export const columns: ColumnDef<Transaction>[] = [
@@ -126,8 +127,7 @@ export const columns: ColumnDef<Transaction>[] = [
     ),
     cell: ({ row }) => {
       const raw = row.getValue("date") as string;
-      const date = new Date(raw + "T00:00:00");
-      return <div>{date.toLocaleDateString()}</div>;
+      return <div>{formatDateEDT(raw)}</div>;
     },
     sortingFn: (rowA, rowB, columnId) => {
       const rawA = rowA.getValue(columnId) as string;

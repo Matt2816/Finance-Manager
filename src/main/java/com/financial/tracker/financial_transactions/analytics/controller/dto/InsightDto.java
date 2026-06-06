@@ -2,7 +2,7 @@ package com.financial.tracker.financial_transactions.analytics.controller.dto;
 
 import com.financial.tracker.financial_transactions.analytics.model.InsightCache;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 
 public record InsightDto(
@@ -14,7 +14,7 @@ public record InsightDto(
         String payloadJson,
         LocalDate validFrom,
         LocalDate validTo,
-        Instant generatedAt,
+        ZonedDateTime generatedAt,
         double rankScore
 ) {
     public static InsightDto from(InsightCache insight) {

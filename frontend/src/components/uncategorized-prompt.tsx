@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { formatDateEDT } from "@/lib/date-utils";
 import { Tag, ChevronLeft, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -175,7 +176,7 @@ export function UncategorizedPrompt() {
           </div>
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
             <span>
-              {new Date(currentTx.transactionDate).toLocaleDateString()}
+              {formatDateEDT(currentTx.transactionDate)}
             </span>
           </div>
         </div>

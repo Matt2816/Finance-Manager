@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
@@ -84,7 +84,7 @@ public class SpendingAggregationService {
         all.addAll(weeklyByCategory.values());
         all.addAll(monthlyByCategory.values());
         all.addAll(merchantMonthly.values());
-        Instant now = Instant.now();
+        ZonedDateTime now = ZonedDateTime.now();
         for (SpendingSnapshot snapshot : all) {
             snapshot.setComputedAt(now);
         }

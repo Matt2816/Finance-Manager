@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.DayOfWeek;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -288,7 +288,7 @@ public class InsightEngine {
         LocalDate today = LocalDate.now();
         insight.setValidFrom(today);
         insight.setValidTo(today.plusMonths(1));
-        insight.setGeneratedAt(Instant.now());
+        insight.setGeneratedAt(ZonedDateTime.now());
         insight.setRefreshRunId(refreshRunId);
         insight.setRankScore(rankScore);
         return insight;

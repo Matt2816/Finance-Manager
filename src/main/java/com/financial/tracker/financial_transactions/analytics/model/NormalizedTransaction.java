@@ -3,7 +3,7 @@ package com.financial.tracker.financial_transactions.analytics.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -47,7 +47,7 @@ public class NormalizedTransaction {
     private boolean recurringGenerated;
 
     @Column(name = "normalized_at", nullable = false)
-    private Instant normalizedAt;
+    private ZonedDateTime normalizedAt;
 
     public Long getId() {
         return id;
@@ -137,11 +137,11 @@ public class NormalizedTransaction {
         this.recurringGenerated = recurringGenerated;
     }
 
-    public Instant getNormalizedAt() {
+    public ZonedDateTime getNormalizedAt() {
         return normalizedAt;
     }
 
-    public void setNormalizedAt(Instant normalizedAt) {
+    public void setNormalizedAt(ZonedDateTime normalizedAt) {
         this.normalizedAt = normalizedAt;
     }
 }

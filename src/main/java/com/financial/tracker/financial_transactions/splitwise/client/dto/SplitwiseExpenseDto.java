@@ -10,6 +10,7 @@ public class SplitwiseExpenseDto {
 
     private Long id;
     private String description;
+    private String cost;
     private String date;
 
     @JsonProperty("currency_code")
@@ -45,6 +46,14 @@ public class SplitwiseExpenseDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCost() {
+        return cost;
+    }
+
+    public void setCost(String cost) {
+        this.cost = cost;
     }
 
     public String getDate() {

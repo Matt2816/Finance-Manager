@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "splitwise_import_state")
@@ -15,10 +15,10 @@ public class SplitwiseImportState {
     private Long userId;
 
     @Column(name = "last_poll_at")
-    private Instant lastPollAt;
+    private ZonedDateTime lastPollAt;
 
     @Column(name = "last_success_at")
-    private Instant lastSuccessAt;
+    private ZonedDateTime lastSuccessAt;
 
     @Column(name = "last_error", length = 4000)
     private String lastError;
@@ -34,19 +34,19 @@ public class SplitwiseImportState {
         this.userId = userId;
     }
 
-    public Instant getLastPollAt() {
+    public ZonedDateTime getLastPollAt() {
         return lastPollAt;
     }
 
-    public void setLastPollAt(Instant lastPollAt) {
+    public void setLastPollAt(ZonedDateTime lastPollAt) {
         this.lastPollAt = lastPollAt;
     }
 
-    public Instant getLastSuccessAt() {
+    public ZonedDateTime getLastSuccessAt() {
         return lastSuccessAt;
     }
 
-    public void setLastSuccessAt(Instant lastSuccessAt) {
+    public void setLastSuccessAt(ZonedDateTime lastSuccessAt) {
         this.lastSuccessAt = lastSuccessAt;
     }
 

@@ -2,8 +2,7 @@ package com.financial.tracker.financial_transactions.model;
 
 import com.financial.tracker.financial_transactions.analytics.model.RefreshRunStatus;
 import jakarta.persistence.*;
-
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "splitwise_sync_runs")
@@ -21,10 +20,10 @@ public class SplitwiseSyncRun {
     private RefreshRunStatus status;
 
     @Column(name = "started_at", nullable = false)
-    private Instant startedAt;
+    private ZonedDateTime startedAt;
 
     @Column(name = "finished_at")
-    private Instant finishedAt;
+    private ZonedDateTime finishedAt;
 
     @Column(name = "imported_count", nullable = false)
     private int importedCount;
@@ -65,19 +64,19 @@ public class SplitwiseSyncRun {
         this.status = status;
     }
 
-    public Instant getStartedAt() {
+    public ZonedDateTime getStartedAt() {
         return startedAt;
     }
 
-    public void setStartedAt(Instant startedAt) {
+    public void setStartedAt(ZonedDateTime startedAt) {
         this.startedAt = startedAt;
     }
 
-    public Instant getFinishedAt() {
+    public ZonedDateTime getFinishedAt() {
         return finishedAt;
     }
 
-    public void setFinishedAt(Instant finishedAt) {
+    public void setFinishedAt(ZonedDateTime finishedAt) {
         this.finishedAt = finishedAt;
     }
 

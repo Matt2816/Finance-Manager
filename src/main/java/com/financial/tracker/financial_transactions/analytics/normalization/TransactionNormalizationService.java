@@ -10,7 +10,7 @@ import com.financial.tracker.financial_transactions.util.TransactionFieldParser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +77,7 @@ public class TransactionNormalizationService {
         normalized.setMerchantKey(merchantKey);
         normalized.setCategoryId(transaction.getCategoryId());
         normalized.setRecurringGenerated(transaction.isRecurringGenerated());
-        normalized.setNormalizedAt(Instant.now());
+        normalized.setNormalizedAt(ZonedDateTime.now());
 
         return Optional.of(normalizedRepo.save(normalized));
     }

@@ -8,7 +8,7 @@ import { TransactionChart } from "@/components/transaction-chart";
 import { TransactionComparisonChart } from "@/components/transaction-comparison-chart";
 import { columns } from "@/components/columns";
 import { useTransactions } from "@/hooks/use-transactions";
-import { useCategories, assignCategory } from "@/hooks/use-categories";
+import { useCategories, assignCategory, type Category } from "@/hooks/use-categories";
 import { useToast } from "@/components/toast-provider";
 import { getApiBaseUrl } from "@/lib/api-config";
 import { authenticatedFetch } from "@/lib/authenticated-fetch";
@@ -71,17 +71,25 @@ export default function TransactionsPage() {
   const { transactions, isLoading, error, mutate } = useTransactions();
   const { categories } = useCategories();
   const { showToast } = useToast();
-  const [range, setRange] = useState<Range>("1Y");
+  const [range, setRange] = useState<Range>("MTD");
+  const [showUncategorizedOnly, setShowUncategorizedOnly] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState<"add" | "edit">("add");
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Transaction | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const filtered = useMemo(
-    () => filterTransactions(transactions ?? [], range),
-    [transactions, range]
-  );
+  const filtered = useMemo(() => {
+    let data = filterTransactions(transactions ?? [], range);
+    if (showUncategorizedOnly) {
+      data = data.filter((t) => {
+        if (t.categoryId == null) return true;
+        const cat = categories?.find((c: Category) => c.id === t.categoryId);
+        return cat?.displayName?.toLowerCase() === "uncategorized";
+      });
+    }
+    return data;
+  }, [transactions, range, showUncategorizedOnly, categories]);
 
   async function handleCategorize(tx: Transaction, categoryId: number) {
     try {
@@ -195,6 +203,14 @@ export default function TransactionsPage() {
                 {r.label}
               </Button>
             ))}
+            <Button
+              variant={showUncategorizedOnly ? "default" : "outline"}
+              size="sm"
+              onClick={() => setShowUncategorizedOnly((v: boolean) => !v)}
+              className="h-7 text-xs"
+            >
+              Uncategorized
+            </Button>
           </div>
         </CardHeader>
         <CardContent>

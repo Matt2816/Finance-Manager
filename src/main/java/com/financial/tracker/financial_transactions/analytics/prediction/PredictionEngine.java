@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -100,7 +100,7 @@ public class PredictionEngine {
             forecast.setUpperBound(upper);
             forecast.setMethod(blend.method());
             forecast.setConfidence(blend.confidence());
-            forecast.setGeneratedAt(Instant.now());
+            forecast.setGeneratedAt(ZonedDateTime.now());
             forecast.setRefreshRunId(refreshRunId);
             result.add(forecast);
         }
@@ -214,7 +214,7 @@ public class PredictionEngine {
             forecast.setUpperBound(amount);
             forecast.setMethod("recurring_schedule");
             forecast.setConfidence(0.9);
-            forecast.setGeneratedAt(Instant.now());
+            forecast.setGeneratedAt(ZonedDateTime.now());
             forecast.setRefreshRunId(refreshRunId);
             result.add(forecast);
         }

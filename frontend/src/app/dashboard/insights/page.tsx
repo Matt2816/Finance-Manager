@@ -6,6 +6,7 @@ import { useInsights } from "@/hooks/use-analytics";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { formatDateEDT } from "@/lib/date-utils";
 import { AlertTriangle, Info, TrendingUp, Calendar, Filter } from "lucide-react";
 
 export default function InsightsPage() {
@@ -126,7 +127,7 @@ export default function InsightsPage() {
                     </p>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       {getSeverityIcon(insight.severity)}
-                      <span>Valid until {new Date(insight.validTo).toLocaleDateString()}</span>
+                      <span>Valid until {formatDateEDT(insight.validTo)}</span>
                     </div>
                   </CardContent>
                 </Card>

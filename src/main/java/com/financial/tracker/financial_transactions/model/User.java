@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "users")
@@ -26,7 +26,7 @@ public class User {
     private String passwordHash;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt = Instant.now();
+    private ZonedDateTime createdAt = ZonedDateTime.now();
 
     @Column(name = "splitwise_api_key_enc")
     private byte[] splitwiseApiKeyEnc;
@@ -37,7 +37,7 @@ public class User {
     @Column(name = "splitwise_group_names")
     private String splitwiseGroupNames;
 
-    @Column(name = "splitwise_enabled", nullable = false)
+    @Column(name = "splitwise_enabled")
     private boolean splitwiseEnabled = false;
 
     public Long getId() {
@@ -72,11 +72,11 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public Instant getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(ZonedDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

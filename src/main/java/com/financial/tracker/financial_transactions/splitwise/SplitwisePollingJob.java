@@ -42,6 +42,20 @@ public class SplitwisePollingJob {
         syncUserSafely(userId);
     }
 
+    public SplitwiseImportResult triggerSync(Long userId) {
+        if (!importService.tryStartSyncForUser(userId)) {
+            throw new IllegalStateException("Splitwise sync already running for user " + userId);
+        }
+        try {
+            return importService.syncForUser(userId);
+        } catch (Exception ex) {
+            log.error("Splitwise sync failed for user {}", userId, ex);
+            throw ex;
+        } finally {
+            importService.finishSyncForUser(userId);
+        }
+    }
+
     private void syncUserSafely(Long userId) {
         if (!importService.tryStartSyncForUser(userId)) {
             log.warn("Splitwise sync already running for user {}, skipping", userId);

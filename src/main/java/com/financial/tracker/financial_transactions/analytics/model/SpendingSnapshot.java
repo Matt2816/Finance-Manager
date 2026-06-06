@@ -2,7 +2,7 @@ package com.financial.tracker.financial_transactions.analytics.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 
 @Entity
@@ -41,7 +41,7 @@ public class SpendingSnapshot {
     private long transactionCount;
 
     @Column(name = "computed_at", nullable = false)
-    private Instant computedAt;
+    private ZonedDateTime computedAt;
 
     public Long getId() {
         return id;
@@ -115,11 +115,11 @@ public class SpendingSnapshot {
         this.transactionCount = transactionCount;
     }
 
-    public Instant getComputedAt() {
+    public ZonedDateTime getComputedAt() {
         return computedAt;
     }
 
-    public void setComputedAt(Instant computedAt) {
+    public void setComputedAt(ZonedDateTime computedAt) {
         this.computedAt = computedAt;
     }
 }

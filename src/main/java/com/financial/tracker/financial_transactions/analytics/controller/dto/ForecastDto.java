@@ -3,7 +3,7 @@ package com.financial.tracker.financial_transactions.analytics.controller.dto;
 import com.financial.tracker.financial_transactions.analytics.model.SpendingForecast;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 
 public record ForecastDto(
@@ -16,7 +16,7 @@ public record ForecastDto(
         BigDecimal upperBound,
         String method,
         double confidence,
-        Instant generatedAt
+        ZonedDateTime generatedAt
 ) {
     public static ForecastDto from(SpendingForecast forecast) {
         return new ForecastDto(

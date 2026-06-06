@@ -20,6 +20,7 @@ services:
       - JWT_EXPIRATION_MS=${JWT_EXPIRATION_MS:-86400000}
       - SPLITWISE_CREDENTIALS_KEY=${SPLITWISE_CREDENTIALS_KEY:-}
       - BACKEND_API_URL=http://127.0.0.1:8080/api
+      - TZ=${TZ:-America/New_York}
     ports:
       - "8080:8080"
       - "3000:3000"
@@ -32,6 +33,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
+      - TZ=${TZ:-America/New_York}
     ports:
       - "5432:5432"
     healthcheck:

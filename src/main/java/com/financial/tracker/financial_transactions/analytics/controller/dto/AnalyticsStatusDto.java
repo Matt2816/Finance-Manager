@@ -2,12 +2,12 @@ package com.financial.tracker.financial_transactions.analytics.controller.dto;
 
 import com.financial.tracker.financial_transactions.analytics.model.AnalyticsRefreshRun;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 public record AnalyticsStatusDto(
         String lastStatus,
-        Instant lastStartedAt,
-        Instant lastFinishedAt,
+        ZonedDateTime lastStartedAt,
+        ZonedDateTime lastFinishedAt,
         String lastError,
         String lastMetadataJson
 ) {

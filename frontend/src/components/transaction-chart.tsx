@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 import { Button } from "@/components/ui/button";
+import { formatDateEDT } from "@/lib/date-utils";
 
 type Range = "1M" | "3M" | "6M" | "1Y" | "All";
 
@@ -79,12 +80,12 @@ export function TransactionChart({ transactions }: TransactionChartProps) {
     if (isMonthly) {
       const [year, month] = key.split("-");
       return new Date(Number(year), Number(month) - 1, 1).toLocaleDateString("en-US", {
+        timeZone: "America/New_York",
         month: "short",
         year: "2-digit",
       });
     }
-    const d = new Date(key);
-    return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    return formatDateEDT(key);
   };
 
   const chartConfig = {} satisfies ChartConfig;
@@ -123,11 +124,12 @@ export function TransactionChart({ transactions }: TransactionChartProps) {
                 if (isMonthly) {
                   const [year, month] = label.split("-");
                   return new Date(Number(year), Number(month) - 1, 1).toLocaleDateString("en-US", {
+                    timeZone: "America/New_York",
                     month: "long",
                     year: "numeric",
                   });
                 }
-                return new Date(label).toLocaleDateString();
+                return formatDateEDT(label);
               }}
             />
             <Bar dataKey="amount" fill="hsl(var(--chart-1))" radius={[4, 4, 0, 0]} />

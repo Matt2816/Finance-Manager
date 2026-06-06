@@ -6,6 +6,7 @@ import { useMerchantLoyalty } from "@/hooks/use-analytics";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { formatDateEDT } from "@/lib/date-utils";
 import { Star, TrendingUp, Calendar, DollarSign, ShoppingBag, Search } from "lucide-react";
 
 export default function LoyaltyPage() {
@@ -104,8 +105,8 @@ export default function LoyaltyPage() {
                       </div>
                     </div>
                     <p className="text-xs text-muted-foreground mt-2">
-                      First visit: {new Date(merchant.firstVisit).toLocaleDateString()} &middot;{" "}
-                      Last visit: {new Date(merchant.lastVisit).toLocaleDateString()}
+                      First visit: {formatDateEDT(merchant.firstVisit)} &middot;{" "}
+                      Last visit: {formatDateEDT(merchant.lastVisit)}
                       {merchant.visitFrequencyDays && (
                         <> &middot; Every {merchant.visitFrequencyDays.toFixed(0)} days</>
                       )}

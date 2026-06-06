@@ -6,8 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @RestController
 @RequestMapping("/api")
@@ -21,7 +20,7 @@ public class HealthController {
         return ControllerRequestLogger.logResponseBody(log, "health", new HealthResponse(
                 "ok",
                 "Finance Manager API is running",
-                Instant.now().toString(),
+                ZonedDateTime.now().toString(),
                 clientAddress(request)
         ));
     }

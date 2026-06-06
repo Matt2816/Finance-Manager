@@ -9,10 +9,12 @@ import com.financial.tracker.financial_transactions.repo.SplitwiseSyncRunReposit
 import com.financial.tracker.financial_transactions.repo.UserRepository;
 import com.financial.tracker.financial_transactions.security.SecurityUtils;
 import com.financial.tracker.financial_transactions.splitwise.SplitwiseCredentialService;
+import com.financial.tracker.financial_transactions.splitwise.SplitwiseImportResult;
 import com.financial.tracker.financial_transactions.splitwise.SplitwisePollingJob;
 import com.financial.tracker.financial_transactions.splitwise.controller.dto.SplitwiseConfigDto;
 import com.financial.tracker.financial_transactions.splitwise.controller.dto.SplitwiseConfigRequest;
 import com.financial.tracker.financial_transactions.splitwise.controller.dto.SplitwiseStatusDto;
+import com.financial.tracker.financial_transactions.splitwise.controller.dto.SplitwiseSyncResultDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/splitwise")
@@ -103,7 +103,7 @@ public class SplitwiseController {
     }
 
     @PostMapping("/sync")
-    public ResponseEntity<Map<String, String>> sync() {
+    public ResponseEntity<SplitwiseSyncResultDto> sync() {
         ControllerRequestLogger.logIncoming(log, "sync");
         Long userId = SecurityUtils.getCurrentUserId();
         User user = currentUser();
@@ -113,9 +113,32 @@ public class SplitwiseController {
                     "Configure and enable Splitwise before syncing"
             );
         }
-        pollingJob.triggerAsync(userId);
-        return ResponseEntity.accepted()
-                .body(Map.of("status", "accepted", "message", "Splitwise sync started"));
+        SplitwiseImportResult result = pollingJob.triggerSync(userId);
+        return ResponseEntity.ok(new SplitwiseSyncResultDto(
+                "success",
+                String.format("Imported %d, updated %d, deleted %d, skipped %d",
+                        result.imported(), result.updated(), result.deleted(), result.skipped()),
+                result.imported(),
+                result.updated(),
+                result.deleted(),
+                result.skipped(),
+                result.getImportedTransactions().stream()
+                        .map(t -> new SplitwiseSyncResultDto.TransactionSummaryDto(
+                                t.description(), t.amount(), t.date(), t.groupName(), t.reason()))
+                        .toList(),
+                result.getUpdatedTransactions().stream()
+                        .map(t -> new SplitwiseSyncResultDto.TransactionSummaryDto(
+                                t.description(), t.amount(), t.date(), t.groupName(), t.reason()))
+                        .toList(),
+                result.getDeletedTransactions().stream()
+                        .map(t -> new SplitwiseSyncResultDto.TransactionSummaryDto(
+                                t.description(), t.amount(), t.date(), t.groupName(), t.reason()))
+                        .toList(),
+                result.getSkippedTransactions().stream()
+                        .map(t -> new SplitwiseSyncResultDto.TransactionSummaryDto(
+                                t.description(), t.amount(), t.date(), t.groupName(), t.reason()))
+                        .toList()
+        ));
     }
 
     private User currentUser() {

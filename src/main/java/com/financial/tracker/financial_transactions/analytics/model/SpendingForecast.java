@@ -2,7 +2,7 @@ package com.financial.tracker.financial_transactions.analytics.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 
 @Entity
@@ -42,7 +42,7 @@ public class SpendingForecast {
     private double confidence;
 
     @Column(name = "generated_at", nullable = false)
-    private Instant generatedAt;
+    private ZonedDateTime generatedAt;
 
     @Column(name = "refresh_run_id")
     private Long refreshRunId;
@@ -127,11 +127,11 @@ public class SpendingForecast {
         this.confidence = confidence;
     }
 
-    public Instant getGeneratedAt() {
+    public ZonedDateTime getGeneratedAt() {
         return generatedAt;
     }
 
-    public void setGeneratedAt(Instant generatedAt) {
+    public void setGeneratedAt(ZonedDateTime generatedAt) {
         this.generatedAt = generatedAt;
     }
 

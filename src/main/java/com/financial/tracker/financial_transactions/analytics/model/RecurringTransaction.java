@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 
 @Entity
@@ -51,7 +51,7 @@ public class RecurringTransaction {
     private LocalDate lastGeneratedDate;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt = Instant.now();
+    private ZonedDateTime createdAt = ZonedDateTime.now();
 
     public Long getId() {
         return id;
@@ -149,11 +149,11 @@ public class RecurringTransaction {
         this.lastGeneratedDate = lastGeneratedDate;
     }
 
-    public Instant getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(ZonedDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
