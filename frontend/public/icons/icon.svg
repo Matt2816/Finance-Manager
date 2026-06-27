@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Finance Manager">
+  <rect width="512" height="512" rx="112" fill="#0f172a"/>
+  <g transform="translate(116 140)" fill="none" stroke="#ffffff" stroke-width="22" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="8" y="20" width="264" height="192" rx="28" fill="#1e293b"/>
+    <path d="M8 70 H272" />
+    <circle cx="216" cy="140" r="20" fill="#ffffff" stroke="none"/>
+  </g>
+</svg>

@@ -4,6 +4,9 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth-context";
 import { DashboardSidebar, MobileNav } from "@/components/dashboard/sidebar";
+import { SyncProvider } from "@/components/sync-provider";
+import { PendingSyncStatus } from "@/components/pending-sync-status";
+import { IosInstallBanner } from "@/components/pwa/ios-install-banner";
 
 export default function DashboardLayout({
   children,
@@ -33,8 +36,11 @@ export default function DashboardLayout({
 
   return (
     <div className="flex min-h-screen bg-muted/30">
+      <SyncProvider />
       <DashboardSidebar />
       <main className="flex-1 p-6 pb-28 md:pb-6 overflow-y-auto">
+        <IosInstallBanner />
+        <PendingSyncStatus />
         {children}
       </main>
       <MobileNav />

@@ -1,16 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
-import { TransactionFormDialog } from "@/components/transaction-form-dialog";
+import { QuickAddSheet } from "@/components/quick-add-sheet";
 import { MobileMoreSheet } from "@/components/dashboard/mobile-more-sheet";
-import { useTransactions } from "@/hooks/use-transactions";
-import { useCategories } from "@/hooks/use-categories";
-import { useToast } from "@/components/toast-provider";
 import {
   LayoutDashboard,
   Receipt,
@@ -117,16 +114,17 @@ export function MobileNav() {
   const pathname = usePathname();
   const [moreOpen, setMoreOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
-  const { mutate } = useTransactions();
-  const { categories } = useCategories();
-  const { showToast } = useToast();
 
   const moreIsActive = isSecondaryRouteActive(pathname);
 
-  function handleAddSuccess() {
-    mutate();
-    showToast("Transaction created", "success");
-  }
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("quickAdd") === "1") {
+      setAddOpen(true);
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
 
   return (
     <>
@@ -195,13 +193,7 @@ export function MobileNav() {
         items={secondaryNavItems}
       />
 
-      <TransactionFormDialog
-        mode="add"
-        open={addOpen}
-        onOpenChange={setAddOpen}
-        onSuccess={handleAddSuccess}
-        categories={categories}
-      />
+      <QuickAddSheet open={addOpen} onOpenChange={setAddOpen} />
     </>
   );
 }

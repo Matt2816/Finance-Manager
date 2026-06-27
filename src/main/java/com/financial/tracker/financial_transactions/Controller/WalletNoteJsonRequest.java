@@ -14,5 +14,6 @@ public record WalletNoteJsonRequest(
         @JsonProperty("merchant") @JsonAlias("Merchant") String merchant,
         @JsonProperty("amount") @JsonAlias("Amount") String amount,
         @JsonProperty("date") @JsonAlias("Date") String date,
-        @JsonProperty("location") @JsonAlias("Location") String location
+        @JsonProperty("location") @JsonAlias("Location") String location,
+        @JsonProperty("categoryId") @JsonAlias("CategoryId") Integer categoryId
 ) {}

@@ -3,6 +3,7 @@ package com.financial.tracker.financial_transactions.Controller;
 import com.financial.tracker.financial_transactions.Services.ExcelStatementImportResult;
 import com.financial.tracker.financial_transactions.Services.ExcelStatementImportService;
 import com.financial.tracker.financial_transactions.Services.WalletNoteImportResult;
+import com.financial.tracker.financial_transactions.Services.WalletNotesBatchImportResult;
 import com.financial.tracker.financial_transactions.Services.WalletNotesImportResult;
 import com.financial.tracker.financial_transactions.Services.WalletNotesImportService;
 import com.financial.tracker.financial_transactions.Services.WalletNotesParser;
@@ -246,6 +247,44 @@ public class TransactionController {
             case "duplicate" -> ResponseEntity.status(HttpStatus.CONFLICT).body(result);
             default -> ResponseEntity.unprocessableEntity().body(result);
         });
+    }
+
+    /**
+     * Batch import of wallet-note JSON items. Accepts a JSON array of objects
+     * (name, merchant, amount, date, location, categoryId). Used to drain a PWA
+     * offline queue or an Apple Shortcuts queue in a single request. Each item is
+     * processed independently; the response reports per-item status so the caller
+     * can drain created and duplicate items from its queue.
+     */
+    @PostMapping(value = "/import/wallet-notes-batch", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<WalletNotesBatchImportResult> importWalletNotesBatch(@RequestBody String jsonPayload) {
+        ControllerRequestLogger.logJsonPayload(log, "importWalletNotesBatch", jsonPayload);
+
+        if (jsonPayload == null || jsonPayload.isBlank()) {
+            return ControllerRequestLogger.logResponse(log, "importWalletNotesBatch", ResponseEntity.badRequest()
+                    .body(new WalletNotesBatchImportResult(0, 0, 0, 0, java.util.List.of())));
+        }
+
+        List<WalletNoteJsonRequest> items;
+        try {
+            items = objectMapper.readValue(
+                    jsonPayload,
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, WalletNoteJsonRequest.class)
+            );
+        } catch (JsonProcessingException e) {
+            log.warn("importWalletNotesBatch: invalid JSON payload", e);
+            return ControllerRequestLogger.logResponse(log, "importWalletNotesBatch", ResponseEntity.badRequest()
+                    .body(new WalletNotesBatchImportResult(0, 0, 0, 0, java.util.List.of())));
+        }
+
+        if (items == null || items.isEmpty()) {
+            return ControllerRequestLogger.logResponse(log, "importWalletNotesBatch", ResponseEntity.ok(
+                    new WalletNotesBatchImportResult(0, 0, 0, 0, java.util.List.of())));
+        }
+
+        Long userId = SecurityUtils.getCurrentUserId();
+        WalletNotesBatchImportResult result = walletNotesImportService.importBatchFromFields(items, userId);
+        return ControllerRequestLogger.logResponse(log, "importWalletNotesBatch", ResponseEntity.ok(result));
     }
 
     @DeleteMapping("/{id}")

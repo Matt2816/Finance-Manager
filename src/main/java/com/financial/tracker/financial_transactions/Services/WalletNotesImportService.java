@@ -1,6 +1,9 @@
 package com.financial.tracker.financial_transactions.Services;
 
+import com.financial.tracker.financial_transactions.Controller.WalletNoteJsonRequest;
+import com.financial.tracker.financial_transactions.analytics.model.NormalizedTransaction;
 import com.financial.tracker.financial_transactions.analytics.normalization.TransactionNormalizationService;
+import com.financial.tracker.financial_transactions.analytics.repo.NormalizedTransactionRepository;
 import com.financial.tracker.financial_transactions.model.Transaction;
 import com.financial.tracker.financial_transactions.repo.TransactionsRepo;
 import org.slf4j.Logger;
@@ -8,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,15 +23,18 @@ public class WalletNotesImportService {
     private final TransactionsRepo transactionsRepo;
     private final TransactionNormalizationService normalizationService;
     private final TransactionImportPipeline importPipeline;
+    private final NormalizedTransactionRepository normalizedRepository;
 
     public WalletNotesImportService(
             TransactionsRepo transactionsRepo,
             TransactionNormalizationService normalizationService,
-            TransactionImportPipeline importPipeline
+            TransactionImportPipeline importPipeline,
+            NormalizedTransactionRepository normalizedRepository
     ) {
         this.transactionsRepo = transactionsRepo;
         this.normalizationService = normalizationService;
         this.importPipeline = importPipeline;
+        this.normalizedRepository = normalizedRepository;
     }
 
     public WalletNotesImportResult importFromText(String content, Long userId) {
@@ -110,6 +117,65 @@ public class WalletNotesImportService {
         }
 
         return saveIfNew(transaction, "importSingleFromFields", userId);
+    }
+
+    /**
+     * Batch import of JSON wallet-note items (e.g. drained from a PWA offline queue
+     * or an Apple Shortcuts queue). Each item is processed independently so a single
+     * bad item never fails the whole batch. Items that are created or already exist
+     * (duplicate) are considered safe to drain from the caller's queue.
+     */
+    public WalletNotesBatchImportResult importBatchFromFields(
+            List<WalletNoteJsonRequest> items,
+            Long userId
+    ) {
+        int created = 0;
+        int duplicates = 0;
+        int skipped = 0;
+        List<WalletNotesBatchItemResult> results = new ArrayList<>();
+
+        for (int i = 0; i < items.size(); i++) {
+            WalletNoteJsonRequest item = items.get(i);
+            WalletNoteImportResult result = importSingleFromFields(
+                    item.name(),
+                    item.merchant(),
+                    item.amount(),
+                    item.date(),
+                    item.location(),
+                    userId
+            );
+
+            String hash = result.transaction() != null ? result.transaction().getHash() : null;
+            switch (result.status()) {
+                case "created" -> {
+                    created++;
+                    if (item.categoryId() != null && result.transaction() != null) {
+                        applyCategory(result.transaction(), item.categoryId().longValue(), userId);
+                    }
+                }
+                case "duplicate" -> duplicates++;
+                default -> skipped++;
+            }
+
+            results.add(new WalletNotesBatchItemResult(i, result.status(), result.message(), hash));
+        }
+
+        WalletNotesBatchImportResult batchResult = new WalletNotesBatchImportResult(
+                items.size(), created, duplicates, skipped, results
+        );
+        log.info("importBatchFromFields: result={}", batchResult);
+        return batchResult;
+    }
+
+    private void applyCategory(Transaction transaction, Long categoryId, Long userId) {
+        transaction.setCategoryId(categoryId);
+        transactionsRepo.save(transaction);
+        NormalizedTransaction normalized =
+                normalizedRepository.findByTransactionIdAndUserId(transaction.getId(), userId).orElse(null);
+        if (normalized != null) {
+            normalized.setCategoryId(categoryId);
+            normalizedRepository.save(normalized);
+        }
     }
 
     private WalletNoteImportResult saveIfNew(Transaction transaction, String operation, Long userId) {
