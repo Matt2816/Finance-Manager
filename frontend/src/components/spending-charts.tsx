@@ -2,8 +2,8 @@
 
 import { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useCategorySpending, useForecasts } from "@/hooks/use-analytics";
-import { Bar, BarChart, Line, LineChart, Pie, PieChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from "recharts";
+import { type CategorySpending, useCategorySpending, useForecasts } from "@/hooks/use-analytics";
+import { Line, LineChart, Pie, PieChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from "recharts";
 import { Button } from "@/components/ui/button";
 
 type Range = "MTD" | "1M" | "3M" | "6M" | "1Y" | "All";
@@ -67,7 +67,7 @@ export function SpendingCharts() {
     upper: f.upperBound,
   })) || [];
 
-  const categoryData = categorySpending?.map((c: any) => ({
+  const categoryData = categorySpending?.map((c: CategorySpending) => ({
     name: c.categoryName,
     amount: c.totalAmount,
     count: c.transactionCount,

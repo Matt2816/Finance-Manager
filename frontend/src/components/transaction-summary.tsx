@@ -6,11 +6,9 @@ interface TransactionSummaryProps {
 }
 
 export function TransactionSummary({ transactions }: TransactionSummaryProps) {
-  console.log("transactions", transactions);
   const parsedAmounts = transactions.map((transaction) =>
     parseFloat(transaction.amount.replace("$", ""))
   );
-  console.log("Parsed amounts:", parsedAmounts);
 
   const totalAmount = parsedAmounts.reduce((sum, amount) => sum + amount, 0);
   const averageAmount =

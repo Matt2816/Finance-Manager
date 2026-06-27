@@ -49,8 +49,9 @@ export default function CategoriesPage() {
       await deleteRule(ruleId);
       await mutateRules();
       showToast("Rule deleted", "success");
-    } catch (err: any) {
-      showToast("Failed to delete rule: " + err.message, "error");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      showToast("Failed to delete rule: " + message, "error");
     } finally {
       setDeleting(null);
     }
@@ -66,8 +67,9 @@ export default function CategoriesPage() {
         mutateRules(),
       ]);
       showToast(`Category "${categoryToDelete.name}" deleted`, "success");
-    } catch (err: any) {
-      showToast("Failed to delete category: " + err.message, "error");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      showToast("Failed to delete category: " + message, "error");
     } finally {
       setDeleting(null);
       setCategoryToDelete(null);
@@ -99,8 +101,8 @@ export default function CategoriesPage() {
       await mutateRules();
       showToast("Rule updated", "success");
       cancelEditRule();
-    } catch (err: any) {
-      const message = err?.message || "Failed to update rule";
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to update rule";
       setEditingError(message);
       showToast(`Failed to update rule: ${message}`, "error");
     } finally {
@@ -169,6 +171,7 @@ export default function CategoriesPage() {
                   <button
                     type="button"
                     disabled={deleting === cat.id}
+                    aria-label={`Delete category ${cat.displayName}`}
                     onClick={() => {
                       setCategoryToDelete({ id: cat.id, name: cat.displayName });
                       setDeleteCatDialogOpen(true);
@@ -199,7 +202,19 @@ export default function CategoriesPage() {
       {/* Merchant Rules */}
       <Card>
         <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <CardTitle>Merchant Category Rules</CardTitle>
+          <CardTitle
+            className="inline-flex items-center gap-2"
+            title="Rules are checked in priority order, and the first regex pattern that matches a transaction merchant text sets the category."
+          >
+            Merchant Category Rules
+            <span
+              aria-label="How merchant rules work"
+              className="inline-flex h-5 w-5 items-center justify-center rounded-full border text-xs text-muted-foreground cursor-help"
+              title="Rules are checked in priority order, and the first regex pattern that matches a transaction merchant text sets the category."
+            >
+              ?
+            </span>
+          </CardTitle>
           <p className="text-sm text-muted-foreground">
             {rules?.length ?? 0} rule{(rules?.length ?? 0) !== 1 ? "s" : ""}
           </p>
@@ -215,7 +230,10 @@ export default function CategoriesPage() {
                   <div className="min-w-0 space-y-2">
                     <div className="flex items-center gap-2 flex-wrap">
                       <Badge variant="outline">{rule.categoryName}</Badge>
-                      <span className="text-xs text-muted-foreground">
+                      <span
+                        className="text-xs text-muted-foreground cursor-help"
+                        title="Lower numbers run first and win if multiple rules match. Example: Priority 10 is checked before Priority 50. If no priority is set when creating a rule, it defaults to 50."
+                      >
                         Priority: {rule.priority}
                       </span>
                     </div>

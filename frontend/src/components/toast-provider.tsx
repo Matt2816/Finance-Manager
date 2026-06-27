@@ -1,6 +1,13 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { CheckCircle, XCircle, X } from "lucide-react";
 
 export type ToastType = "success" | "error";
@@ -25,13 +32,25 @@ export function useToast() {
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const timeoutIds = useRef<Set<ReturnType<typeof setTimeout>>>(new Set());
 
   const showToast = useCallback((message: string, type: ToastType = "success") => {
     const id = `${Date.now()}-${Math.random()}`;
     setToasts((prev) => [...prev, { id, message, type }]);
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
+      timeoutIds.current.delete(timeoutId);
     }, 4000);
+    timeoutIds.current.add(timeoutId);
+  }, []);
+
+  useEffect(() => {
+    const currentTimeoutIds = timeoutIds.current;
+
+    return () => {
+      currentTimeoutIds.forEach(clearTimeout);
+      currentTimeoutIds.clear();
+    };
   }, []);
 
   const remove = (id: string) => {
@@ -45,6 +64,8 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         {toasts.map((toast) => (
           <div
             key={toast.id}
+            role={toast.type === "error" ? "alert" : "status"}
+            aria-live={toast.type === "error" ? "assertive" : "polite"}
             className={`pointer-events-auto flex items-center gap-3 rounded-xl px-4 py-3 shadow-lg text-sm font-medium min-w-[280px] max-w-[90vw] sm:max-w-md transform transition-all duration-300 translate-y-0 opacity-100 ${
               toast.type === "success"
                 ? "bg-green-600 text-white"

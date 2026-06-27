@@ -11,21 +11,20 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { labels } from "@/components/data/data";
 import { transactionSchema } from "@/components/data/schema";
+import { Transaction } from "@/types/transaction";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
-  onEdit?: (tx: any) => void;
-  onDelete?: (tx: any) => void;
-  onCategorize?: (tx: any, categoryId: number) => void;
+  onEdit?: (tx: Transaction) => void;
+  onDelete?: (tx: Transaction) => void;
+  onCategorize?: (tx: Transaction, categoryId: number) => void;
   categories?: { id: number; displayName: string }[];
 }
 
@@ -53,7 +52,6 @@ export function DataTableRowActions<TData>({
         <DropdownMenuItem onClick={() => onEdit?.(transaction)}>
           Edit
         </DropdownMenuItem>
-        <DropdownMenuItem>Favorite</DropdownMenuItem>
         <DropdownMenuSeparator />
         {categories && categories.length > 0 && onCategorize && (
           <DropdownMenuSub>
@@ -75,25 +73,12 @@ export function DataTableRowActions<TData>({
             </DropdownMenuSubContent>
           </DropdownMenuSub>
         )}
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={transaction.label}>
-              {labels.map((label) => (
-                <DropdownMenuRadioItem key={label.value} value={label.value}>
-                  {label.label}
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => onDelete?.(transaction)}
           className="text-red-600 focus:text-red-600"
         >
           Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

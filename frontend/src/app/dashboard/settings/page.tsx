@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -58,15 +58,15 @@ interface IncomeSummary {
 }
 
 interface InsightItem {
-  id: string;
+  id: number;
   title: string;
   insightType: string;
 }
 
 interface ForecastItem {
-  id: string;
+  id: number;
   forecastDate: string;
-  projectedAmount: number;
+  predictedAmount: number;
 }
 
 interface SplitwiseConfig {
@@ -129,6 +129,7 @@ interface ExcelStatementImportResult {
 export default function SettingsPage() {
   const { showToast } = useToast();
   const baseUrl = getApiBaseUrl();
+  const timeoutIds = useRef<Set<ReturnType<typeof setTimeout>>>(new Set());
 
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [healthLoading, setHealthLoading] = useState(false);
@@ -161,6 +162,15 @@ export default function SettingsPage() {
   const [statementResult, setStatementResult] = useState<ExcelStatementImportResult | null>(null);
   const [statementResultOpen, setStatementResultOpen] = useState(false);
   const [statementInputKey, setStatementInputKey] = useState(0);
+
+  const scheduleTimeout = useCallback((callback: () => void, delay: number) => {
+    const timeoutId = setTimeout(() => {
+      timeoutIds.current.delete(timeoutId);
+      callback();
+    }, delay);
+
+    timeoutIds.current.add(timeoutId);
+  }, []);
 
   const fetchHealth = useCallback(async () => {
     setHealthLoading(true);
@@ -284,13 +294,13 @@ export default function SettingsPage() {
       setSyncResult(data);
       setSyncResultOpen(true);
       showToast(data.message || "Splitwise sync completed");
-      setTimeout(() => fetchSplitwiseStatus(), 2000);
+      scheduleTimeout(() => fetchSplitwiseStatus(), 2000);
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Splitwise sync failed", "error");
     } finally {
       setSplitwiseSyncing(false);
     }
-  }, [baseUrl, showToast, fetchSplitwiseStatus]);
+  }, [baseUrl, showToast, fetchSplitwiseStatus, scheduleTimeout]);
 
   const uploadStatement = useCallback(async () => {
     if (!statementFile) {
@@ -322,7 +332,7 @@ export default function SettingsPage() {
       } else {
         showToast("No new transactions imported");
       }
-      setTimeout(() => {
+      scheduleTimeout(() => {
         fetchAnalyticsStatus();
         fetchIncomeSummary();
       }, 1200);
@@ -331,7 +341,7 @@ export default function SettingsPage() {
     } finally {
       setStatementUploading(false);
     }
-  }, [baseUrl, statementFile, showToast, fetchAnalyticsStatus, fetchIncomeSummary]);
+  }, [baseUrl, statementFile, showToast, fetchAnalyticsStatus, fetchIncomeSummary, scheduleTimeout]);
 
   const triggerRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -340,24 +350,42 @@ export default function SettingsPage() {
       if (!res.ok) throw new Error(await res.text());
       const data = await res.json();
       showToast(data.message || "Analytics refresh started");
-      // Refresh status after a short delay
-      setTimeout(() => fetchAnalyticsStatus(), 2000);
+      scheduleTimeout(() => fetchAnalyticsStatus(), 2000);
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Refresh failed", "error");
     } finally {
       setRefreshing(false);
     }
-  }, [baseUrl, showToast, fetchAnalyticsStatus]);
+  }, [baseUrl, showToast, fetchAnalyticsStatus, scheduleTimeout]);
+
+  useEffect(() => {
+    const currentTimeoutIds = timeoutIds.current;
+
+    return () => {
+      currentTimeoutIds.forEach(clearTimeout);
+      currentTimeoutIds.clear();
+    };
+  }, []);
 
   // Auto-load stats on mount
   useEffect(() => {
-    fetchHealth();
-    fetchAnalyticsStatus();
-    fetchIncomeSummary();
-    fetchInsights();
-    fetchForecasts();
-    fetchSplitwiseConfig();
-    fetchSplitwiseStatus();
+    let cancelled = false;
+
+    queueMicrotask(() => {
+      if (cancelled) return;
+
+      fetchHealth();
+      fetchAnalyticsStatus();
+      fetchIncomeSummary();
+      fetchInsights();
+      fetchForecasts();
+      fetchSplitwiseConfig();
+      fetchSplitwiseStatus();
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, [
     fetchHealth,
     fetchAnalyticsStatus,
@@ -376,7 +404,7 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-6 max-w-5xl">
-      <PageHeader title="Settings &amp; Admin" description="System status, analytics controls, and quick stats." />
+      <PageHeader title="Settings & Admin" description="System status, analytics controls, and quick stats." />
 
       {/* Actions */}
       <section>
@@ -649,15 +677,18 @@ export default function SettingsPage() {
                 onChange={(e) => setSplitwiseGroupNames(e.target.value)}
               />
             </div>
-            <label className="flex items-center gap-2 text-sm">
+            <div className="flex items-center gap-2 text-sm">
               <input
+                id="splitwise-enabled"
                 type="checkbox"
                 checked={splitwiseEnabled}
                 onChange={(e) => setSplitwiseEnabled(e.target.checked)}
                 className="rounded border-input"
               />
-              Enable automatic daily sync
-            </label>
+              <Label htmlFor="splitwise-enabled" className="text-sm">
+                Enable automatic daily sync
+              </Label>
+            </div>
             <div className="flex flex-wrap gap-2">
               <Button onClick={saveSplitwiseConfig} disabled={splitwiseSaving}>
                 {splitwiseSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
@@ -713,7 +744,7 @@ export default function SettingsPage() {
                     className="flex items-center justify-between rounded-lg border px-3 py-2 text-sm"
                   >
                     <span className="text-muted-foreground">{f.forecastDate}</span>
-                    <span className="font-medium">{formatCurrency(f.projectedAmount)}</span>
+                    <span className="font-medium">{formatCurrency(f.predictedAmount)}</span>
                   </div>
                 ))}
                 {forecasts.length > 6 && (

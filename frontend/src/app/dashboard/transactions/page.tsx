@@ -96,8 +96,9 @@ export default function TransactionsPage() {
       await assignCategory(tx.id, categoryId, true);
       mutate();
       showToast("Transaction categorized", "success");
-    } catch (err: any) {
-      showToast("Failed to categorize: " + err.message, "error");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      showToast("Failed to categorize: " + message, "error");
     }
   }
 
@@ -128,8 +129,9 @@ export default function TransactionsPage() {
       if (!res.ok) throw new Error(await res.text());
       mutate();
       showToast("Transaction deleted", "success");
-    } catch (err: any) {
-      showToast("Failed to delete transaction: " + err.message, "error");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      showToast("Failed to delete transaction: " + message, "error");
     } finally {
       setDeleteOpen(false);
       setDeleteTarget(null);
@@ -157,19 +159,6 @@ export default function TransactionsPage() {
         <Card>
           <CardContent className="py-12 text-center text-muted-foreground">
             Error loading transactions: {error.message}
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  if (!transactions?.length) {
-    return (
-      <div className="space-y-6">
-        <PageHeader title="Transactions" description="View and filter all your transactions." />
-        <Card>
-          <CardContent className="py-12 text-center text-muted-foreground">
-            No transactions yet. Add data via the backend API.
           </CardContent>
         </Card>
       </div>

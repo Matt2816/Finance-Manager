@@ -46,7 +46,7 @@ function getStartDate(range: Range): Date {
 
 export function TransactionChart({ transactions }: TransactionChartProps) {
   const [range, setRange] = useState<Range>("1Y");
-  const startDate = getStartDate(range);
+  const startDate = useMemo(() => getStartDate(range), [range]);
   const isMonthly = range === "1Y" || range === "All";
 
   const filtered = useMemo(
@@ -62,7 +62,7 @@ export function TransactionChart({ transactions }: TransactionChartProps) {
     const dataMap = filtered.reduce((acc: Record<string, number>, transaction) => {
       const dateStr = transaction.transactionDate.split("T")[0];
       const key = isMonthly ? dateStr.slice(0, 7) : dateStr;
-      const amount = parseFloat(transaction.amount);
+      const amount = parseFloat(transaction.amount.replace(/[^0-9.-]+/g, ""));
       acc[key] = (acc[key] || 0) + amount;
       return acc;
     }, {} as Record<string, number>);

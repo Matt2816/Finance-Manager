@@ -56,17 +56,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const stored = getStoredToken();
-    if (!stored) {
-      setIsLoading(false);
-      return;
-    }
+    let cancelled = false;
 
-    setToken(stored);
-    authenticatedJson<AuthUser>(`${getAuthApiUrl()}/me`, {}, stored)
-      .then((me) => setUser(me))
-      .catch(() => logout())
-      .finally(() => setIsLoading(false));
+    queueMicrotask(() => {
+      if (cancelled) return;
+
+      const stored = getStoredToken();
+      if (!stored) {
+        setIsLoading(false);
+        return;
+      }
+
+      setToken(stored);
+      authenticatedJson<AuthUser>(`${getAuthApiUrl()}/me`, {}, stored)
+        .then((me) => {
+          if (!cancelled) setUser(me);
+        })
+        .catch(() => {
+          if (!cancelled) logout();
+        })
+        .finally(() => {
+          if (!cancelled) setIsLoading(false);
+        });
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, [logout]);
 
   const login = useCallback(

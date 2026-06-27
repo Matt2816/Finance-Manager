@@ -22,6 +22,7 @@ import {
 import {
   createRecurring,
   updateRecurring,
+  type RecurringTransaction,
 } from "@/hooks/use-recurring";
 import { getApiBaseUrl } from "@/lib/api-config";
 import { authenticatedJson } from "@/lib/authenticated-fetch";
@@ -43,7 +44,7 @@ const cardTypeOptions = [
 interface RecurringFormDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  initialData?: any;
+  initialData?: RecurringTransaction | null;
   onSuccess: () => void;
 }
 
@@ -76,29 +77,43 @@ export function RecurringFormDialog({
   }, []);
 
   useEffect(() => {
+    let cancelled = false;
+
     if (open && initialData) {
-      setName(initialData.name ?? "");
-      setAmount(String(initialData.amount ?? ""));
-      setDirection(initialData.direction ?? "DEBIT");
-      setFrequency(initialData.frequency ?? "MONTHLY");
-      setStartDate(initialData.startDate ?? "");
-      setHasEndDate(!!initialData.endDate);
-      setEndDate(initialData.endDate ?? "");
-      setCardType(initialData.cardType ?? "other");
-      setCategoryId(initialData.categoryId?.toString() ?? "");
-      setError(null);
+      queueMicrotask(() => {
+        if (cancelled) return;
+
+        setName(initialData.name ?? "");
+        setAmount(String(initialData.amount ?? ""));
+        setDirection(initialData.direction ?? "DEBIT");
+        setFrequency(initialData.frequency ?? "MONTHLY");
+        setStartDate(initialData.startDate ?? "");
+        setHasEndDate(!!initialData.endDate);
+        setEndDate(initialData.endDate ?? "");
+        setCardType(initialData.cardType ?? "other");
+        setCategoryId(initialData.categoryId?.toString() ?? "");
+        setError(null);
+      });
     } else if (open) {
-      setName("");
-      setAmount("");
-      setDirection("DEBIT");
-      setFrequency("MONTHLY");
-      setStartDate(new Date().toISOString().split("T")[0]);
-      setHasEndDate(false);
-      setEndDate("");
-      setCardType("other");
-      setCategoryId("");
-      setError(null);
+      queueMicrotask(() => {
+        if (cancelled) return;
+
+        setName("");
+        setAmount("");
+        setDirection("DEBIT");
+        setFrequency("MONTHLY");
+        setStartDate(new Date().toISOString().split("T")[0]);
+        setHasEndDate(false);
+        setEndDate("");
+        setCardType("other");
+        setCategoryId("");
+        setError(null);
+      });
     }
+
+    return () => {
+      cancelled = true;
+    };
   }, [open, initialData]);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -132,8 +147,8 @@ export function RecurringFormDialog({
       }
       onSuccess();
       onOpenChange(false);
-    } catch (err: any) {
-      setError(err.message || "Something went wrong.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       setSubmitting(false);
     }

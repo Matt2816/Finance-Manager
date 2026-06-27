@@ -22,7 +22,7 @@ export default function DashboardLayout({
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-muted/30">
-        <p className="text-sm text-muted-foreground">Loading...</p>
+        <p role="status" aria-live="polite" className="text-sm text-muted-foreground">Loading...</p>
       </div>
     );
   }

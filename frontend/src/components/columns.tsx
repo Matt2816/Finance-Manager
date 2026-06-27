@@ -15,6 +15,17 @@ import { Transaction } from "@/types/transaction";
 import { formatDateEDT } from "@/lib/date-utils";
 import { ArrowDownLeft, ArrowUpRight, Repeat } from "lucide-react";
 
+interface TransactionTableMeta {
+  onEdit?: (tx: Transaction) => void;
+  onDelete?: (tx: Transaction) => void;
+  onCategorize?: (tx: Transaction, categoryId: number) => void;
+  categories?: { id: number; displayName: string }[];
+}
+
+function parseTransactionAmount(amount: string) {
+  return parseFloat(amount.replace(/[^0-9.-]+/g, ""));
+}
+
 export const columns: ColumnDef<Transaction>[] = [
   {
     id: "select",
@@ -48,7 +59,7 @@ export const columns: ColumnDef<Transaction>[] = [
     ),
     cell: ({ row }) => {
       const amountStr = row.getValue("amount") as string;
-      const amountNum = parseFloat(amountStr.replace("$", ""));
+      const amountNum = parseTransactionAmount(amountStr);
       const isIncome = amountNum < 0;
       const displayAmount = Math.abs(amountNum);
       const isRecurring = !!row.original.recurringParentId;
@@ -67,7 +78,7 @@ export const columns: ColumnDef<Transaction>[] = [
             }).format(displayAmount)}
           </span>
           {isRecurring && (
-            <span title="Recurring">
+            <span aria-label="Recurring transaction" title="Recurring">
               <Repeat className="h-3 w-3 text-muted-foreground shrink-0" />
             </span>
           )}
@@ -182,7 +193,7 @@ export const columns: ColumnDef<Transaction>[] = [
       <DataTableColumnHeader column={column} title="Magnitude" />
     ),
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
+      const amount = parseTransactionAmount(row.getValue("amount") as string);
       let magnitude;
       if (amount > 100) {
         magnitude = "high";
@@ -209,7 +220,7 @@ export const columns: ColumnDef<Transaction>[] = [
       );
     },
     filterFn: (row, id, value) => {
-      const amount = parseFloat(row.getValue("amount"));
+      const amount = parseTransactionAmount(row.getValue("amount") as string);
       let magnitude;
       if (amount > 100) {
         magnitude = "high";
@@ -228,8 +239,8 @@ export const columns: ColumnDef<Transaction>[] = [
       <DataTableColumnHeader column={column} title="Category" />
     ),
     cell: ({ row, table }) => {
-      const meta = table.options.meta as any;
-      const categories: { id: number; displayName: string }[] = meta?.categories ?? [];
+      const meta = table.options.meta as TransactionTableMeta | undefined;
+      const categories = meta?.categories ?? [];
       const categoryId = row.original.categoryId;
       const category = categories.find((c) => c.id === categoryId);
       return (
@@ -250,7 +261,7 @@ export const columns: ColumnDef<Transaction>[] = [
   {
     id: "actions",
     cell: ({ row, table }) => {
-      const meta = table.options.meta as any;
+      const meta = table.options.meta as TransactionTableMeta | undefined;
       return (
         <DataTableRowActions
           row={row}

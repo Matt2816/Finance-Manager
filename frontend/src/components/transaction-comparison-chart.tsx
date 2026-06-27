@@ -118,14 +118,12 @@ export function TransactionComparisonChart({
     }));
   }, [transactions]);
 
-  console.log("chartData", chartData);
-
   const totalThisMonth =
     chartData[chartData.length - 1].projected ||
     chartData[chartData.length - 1].thisMonth;
   const totalLastMonth = chartData[chartData.length - 1].lastMonth;
   const percentageChange =
-    ((totalThisMonth - totalLastMonth) / totalLastMonth) * 100;
+    totalLastMonth === 0 ? null : ((totalThisMonth - totalLastMonth) / totalLastMonth) * 100;
 
   return (
     <Card>
@@ -209,7 +207,9 @@ export function TransactionComparisonChart({
         <div className="flex w-full flex-wrap items-start gap-2 text-sm">
           <div className="grid gap-2">
             <div className="flex flex-wrap items-center gap-2 font-medium leading-none">
-              {percentageChange >= 0 ? (
+              {percentageChange === null ? (
+                <>No spending last month to compare against.</>
+              ) : percentageChange >= 0 ? (
                 <>
                   Projected to increase by {percentageChange.toFixed(1)}% this
                   month <TrendingUp className="h-4 w-4 text-green-500" />

@@ -11,6 +11,7 @@ import {
   pauseRecurring,
   resumeRecurring,
   generateNowRecurring,
+  type RecurringTransaction,
 } from "@/hooks/use-recurring";
 import { useToast } from "@/components/toast-provider";
 import {
@@ -41,9 +42,9 @@ export default function IncomePage() {
   const [statusFilter, setStatusFilter] = useState<"all" | "active" | "paused">("active");
   const { recurring, isLoading: recurringLoading, mutate } = useRecurringTransactions();
   const [formOpen, setFormOpen] = useState(false);
-  const [editing, setEditing] = useState<any>(null);
+  const [editing, setEditing] = useState<RecurringTransaction | null>(null);
 
-  async function handleToggleActive(rt: any) {
+  async function handleToggleActive(rt: RecurringTransaction) {
     try {
       if (rt.active) {
         await pauseRecurring(rt.id);
@@ -54,25 +55,25 @@ export default function IncomePage() {
       }
       mutate();
       refreshSummary();
-    } catch (err: any) {
-      showToast(err.message, "error");
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Failed to update recurring transaction", "error");
     }
   }
 
-  async function handleGenerateNow(rt: any) {
+  async function handleGenerateNow(rt: RecurringTransaction) {
     try {
       await generateNowRecurring(rt.id);
       showToast(`Generated transactions for "${rt.name}"`, "success");
       mutate();
       refreshSummary();
-    } catch (err: any) {
-      showToast(err.message, "error");
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Failed to generate recurring transaction", "error");
     }
   }
 
   const displayList = useMemo(() => {
     if (!recurring) return [];
-    return recurring.filter((rt: any) => {
+    return recurring.filter((rt) => {
       const dirMatch = direction === "all" || rt.direction === direction;
       const statusMatch =
         statusFilter === "all" ||
@@ -83,19 +84,19 @@ export default function IncomePage() {
   }, [recurring, direction, statusFilter]);
 
   const summary = useMemo(() => {
-    const getMonthly = (r: any) => {
+    const getMonthly = (r: RecurringTransaction) => {
       if (r.monthlyEquivalent) return parseFloat(String(r.monthlyEquivalent));
       const multipliers: Record<string, number> = { WEEKLY: 52 / 12, BIWEEKLY: 26 / 12, MONTHLY: 1 };
       return parseFloat(String(r.amount)) * (multipliers[r.frequency] ?? 1);
     };
 
     const totalIncome = (recurring ?? [])
-      .filter((r: any) => r.direction === "CREDIT" && r.active)
-      .reduce((sum: number, r: any) => sum + getMonthly(r), 0);
+      .filter((r) => r.direction === "CREDIT" && r.active)
+      .reduce((sum, r) => sum + getMonthly(r), 0);
 
     const totalExpenses = (recurring ?? [])
-      .filter((r: any) => r.direction === "DEBIT" && r.active)
-      .reduce((sum: number, r: any) => sum + getMonthly(r), 0);
+      .filter((r) => r.direction === "DEBIT" && r.active)
+      .reduce((sum, r) => sum + getMonthly(r), 0);
 
     const netSavings = totalIncome - totalExpenses;
     const savingsRate = totalIncome > 0 ? (netSavings / totalIncome) * 100 : 0;
@@ -263,6 +264,7 @@ export default function IncomePage() {
                       size="sm"
                       className="h-8 w-8 p-0"
                       title="Generate now"
+                      aria-label={`Generate ${rt.name} now`}
                       onClick={() => handleGenerateNow(rt)}
                     >
                       <Zap className="h-4 w-4" />
@@ -271,6 +273,8 @@ export default function IncomePage() {
                       variant="ghost"
                       size="sm"
                       className="h-8 w-8 p-0"
+                      title={rt.active ? "Pause recurring transaction" : "Resume recurring transaction"}
+                      aria-label={`${rt.active ? "Pause" : "Resume"} ${rt.name}`}
                       onClick={() => handleToggleActive(rt)}
                     >
                       {rt.active ? (

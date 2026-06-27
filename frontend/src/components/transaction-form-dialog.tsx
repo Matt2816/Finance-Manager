@@ -62,6 +62,17 @@ function generateHash(name: string, merchant: string, amount: string, date: stri
   return `${name}-${merchant}-${amount}-${date}-${timestamp}`;
 }
 
+interface TransactionPayload {
+  cardType: string;
+  amount: string;
+  name: string;
+  merchant: string;
+  transactionDate: string;
+  hash: string;
+  address: string;
+  categoryId?: number;
+}
+
 export function TransactionFormDialog({
   mode,
   transaction,
@@ -80,25 +91,37 @@ export function TransactionFormDialog({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     if (open && mode === "edit" && transaction) {
-      setName(transaction.name ?? "");
-      setMerchant(transaction.merchant ?? "");
-      setAmount(transaction.amount ?? "");
-      setCardType(transaction.cardType ?? "other");
-      setTransactionDate(formatDateForInput(transaction.transactionDate));
-      // address removed from form, defaults to empty
-      setCategoryId(transaction.categoryId?.toString() ?? "");
-      setError(null);
+      queueMicrotask(() => {
+        if (cancelled) return;
+
+        setName(transaction.name ?? "");
+        setMerchant(transaction.merchant ?? "");
+        setAmount(transaction.amount ?? "");
+        setCardType(transaction.cardType ?? "other");
+        setTransactionDate(formatDateForInput(transaction.transactionDate));
+        setCategoryId(transaction.categoryId?.toString() ?? "");
+        setError(null);
+      });
     } else if (open && mode === "add") {
-      setName("");
-      setMerchant("");
-      setAmount("");
-      setCardType("other");
-      setTransactionDate(toLocalISODate(new Date()));
-      // address defaults to empty for manually added transactions
-      setCategoryId("");
-      setError(null);
+      queueMicrotask(() => {
+        if (cancelled) return;
+
+        setName("");
+        setMerchant("");
+        setAmount("");
+        setCardType("other");
+        setTransactionDate(toLocalISODate(new Date()));
+        setCategoryId("");
+        setError(null);
+      });
     }
+
+    return () => {
+      cancelled = true;
+    };
   }, [open, mode, transaction]);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -113,7 +136,7 @@ export function TransactionFormDialog({
       return;
     }
 
-    const payload: any = {
+    const payload: TransactionPayload = {
       cardType,
       amount: cleanAmount,
       name: name.trim(),
@@ -149,8 +172,8 @@ export function TransactionFormDialog({
 
       onSuccess();
       onOpenChange(false);
-    } catch (err: any) {
-      setError(err.message || "Something went wrong.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       setSubmitting(false);
     }

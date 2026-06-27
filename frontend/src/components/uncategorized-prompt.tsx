@@ -31,7 +31,16 @@ const LOCAL_DISMISS_KEY = "uncategorized-prompt-dismissed";
 export function UncategorizedPrompt() {
   const { showToast } = useToast();
   const [open, setOpen] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
+  const [dismissed, setDismissed] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    return (
+      sessionStorage.getItem(SESSION_DISMISS_KEY) !== null ||
+      localStorage.getItem(LOCAL_DISMISS_KEY) !== null
+    );
+  });
   const [dontShowAgain, setDontShowAgain] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [assigning, setAssigning] = useState(false);
@@ -45,19 +54,21 @@ export function UncategorizedPrompt() {
     useUncategorizedTransactions();
 
   useEffect(() => {
-    const sessionDismissed = sessionStorage.getItem(SESSION_DISMISS_KEY);
-    const localDismissed = localStorage.getItem(LOCAL_DISMISS_KEY);
-    if (sessionDismissed || localDismissed) {
-      setDismissed(true);
-    }
-  }, []);
+    let cancelled = false;
 
-  useEffect(() => {
     if (!dismissed && uncategorized && uncategorized.length > 0 && !open) {
-      setQueue(uncategorized);
-      setCurrentIndex(0);
-      setOpen(true);
+      queueMicrotask(() => {
+        if (cancelled) return;
+
+        setQueue(uncategorized);
+        setCurrentIndex(0);
+        setOpen(true);
+      });
     }
+
+    return () => {
+      cancelled = true;
+    };
   }, [dismissed, uncategorized, open]);
 
   function handleDismiss() {
@@ -117,8 +128,9 @@ export function UncategorizedPrompt() {
       showToast(`Category "${name}" created`, "success");
       setNewCategoryName("");
       setShowAddCategory(false);
-    } catch (err: any) {
-      showToast("Failed to create category: " + err.message, "error");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      showToast("Failed to create category: " + message, "error");
     } finally {
       setCreatingCategory(false);
     }
@@ -155,6 +167,11 @@ export function UncategorizedPrompt() {
           </span>
           <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
             <div
+              role="progressbar"
+              aria-label="Categorization progress"
+              aria-valuemin={0}
+              aria-valuemax={total}
+              aria-valuenow={progress}
               className="h-full bg-primary transition-all duration-300"
               style={{ width: `${(progress / total) * 100}%` }}
             />

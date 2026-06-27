@@ -27,13 +27,14 @@ import {
 
 import { DataTableToolbar } from "@/components/data-table-toolbar";
 import { DataTablePagination } from "./data-table-pagination";
+import { Transaction } from "@/types/transaction";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  onEdit?: (tx: any) => void;
-  onDelete?: (tx: any) => void;
-  onCategorize?: (tx: any, categoryId: number) => void;
+  onEdit?: (tx: Transaction) => void;
+  onDelete?: (tx: Transaction) => void;
+  onCategorize?: (tx: Transaction, categoryId: number) => void;
   categories?: { id: number; displayName: string }[];
 }
 
@@ -59,6 +60,8 @@ export function TransactionTable<TData, TValue>({
     { id: "date", desc: true },
   ]);
 
+  // TanStack Table intentionally returns function-bearing instances that React Compiler cannot memoize safely.
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
@@ -68,7 +71,7 @@ export function TransactionTable<TData, TValue>({
       rowSelection,
       columnFilters,
     },
-    meta: { onEdit, onDelete, onCategorize, categories } as any,
+    meta: { onEdit, onDelete, onCategorize, categories },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,

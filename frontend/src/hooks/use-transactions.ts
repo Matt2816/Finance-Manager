@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import useSWR from "swr";
 import { Transaction } from "@/types/transaction";
 import { authenticatedFetch } from "@/lib/authenticated-fetch";
@@ -46,7 +47,7 @@ export function useTransactions() {
     fetcher
   );
 
-  const transactions = data ? cleanTransactions(data) : [];
+  const transactions = useMemo(() => data ? cleanTransactions(data) : [], [data]);
 
   return {
     transactions,
