@@ -7,6 +7,7 @@ import com.financial.tracker.financial_transactions.analytics.repo.NormalizedTra
 import com.financial.tracker.financial_transactions.model.Transaction;
 import com.financial.tracker.financial_transactions.repo.TransactionsRepo;
 import com.financial.tracker.financial_transactions.util.TransactionFieldParser;
+import com.financial.tracker.financial_transactions.splitwise.SplitwiseExpenseMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
@@ -83,6 +84,12 @@ public class TransactionNormalizationService {
     }
 
     private static String resolveMerchantRaw(Transaction transaction) {
+        if (SplitwiseExpenseMapper.CARD_TYPE.equalsIgnoreCase(transaction.getCardType())) {
+            String name = transaction.getName();
+            if (name != null && !name.isBlank()) {
+                return name.trim();
+            }
+        }
         String merchant = transaction.getMerchant();
         if (merchant != null && !merchant.isBlank()) {
             return merchant.trim();
