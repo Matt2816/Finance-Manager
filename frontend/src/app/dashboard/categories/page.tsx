@@ -3,13 +3,20 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageHeader } from "@/components/dashboard/page-header";
-import { useCategories, useMerchantRules, useUncategorizedTransactions, deleteRule, deleteCategory } from "@/hooks/use-categories";
+import {
+  useCategories,
+  useMerchantRules,
+  useUncategorizedTransactions,
+  deleteRule,
+  deleteCategory,
+  updateRule,
+} from "@/hooks/use-categories";
 import { useToast } from "@/components/toast-provider";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Trash2, AlertCircle, Tag, X } from "lucide-react";
+import { Trash2, AlertCircle, Tag, X, Pencil, Loader2 } from "lucide-react";
 
 const SESSION_DISMISS_KEY = "uncategorized-prompt-session-dismissed";
 const LOCAL_DISMISS_KEY = "uncategorized-prompt-dismissed";
@@ -23,6 +30,10 @@ export default function CategoriesPage() {
   const [deleting, setDeleting] = useState<number | null>(null);
   const [deleteCatDialogOpen, setDeleteCatDialogOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState<{ id: number; name: string } | null>(null);
+  const [editingRuleId, setEditingRuleId] = useState<number | null>(null);
+  const [editingPattern, setEditingPattern] = useState("");
+  const [editingError, setEditingError] = useState<string | null>(null);
+  const [savingRuleId, setSavingRuleId] = useState<number | null>(null);
 
   const uncategorizedCount = uncategorized?.length ?? 0;
 
@@ -60,6 +71,40 @@ export default function CategoriesPage() {
     } finally {
       setDeleting(null);
       setCategoryToDelete(null);
+    }
+  }
+
+  function beginEditRule(ruleId: number, pattern: string) {
+    setEditingRuleId(ruleId);
+    setEditingPattern(pattern);
+    setEditingError(null);
+  }
+
+  function cancelEditRule() {
+    setEditingRuleId(null);
+    setEditingPattern("");
+    setEditingError(null);
+  }
+
+  async function handleSaveRule(ruleId: number) {
+    if (editingPattern.trim().length === 0) {
+      setEditingError("Rule pattern cannot be empty.");
+      return;
+    }
+
+    setSavingRuleId(ruleId);
+    setEditingError(null);
+    try {
+      await updateRule(ruleId, editingPattern);
+      await mutateRules();
+      showToast("Rule updated", "success");
+      cancelEditRule();
+    } catch (err: any) {
+      const message = err?.message || "Failed to update rule";
+      setEditingError(message);
+      showToast(`Failed to update rule: ${message}`, "error");
+    } finally {
+      setSavingRuleId(null);
     }
   }
 
@@ -165,28 +210,88 @@ export default function CategoriesPage() {
               {rules.map((rule) => (
                 <div
                   key={rule.id}
-                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 rounded-lg border bg-card"
+                  className="space-y-3 p-3 rounded-lg border bg-card"
                 >
-                  <div className="min-w-0 space-y-1">
+                  <div className="min-w-0 space-y-2">
                     <div className="flex items-center gap-2 flex-wrap">
                       <Badge variant="outline">{rule.categoryName}</Badge>
                       <span className="text-xs text-muted-foreground">
                         Priority: {rule.priority}
                       </span>
                     </div>
-                    <code className="text-xs block break-all text-muted-foreground">
-                      {rule.pattern}
-                    </code>
+                    {editingRuleId === rule.id ? (
+                      <div className="space-y-2">
+                        <label
+                          htmlFor={`rule-pattern-${rule.id}`}
+                          className="text-xs font-medium text-muted-foreground"
+                        >
+                          Rule pattern
+                        </label>
+                        <textarea
+                          id={`rule-pattern-${rule.id}`}
+                          value={editingPattern}
+                          onChange={(event) => {
+                            setEditingPattern(event.target.value);
+                            if (editingError) setEditingError(null);
+                          }}
+                          rows={4}
+                          className="min-h-24 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm leading-6 shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                          aria-invalid={Boolean(editingError)}
+                        />
+                        {editingError ? (
+                          <p className="text-xs text-red-600">{editingError}</p>
+                        ) : null}
+                      </div>
+                    ) : (
+                      <code className="text-xs block whitespace-pre-wrap break-words text-muted-foreground">
+                        {rule.pattern}
+                      </code>
+                    )}
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50 shrink-0 self-end sm:self-auto"
-                    disabled={deleting === rule.id}
-                    onClick={() => handleDeleteRule(rule.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+
+                  {editingRuleId === rule.id ? (
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <Button
+                        className="h-11 sm:h-10"
+                        onClick={() => handleSaveRule(rule.id)}
+                        disabled={savingRuleId === rule.id}
+                      >
+                        {savingRuleId === rule.id ? (
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        ) : null}
+                        Save rule
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="h-11 sm:h-10"
+                        onClick={cancelEditRule}
+                        disabled={savingRuleId === rule.id}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <Button
+                        variant="outline"
+                        className="h-11 sm:h-10"
+                        onClick={() => beginEditRule(rule.id, rule.pattern)}
+                        disabled={deleting === rule.id}
+                      >
+                        <Pencil className="h-4 w-4 mr-2" />
+                        Edit rule
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="h-11 sm:h-10 text-red-600 hover:text-red-700 hover:bg-red-50"
+                        disabled={deleting === rule.id}
+                        onClick={() => handleDeleteRule(rule.id)}
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Delete
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

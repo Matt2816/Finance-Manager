@@ -75,6 +75,15 @@ export async function deleteRule(ruleId: number) {
   if (!res.ok) throw new Error(await res.text());
 }
 
+export async function updateRule(ruleId: number, pattern: string) {
+  const res = await authenticatedFetch(`${getApiBaseUrl()}/api/categories/rules/${ruleId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ pattern }),
+  });
+  if (!res.ok) throw new Error(await res.text());
+}
+
 export async function deleteCategory(categoryId: number) {
   const res = await authenticatedFetch(`${getApiBaseUrl()}/api/categories/${categoryId}`, {
     method: "DELETE",

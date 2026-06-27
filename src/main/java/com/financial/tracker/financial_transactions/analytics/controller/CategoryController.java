@@ -185,6 +185,34 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Rule created");
     }
 
+    @PutMapping("/rules/{id}")
+    public ResponseEntity<String> updateRule(
+            @PathVariable Long id,
+            @RequestBody UpdateRuleRequest request
+    ) {
+        ControllerRequestLogger.logIncoming(log, "updateRule", "id", id);
+        if (request.pattern() == null || request.pattern().isBlank()) {
+            return ResponseEntity.badRequest().body("Pattern is required");
+        }
+
+        try {
+            Pattern.compile(request.pattern());
+        } catch (PatternSyntaxException e) {
+            return ResponseEntity.badRequest().body("Invalid regex pattern: " + e.getMessage());
+        }
+
+        Long userId = SecurityUtils.getCurrentUserId();
+        Optional<MerchantCategoryRule> ruleOpt = ruleRepository.findByIdAndUserId(id, userId);
+        if (ruleOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        MerchantCategoryRule rule = ruleOpt.get();
+        rule.setPattern(request.pattern());
+        ruleRepository.save(rule);
+        return ResponseEntity.ok("Rule updated");
+    }
+
     @PostMapping
     public ResponseEntity<CategoryDto> createCategory(@RequestBody CreateCategoryRequest request) {
         ControllerRequestLogger.logIncoming(log, "createCategory", "slug", request.slug(), "displayName", request.displayName());
@@ -286,5 +314,6 @@ public class CategoryController {
     public record AssignCategoryRequest(int transactionId, Long categoryId, Boolean createRule) {}
     public record MerchantRuleDto(Long id, String pattern, Long categoryId, String categoryName, int priority) {}
     public record CreateRuleRequest(String pattern, Long categoryId, Integer priority) {}
+    public record UpdateRuleRequest(String pattern) {}
     public record CreateCategoryRequest(String slug, String displayName) {}
 }
