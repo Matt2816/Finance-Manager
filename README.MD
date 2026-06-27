@@ -29,8 +29,9 @@ Choose one path:
 ```
 ├── src/                 # Spring Boot backend
 ├── frontend/            # Next.js app (see frontend/README.md)
-├── Dockerfile           # Builds backend + frontend into one image
-├── docker-compose.yml   # App + PostgreSQL
+├── Dockerfile           # Spring Boot backend image
+├── frontend/Dockerfile  # Next.js frontend image
+├── docker-compose.yml   # Backend, frontend, and PostgreSQL
 ├── pom.xml
 └── .env                 # Required for Docker (create from template below)
 ```
@@ -58,7 +59,9 @@ JWT_EXPIRATION_MS=86400000
 | `JWT_SECRET` | Yes (with auth) | — | HS256 signing key for JWT tokens (≥32 characters) |
 | `JWT_EXPIRATION_MS` | No | `86400000` (24h) | Access token lifetime in milliseconds |
 
-`financial-db` is the PostgreSQL service hostname **inside** the Docker network. The app container also receives `BACKEND_API_URL=http://127.0.0.1:8080/api` so the Next.js server can reach the API in the same container.
+`financial-db` is the PostgreSQL service hostname **inside** the Docker network. The frontend container receives `BACKEND_API_URL=http://financial-backend:8080/api` for server-side API calls.
+
+Optional dev tools: `docker compose --profile dev up` starts pgAdmin on port `5050` (set `PGADMIN_PASSWORD` in `.env`).
 
 ## Run with Docker (recommended)
 
@@ -70,8 +73,9 @@ docker compose up --build
 
 This starts:
 
-1. **PostgreSQL** on port `5432`
-2. **financial-app** — Spring Boot on `8080` and Next.js (`npm start`) on `3000`
+1. **PostgreSQL** (internal network only; not published to the host)
+2. **financial-backend** — Spring Boot API on `8080`
+3. **financial-frontend** — Next.js on `3000`
 
 | URL | Purpose |
 | --- | ------- |

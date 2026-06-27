@@ -1,5 +1,8 @@
 package com.financial.tracker.financial_transactions.Controller;
 
+import com.financial.tracker.financial_transactions.Controller.dto.LoginRequest;
+import com.financial.tracker.financial_transactions.Controller.dto.RegisterRequest;
+import com.financial.tracker.financial_transactions.splitwise.controller.dto.SplitwiseConfigRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -125,6 +128,23 @@ public final class ControllerRequestLogger {
             if (list.size() > 20) {
                 return "List(size=" + list.size() + ")";
             }
+        }
+        if (value instanceof LoginRequest login) {
+            return "LoginRequest(username=" + login.username() + ", password=[REDACTED])";
+        }
+        if (value instanceof RegisterRequest register) {
+            return "RegisterRequest(username="
+                    + register.username()
+                    + ", email="
+                    + register.email()
+                    + ", password=[REDACTED])";
+        }
+        if (value instanceof SplitwiseConfigRequest config) {
+            return "SplitwiseConfigRequest(apiKey=[REDACTED], groupNames="
+                    + config.groupNames()
+                    + ", enabled="
+                    + config.enabled()
+                    + ")";
         }
 
         String text = String.valueOf(value);

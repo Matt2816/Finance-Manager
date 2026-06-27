@@ -24,7 +24,7 @@ public class IncomeController {
     private final IncomeRepo incomeRepo;
     private final RecurringIncomeService recurringIncomeService;
 
-    public IncomeController(IncomeRepo incomeRepo, RecurringIncomeService recurringIncomeService, IncomeRepo recurringIncomeRepo) {
+    public IncomeController(IncomeRepo incomeRepo, RecurringIncomeService recurringIncomeService) {
         this.recurringIncomeService = recurringIncomeService;
         this.incomeRepo = incomeRepo;
     }
@@ -37,23 +37,22 @@ public class IncomeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RecurringIncome> getRecurringIncomeById(@PathVariable Long id) {
+    public ResponseEntity<RecurringIncome> getRecurringIncomeById(@PathVariable Integer id) {
         ControllerRequestLogger.logIncoming(log, "getRecurringIncomeById", "id", id);
         Long userId = SecurityUtils.getCurrentUserId();
-        ResponseEntity<RecurringIncome> response = incomeRepo.findByIdAndUserId(Math.toIntExact(id), userId)
+        ResponseEntity<RecurringIncome> response = incomeRepo.findByIdAndUserId(id, userId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
         return ControllerRequestLogger.logResponse(log, "getRecurringIncomeById", response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRecurringIncome(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRecurringIncome(@PathVariable Integer id) {
         ControllerRequestLogger.logIncoming(log, "deleteRecurringIncome", "id", id);
         Long userId = SecurityUtils.getCurrentUserId();
-        int incomeId = Math.toIntExact(id);
         ResponseEntity<Void> response;
-        if (incomeRepo.existsByIdAndUserId(incomeId, userId)) {
-            incomeRepo.deleteById(incomeId);
+        if (incomeRepo.existsByIdAndUserId(id, userId)) {
+            incomeRepo.deleteById(id);
             response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             response = ResponseEntity.notFound().build();
@@ -63,12 +62,12 @@ public class IncomeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<RecurringIncome> updateRecurringIncome(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestBody RecurringIncome updatedIncome
     ) {
         ControllerRequestLogger.logIncoming(log, "updateRecurringIncome", "id", id, "body", updatedIncome);
         Long userId = SecurityUtils.getCurrentUserId();
-        ResponseEntity<RecurringIncome> response = incomeRepo.findByIdAndUserId(Math.toIntExact(id), userId)
+        ResponseEntity<RecurringIncome> response = incomeRepo.findByIdAndUserId(id, userId)
                 .map(income -> {
                     income.setIncomeSource(updatedIncome.getIncomeSource());
                     income.setAmount(updatedIncome.getAmount());

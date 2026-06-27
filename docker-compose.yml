@@ -1,31 +1,56 @@
 version: '3.8'
 
 services:
-  financial-app:
+  financial-backend:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: financial-app
+    container_name: financial-backend
     depends_on:
       financial-db:
         condition: service_healthy
     environment:
-      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
-      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://financial-db:5432/${POSTGRES_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
       - SPRING_JPA_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
       - JWT_SECRET=${JWT_SECRET}
       - JWT_EXPIRATION_MS=${JWT_EXPIRATION_MS:-86400000}
       - SPLITWISE_CREDENTIALS_KEY=${SPLITWISE_CREDENTIALS_KEY:-}
-      - BACKEND_API_URL=http://127.0.0.1:8080/api
+      - CORS_ALLOWED_ORIGIN_PATTERNS=${CORS_ALLOWED_ORIGIN_PATTERNS:-http://localhost:*,http://127.0.0.1:*}
       - TZ=${TZ:-America/New_York}
     ports:
       - "8080:8080"
-      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
 
- 
+  financial-frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: financial-frontend
+    depends_on:
+      financial-backend:
+        condition: service_healthy
+    environment:
+      - BACKEND_API_URL=http://financial-backend:8080/api
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+      - TZ=${TZ:-America/New_York}
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:3000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
   financial-db:
     image: postgres:17
     container_name: financial-db
@@ -34,8 +59,8 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
       - TZ=${TZ:-America/New_York}
-    ports:
-      - "5432:5432"
+    expose:
+      - "5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
@@ -46,11 +71,12 @@ services:
       - ./src/main/resources/db-init.sql:/docker-entrypoint-initdb.d/01-init.sql
 
   pgadmin:
+    profiles: ["dev"]
     image: dpage/pgadmin4
     container_name: pgadmin
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL:-admin@admin.com}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD:-changeme}
     ports:
       - "5050:80"
     depends_on:

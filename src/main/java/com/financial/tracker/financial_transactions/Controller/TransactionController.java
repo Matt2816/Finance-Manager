@@ -14,6 +14,7 @@ import com.financial.tracker.financial_transactions.analytics.repo.NormalizedTra
 import com.financial.tracker.financial_transactions.model.Transaction;
 import com.financial.tracker.financial_transactions.repo.TransactionsRepo;
 import com.financial.tracker.financial_transactions.security.SecurityUtils;
+import com.financial.tracker.financial_transactions.util.TransactionFieldParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -123,7 +125,34 @@ public class TransactionController {
     public ResponseEntity<String> createTransaction(@RequestBody Transaction transaction) {
         ControllerRequestLogger.logIncoming(log, "createTransaction", transaction);
         Long userId = SecurityUtils.getCurrentUserId();
-        if (transactionsRepo.findByHashAndUserId(transaction.getHash(), userId) != null) {
+
+        if (transaction.getName() == null || transaction.getName().isBlank()) {
+            return ControllerRequestLogger.logResponse(log, "createTransaction",
+                    ResponseEntity.badRequest().body("Name is required."));
+        }
+        if ((transaction.getAmount() == null || transaction.getAmount().isBlank())
+                && transaction.getAmountValue() == null) {
+            return ControllerRequestLogger.logResponse(log, "createTransaction",
+                    ResponseEntity.badRequest().body("Amount is required."));
+        }
+
+        TransactionFieldParser.applyTypedFields(transaction);
+        LocalDate occurredOn = transaction.getOccurredOn();
+        if (occurredOn == null) {
+            return ControllerRequestLogger.logResponse(log, "createTransaction",
+                    ResponseEntity.badRequest().body("A valid transaction date is required."));
+        }
+
+        String hash = TransactionFieldParser.hashTransaction(
+                transaction.getName(),
+                transaction.getMerchant(),
+                transaction.getAmountValue(),
+                occurredOn,
+                transaction.getAddress()
+        );
+        transaction.setHash(hash);
+
+        if (transactionsRepo.findByHashAndUserId(hash, userId) != null) {
             return ControllerRequestLogger.logResponse(log, "createTransaction",
                     ResponseEntity.status(HttpStatus.CONFLICT).body("Transaction with the same hash already exists."));
         }

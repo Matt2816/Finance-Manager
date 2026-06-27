@@ -35,10 +35,10 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-muted/30">
+    <div className="flex min-h-screen bg-muted/30 overflow-x-hidden">
       <SyncProvider />
       <DashboardSidebar />
-      <main className="flex-1 p-6 pb-28 md:pb-6 overflow-y-auto">
+      <main className="flex-1 min-w-0 p-4 sm:p-6 pb-28 md:pb-6 overflow-y-auto overflow-x-hidden">
         <IosInstallBanner />
         <PendingSyncStatus />
         {children}

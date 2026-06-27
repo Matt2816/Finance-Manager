@@ -37,23 +37,22 @@ public class ExpenseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RecurringExpense> getRecurringExpenseById(@PathVariable Long id) {
+    public ResponseEntity<RecurringExpense> getRecurringExpenseById(@PathVariable Integer id) {
         ControllerRequestLogger.logIncoming(log, "getRecurringExpenseById", "id", id);
         Long userId = SecurityUtils.getCurrentUserId();
-        ResponseEntity<RecurringExpense> response = expenseRepo.findByIdAndUserId(Math.toIntExact(id), userId)
+        ResponseEntity<RecurringExpense> response = expenseRepo.findByIdAndUserId(id, userId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
         return ControllerRequestLogger.logResponse(log, "getRecurringExpenseById", response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRecurringExpense(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRecurringExpense(@PathVariable Integer id) {
         ControllerRequestLogger.logIncoming(log, "deleteRecurringExpense", "id", id);
         Long userId = SecurityUtils.getCurrentUserId();
-        int expenseId = Math.toIntExact(id);
         ResponseEntity<Void> response;
-        if (expenseRepo.existsByIdAndUserId(expenseId, userId)) {
-            expenseRepo.deleteById(expenseId);
+        if (expenseRepo.existsByIdAndUserId(id, userId)) {
+            expenseRepo.deleteById(id);
             response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             response = ResponseEntity.notFound().build();
@@ -63,12 +62,12 @@ public class ExpenseController {
 
     @PutMapping("/{id}")
     public ResponseEntity<RecurringExpense> updateRecurringExpense(
-            @PathVariable Long id,
+            @PathVariable Integer id,
             @RequestBody RecurringExpense updatedExpense
     ) {
         ControllerRequestLogger.logIncoming(log, "updateRecurringExpense", "id", id, "body", updatedExpense);
         Long userId = SecurityUtils.getCurrentUserId();
-        ResponseEntity<RecurringExpense> response = expenseRepo.findByIdAndUserId(Math.toIntExact(id), userId)
+        ResponseEntity<RecurringExpense> response = expenseRepo.findByIdAndUserId(id, userId)
                 .map(expense -> {
                     expense.setMerchant(updatedExpense.getMerchant());
                     expense.setAmount(updatedExpense.getAmount());

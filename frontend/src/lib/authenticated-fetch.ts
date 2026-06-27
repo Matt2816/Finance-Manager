@@ -38,7 +38,8 @@ export async function authenticatedFetch(
 
   const response = await fetch(input, { ...init, headers });
 
-  if (response.status === 401) {
+  const hadToken = !!(token ?? getStoredToken());
+  if (response.status === 401 || (response.status === 403 && hadToken)) {
     setStoredToken(null);
     if (typeof window !== "undefined" && !window.location.pathname.startsWith("/login")) {
       window.location.href = "/login";

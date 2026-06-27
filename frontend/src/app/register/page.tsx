@@ -51,7 +51,7 @@ export default function RegisterPage() {
             </label>
             <input
               id="username"
-              className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+              className="mt-1 w-full rounded-md border px-3 py-2 text-base min-h-11"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               autoComplete="username"
@@ -66,7 +66,7 @@ export default function RegisterPage() {
             <input
               id="email"
               type="email"
-              className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+              className="mt-1 w-full rounded-md border px-3 py-2 text-base min-h-11"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
@@ -80,7 +80,7 @@ export default function RegisterPage() {
             <input
               id="password"
               type="password"
-              className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+              className="mt-1 w-full rounded-md border px-3 py-2 text-base min-h-11"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="new-password"

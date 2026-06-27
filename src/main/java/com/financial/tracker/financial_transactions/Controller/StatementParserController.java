@@ -31,6 +31,10 @@ public class StatementParserController {
     public ResponseEntity<List<List<String>>> uploadFile(@RequestParam("file") MultipartFile file) {
         ControllerRequestLogger.logIncoming(log, "uploadFile", "file", file);
         String fileName = file.getOriginalFilename();
+        if (fileName == null || fileName.isBlank()) {
+            return ControllerRequestLogger.logResponse(log, "uploadFile",
+                    ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
+        }
         List<List<String>> transactions = new ArrayList<>();
 
         try {
@@ -81,7 +85,7 @@ public class StatementParserController {
         }
 
         Sheet sheet = workbook.getSheetAt(0);
-        int startRow = 0; // Initialize with -1, meaning not found
+        int startRow = -1;
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy"); // Adjust the format based on your data
 
         // Loop through rows to find the starting point
