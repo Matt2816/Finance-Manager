@@ -180,14 +180,14 @@ export default function TransactionsPage() {
       <Card>
         <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <CardTitle>Transaction History</CardTitle>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex gap-1 overflow-x-auto pb-1 -mb-1 scrollbar-none sm:flex-wrap sm:overflow-visible sm:pb-0 sm:mb-0">
             {ranges.map((r) => (
               <Button
                 key={r.value}
                 variant={range === r.value ? "default" : "outline"}
                 size="sm"
                 onClick={() => setRange(r.value)}
-                className="h-7 text-xs"
+                className="h-7 text-xs shrink-0"
               >
                 {r.label}
               </Button>
@@ -196,7 +196,7 @@ export default function TransactionsPage() {
               variant={showUncategorizedOnly ? "default" : "outline"}
               size="sm"
               onClick={() => setShowUncategorizedOnly((v: boolean) => !v)}
-              className="h-7 text-xs"
+              className="h-7 text-xs shrink-0"
             >
               Uncategorized
             </Button>

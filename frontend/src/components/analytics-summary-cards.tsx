@@ -48,37 +48,37 @@ export function AnalyticsSummaryCards() {
   return (
     <div className="space-y-4">
       {/* Financial Health Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-4">
         <Card>
-          <CardContent className="p-4 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-              <ArrowDownLeft className="h-5 w-5 text-green-600" />
+          <CardContent className="p-3 sm:p-4 flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-3 text-center sm:text-left">
+            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+              <ArrowDownLeft className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
             </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Total Income</p>
-              <p className="text-xl font-bold">{formatCurrency(summary?.totalIncome ?? 0)}</p>
+            <div className="min-w-0">
+              <p className="text-[10px] sm:text-sm text-muted-foreground leading-tight">Income</p>
+              <p className="text-sm sm:text-xl font-bold truncate">{formatCurrency(summary?.totalIncome ?? 0)}</p>
             </div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center">
-              <ArrowUpRight className="h-5 w-5 text-red-600" />
+          <CardContent className="p-3 sm:p-4 flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-3 text-center sm:text-left">
+            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+              <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 text-red-600" />
             </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Total Expenses</p>
-              <p className="text-xl font-bold">{formatCurrency(summary?.totalExpenses ?? 0)}</p>
+            <div className="min-w-0">
+              <p className="text-[10px] sm:text-sm text-muted-foreground leading-tight">Expenses</p>
+              <p className="text-sm sm:text-xl font-bold truncate">{formatCurrency(summary?.totalExpenses ?? 0)}</p>
             </div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-              <Wallet className="h-5 w-5 text-blue-600" />
+          <CardContent className="p-3 sm:p-4 flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-3 text-center sm:text-left">
+            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+              <Wallet className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
             </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Net Savings</p>
-              <p className="text-xl font-bold">{formatCurrency(summary?.netSavings ?? 0)}</p>
+            <div className="min-w-0">
+              <p className="text-[10px] sm:text-sm text-muted-foreground leading-tight">Savings</p>
+              <p className="text-sm sm:text-xl font-bold truncate">{formatCurrency(summary?.netSavings ?? 0)}</p>
             </div>
           </CardContent>
         </Card>

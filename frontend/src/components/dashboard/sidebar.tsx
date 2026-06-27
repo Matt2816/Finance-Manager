@@ -1,10 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
+import { TransactionFormDialog } from "@/components/transaction-form-dialog";
+import { MobileMoreSheet } from "@/components/dashboard/mobile-more-sheet";
+import { useTransactions } from "@/hooks/use-transactions";
+import { useCategories } from "@/hooks/use-categories";
+import { useToast } from "@/components/toast-provider";
 import {
   LayoutDashboard,
   Receipt,
@@ -16,18 +22,37 @@ import {
   Banknote,
   Settings,
   LogOut,
+  MoreHorizontal,
+  Plus,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const navItems = [
+export interface NavItem {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+}
+
+export const primaryNavItems: NavItem[] = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
   { href: "/dashboard/transactions", label: "Transactions", icon: Receipt },
-  { href: "/dashboard/income", label: "Income", icon: Banknote },
   { href: "/dashboard/insights", label: "Insights", icon: Lightbulb },
   { href: "/dashboard/forecasts", label: "Forecasts", icon: TrendingUp },
+];
+
+export const secondaryNavItems: NavItem[] = [
+  { href: "/dashboard/income", label: "Income", icon: Banknote },
   { href: "/dashboard/loyalty", label: "Merchant Loyalty", icon: Star },
   { href: "/dashboard/categories", label: "Categories", icon: Tags },
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
 ];
+
+export const navItems: NavItem[] = [...primaryNavItems, ...secondaryNavItems];
+
+function isSecondaryRouteActive(pathname: string | null) {
+  if (!pathname) return false;
+  return secondaryNavItems.some((item) => item.href === pathname);
+}
 
 export function DashboardSidebar() {
   const pathname = usePathname();
@@ -90,31 +115,93 @@ export function DashboardSidebar() {
 
 export function MobileNav() {
   const pathname = usePathname();
+  const [moreOpen, setMoreOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
+  const { mutate } = useTransactions();
+  const { categories } = useCategories();
+  const { showToast } = useToast();
+
+  const moreIsActive = isSecondaryRouteActive(pathname);
+
+  function handleAddSuccess() {
+    mutate();
+    showToast("Transaction created", "success");
+  }
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-background border-t z-50">
-      <div className="flex justify-around p-2">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              aria-label={item.label}
-              aria-current={isActive ? "page" : undefined}
+    <>
+      <nav
+        className="md:hidden fixed bottom-0 left-0 right-0 bg-background border-t z-50 pb-[env(safe-area-inset-bottom)]"
+        aria-label="Main navigation"
+      >
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setAddOpen(true)}
+            aria-label="Add transaction"
+            className={cn(
+              "absolute -top-5 left-1/2 -translate-x-1/2 z-10",
+              "flex h-14 w-14 items-center justify-center rounded-full",
+              "bg-primary text-primary-foreground shadow-lg",
+              "transition-transform active:scale-95",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            )}
+          >
+            <Plus className="h-6 w-6" />
+          </button>
+
+          <div className="grid grid-cols-5 h-14">
+            {primaryNavItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={isActive ? "page" : undefined}
+                  className={cn(
+                    "flex flex-col items-center justify-center gap-0.5 min-h-11 min-w-11 px-1",
+                    "text-[11px] font-medium transition-colors",
+                    isActive ? "text-primary" : "text-muted-foreground"
+                  )}
+                >
+                  <item.icon className="h-5 w-5 shrink-0" />
+                  <span className="truncate max-w-full">{item.label}</span>
+                </Link>
+              );
+            })}
+
+            <button
+              type="button"
+              onClick={() => setMoreOpen(true)}
+              aria-label="More"
+              aria-expanded={moreOpen}
+              aria-current={moreIsActive ? "page" : undefined}
               className={cn(
-                "flex flex-col items-center gap-1 rounded-lg px-3 py-2 text-xs font-medium transition-colors",
-                isActive
-                  ? "text-primary"
-                  : "text-muted-foreground"
+                "flex flex-col items-center justify-center gap-0.5 min-h-11 min-w-11 px-1",
+                "text-[11px] font-medium transition-colors",
+                moreIsActive ? "text-primary" : "text-muted-foreground"
               )}
             >
-              <item.icon className="h-5 w-5" />
-              <span className="sr-only sm:not-sr-only">{item.label}</span>
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
+              <MoreHorizontal className="h-5 w-5 shrink-0" />
+              <span>More</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <MobileMoreSheet
+        open={moreOpen}
+        onOpenChange={setMoreOpen}
+        items={secondaryNavItems}
+      />
+
+      <TransactionFormDialog
+        mode="add"
+        open={addOpen}
+        onOpenChange={setAddOpen}
+        onSuccess={handleAddSuccess}
+        categories={categories}
+      />
+    </>
   );
 }
