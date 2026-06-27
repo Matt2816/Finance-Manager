@@ -34,6 +34,7 @@ import {
   ArrowDownCircle,
   Trash2,
   SkipForward,
+  FileUp,
 } from "lucide-react";
 
 interface HealthResponse {
@@ -109,6 +110,22 @@ interface SplitwiseSyncResult {
   skipped: TransactionSummary[];
 }
 
+interface ExcelImportedTransaction {
+  name: string;
+  merchant: string;
+  amount: string;
+  transactionDate: string;
+}
+
+interface ExcelStatementImportResult {
+  imported: number;
+  skippedRows: number;
+  excludedRows: number;
+  skippedDuplicates: number;
+  totalParsed: number;
+  importedTransactions: ExcelImportedTransaction[];
+}
+
 export default function SettingsPage() {
   const { showToast } = useToast();
   const baseUrl = getApiBaseUrl();
@@ -139,6 +156,11 @@ export default function SettingsPage() {
   const [splitwiseSyncing, setSplitwiseSyncing] = useState(false);
   const [syncResult, setSyncResult] = useState<SplitwiseSyncResult | null>(null);
   const [syncResultOpen, setSyncResultOpen] = useState(false);
+  const [statementFile, setStatementFile] = useState<File | null>(null);
+  const [statementUploading, setStatementUploading] = useState(false);
+  const [statementResult, setStatementResult] = useState<ExcelStatementImportResult | null>(null);
+  const [statementResultOpen, setStatementResultOpen] = useState(false);
+  const [statementInputKey, setStatementInputKey] = useState(0);
 
   const fetchHealth = useCallback(async () => {
     setHealthLoading(true);
@@ -269,6 +291,47 @@ export default function SettingsPage() {
       setSplitwiseSyncing(false);
     }
   }, [baseUrl, showToast, fetchSplitwiseStatus]);
+
+  const uploadStatement = useCallback(async () => {
+    if (!statementFile) {
+      showToast("Choose a statement file first", "error");
+      return;
+    }
+
+    setStatementUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", statementFile);
+
+      const res = await authenticatedFetch(`${baseUrl}/api/transaction/import/excel-statement`, {
+        method: "POST",
+        body: formData,
+      });
+      if (!res.ok) {
+        throw new Error((await res.text()) || "Statement import failed");
+      }
+
+      const data: ExcelStatementImportResult = await res.json();
+      setStatementResult(data);
+      setStatementResultOpen(true);
+      setStatementFile(null);
+      setStatementInputKey((current) => current + 1);
+
+      if (data.imported > 0) {
+        showToast(`Imported ${data.imported} transaction${data.imported === 1 ? "" : "s"}`, "success");
+      } else {
+        showToast("No new transactions imported");
+      }
+      setTimeout(() => {
+        fetchAnalyticsStatus();
+        fetchIncomeSummary();
+      }, 1200);
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Statement upload failed", "error");
+    } finally {
+      setStatementUploading(false);
+    }
+  }, [baseUrl, statementFile, showToast, fetchAnalyticsStatus, fetchIncomeSummary]);
 
   const triggerRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -502,6 +565,50 @@ export default function SettingsPage() {
         </div>
       </section>
 
+      {/* Data Imports */}
+      <section>
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+          Data Imports
+        </h2>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <FileUp className="h-4 w-4 text-primary" />
+              Statement Upload
+            </CardTitle>
+            <CardDescription>
+              Upload a bank statement Excel file and import new transactions.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-2">
+              <Label htmlFor="statement-upload">Statement file (.xlsx or .xls)</Label>
+              <Input
+                key={statementInputKey}
+                id="statement-upload"
+                type="file"
+                accept=".xlsx,.xls"
+                onChange={(event) => {
+                  const file = event.target.files?.[0] ?? null;
+                  setStatementFile(file);
+                }}
+              />
+              <p className="text-xs text-muted-foreground">
+                {statementFile ? `Selected: ${statementFile.name}` : "Choose your statement file to begin import."}
+              </p>
+            </div>
+            <Button
+              onClick={uploadStatement}
+              disabled={statementUploading || !statementFile}
+              className="w-full sm:w-auto"
+            >
+              {statementUploading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <FileUp className="h-4 w-4 mr-2" />}
+              Upload &amp; Import
+            </Button>
+          </CardContent>
+        </Card>
+      </section>
+
       {/* Splitwise Integration */}
       <section>
         <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
@@ -712,6 +819,74 @@ export default function SettingsPage() {
                   ))}
                 </div>
               </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Statement Import Result Modal */}
+      <Dialog open={statementResultOpen} onOpenChange={setStatementResultOpen}>
+        <DialogContent className="sm:max-w-2xl max-h-[85dvh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Statement Import Results</DialogTitle>
+            <DialogDescription>
+              {statementResult
+                ? `Imported ${statementResult.imported} of ${statementResult.totalParsed} parsed transactions`
+                : "Import completed"}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 pt-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <div className="rounded-lg border px-3 py-2">
+                <p className="text-xs text-muted-foreground">Imported</p>
+                <p className="text-lg font-semibold text-green-600">{statementResult?.imported ?? 0}</p>
+              </div>
+              <div className="rounded-lg border px-3 py-2">
+                <p className="text-xs text-muted-foreground">Duplicates</p>
+                <p className="text-lg font-semibold">{statementResult?.skippedDuplicates ?? 0}</p>
+              </div>
+              <div className="rounded-lg border px-3 py-2">
+                <p className="text-xs text-muted-foreground">Skipped Rows</p>
+                <p className="text-lg font-semibold">{statementResult?.skippedRows ?? 0}</p>
+              </div>
+              <div className="rounded-lg border px-3 py-2">
+                <p className="text-xs text-muted-foreground">Excluded Rows</p>
+                <p className="text-lg font-semibold">{statementResult?.excludedRows ?? 0}</p>
+              </div>
+              <div className="rounded-lg border px-3 py-2">
+                <p className="text-xs text-muted-foreground">Total Parsed</p>
+                <p className="text-lg font-semibold">{statementResult?.totalParsed ?? 0}</p>
+              </div>
+            </div>
+
+            {statementResult && statementResult.importedTransactions.length > 0 ? (
+              <div className="space-y-2">
+                <h4 className="text-sm font-semibold flex items-center gap-2 text-green-600">
+                  <ArrowDownCircle className="h-4 w-4" />
+                  Imported Transactions ({statementResult.importedTransactions.length})
+                </h4>
+                <div className="space-y-1 max-h-64 overflow-y-auto rounded-lg border divide-y">
+                  {statementResult.importedTransactions.map((tx, index) => (
+                    <div
+                      key={`${tx.name}-${tx.transactionDate}-${index}`}
+                      className="flex items-center justify-between px-3 py-2 text-sm"
+                    >
+                      <div className="flex flex-col">
+                        <span className="font-medium">{tx.name}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {formatDateEDT(tx.transactionDate)}
+                          {tx.merchant ? ` · ${tx.merchant}` : ""}
+                        </span>
+                      </div>
+                      <span className="font-medium text-green-600">{tx.amount}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                No transactions were imported from this file.
+              </p>
             )}
           </div>
         </DialogContent>

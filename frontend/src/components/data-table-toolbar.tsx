@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { Table } from "@tanstack/react-table";
 
@@ -7,17 +8,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "@/components/data-table-view-options";
 
-import { cardTypes, labels, magnitudes } from "@/components/data/data";
+import { cardTypes } from "@/components/data/data";
 import { DataTableFacetedFilter } from "@/components/data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
+  categories?: { id: number; displayName: string }[];
 }
 
 export function DataTableToolbar<TData>({
   table,
+  categories = [],
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
+  const categoryOptions = React.useMemo(
+    () =>
+      categories
+        .map((category) => ({
+          label: category.displayName,
+          value: String(category.id),
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label)),
+    [categories]
+  );
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -30,14 +43,6 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-full sm:w-[150px] lg:w-[200px]"
         />
-        <Input
-          placeholder="Filter by location"
-          value={(table.getColumn("address")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("address")?.setFilterValue(event.target.value)
-          }
-          className="h-8 w-full sm:w-[150px] lg:w-[200px]"
-        />
         {table.getColumn("cardType") && (
           <DataTableFacetedFilter
             column={table.getColumn("cardType")}
@@ -45,18 +50,11 @@ export function DataTableToolbar<TData>({
             options={cardTypes}
           />
         )}
-        {table.getColumn("label") && (
+        {table.getColumn("category") && categoryOptions.length > 0 && (
           <DataTableFacetedFilter
-            column={table.getColumn("label")}
-            title="Label"
-            options={labels}
-          />
-        )}
-        {table.getColumn("magnitude") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("magnitude")}
-            title="Magnitude"
-            options={magnitudes}
+            column={table.getColumn("category")}
+            title="Category"
+            options={categoryOptions}
           />
         )}
         {isFiltered && (

@@ -86,7 +86,7 @@ export function TransactionTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} categories={categories} />
 
       {/* Mobile card view */}
       <div className="sm:hidden space-y-2">

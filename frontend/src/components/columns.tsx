@@ -222,7 +222,7 @@ export const columns: ColumnDef<Transaction>[] = [
     },
   },
   {
-    accessorKey: "categoryId",
+    accessorFn: (row) => String(row.categoryId ?? ""),
     id: "category",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Category" />
@@ -230,7 +230,7 @@ export const columns: ColumnDef<Transaction>[] = [
     cell: ({ row, table }) => {
       const meta = table.options.meta as any;
       const categories: { id: number; displayName: string }[] = meta?.categories ?? [];
-      const categoryId = row.getValue("category") as number | null;
+      const categoryId = row.original.categoryId;
       const category = categories.find((c) => c.id === categoryId);
       return (
         <div className="flex w-[100px] items-center">
@@ -241,6 +241,9 @@ export const columns: ColumnDef<Transaction>[] = [
           )}
         </div>
       );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
     },
     enableSorting: false,
   },

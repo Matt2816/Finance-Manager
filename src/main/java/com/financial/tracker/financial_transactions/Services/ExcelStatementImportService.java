@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,6 +36,7 @@ public class ExcelStatementImportService {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
         ExcelStatementParser.ParseResult parseResult = parser.parse(inputStream);
         List<Transaction> parsed = parseResult.transactions();
+        List<ExcelStatementImportResult.ImportedTransaction> importedTransactions = new ArrayList<>();
         int imported = 0;
         int skippedDuplicates = 0;
 
@@ -47,6 +49,12 @@ public class ExcelStatementImportService {
             transaction.setUserId(userId);
             Transaction saved = transactionsRepo.save(transaction);
             normalizationService.normalizeOne(saved.getId());
+            importedTransactions.add(new ExcelStatementImportResult.ImportedTransaction(
+                    saved.getName(),
+                    saved.getMerchant(),
+                    saved.getAmount(),
+                    saved.getTransactionDate()
+            ));
             imported++;
             log.debug(
                     "importFromBytes: saved name={}, amount={}, hash={}",
@@ -61,7 +69,8 @@ public class ExcelStatementImportService {
                 parseResult.skippedRows(),
                 parseResult.excludedRows(),
                 skippedDuplicates,
-                parsed.size()
+                parsed.size(),
+                importedTransactions
         );
         log.info("importFromBytes: result={}", result);
         return result;

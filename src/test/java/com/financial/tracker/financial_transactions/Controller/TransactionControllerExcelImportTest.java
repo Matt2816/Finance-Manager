@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -48,7 +49,7 @@ class TransactionControllerExcelImportTest {
 
     @Test
     void importExcelStatement_returnsImportResult() throws Exception {
-        ExcelStatementImportResult mockResult = new ExcelStatementImportResult(3, 0, 0, 0, 3);
+        ExcelStatementImportResult mockResult = new ExcelStatementImportResult(3, 0, 0, 0, 3, List.of());
         when(excelStatementImportService.importFromBytes(any(), anyLong())).thenReturn(mockResult);
 
         byte[] excelData = createTestExcelFile();
@@ -71,7 +72,7 @@ class TransactionControllerExcelImportTest {
 
     @Test
     void importExcelStatement_withSkippedRows() throws Exception {
-        ExcelStatementImportResult mockResult = new ExcelStatementImportResult(2, 1, 0, 0, 3);
+        ExcelStatementImportResult mockResult = new ExcelStatementImportResult(2, 1, 0, 0, 3, List.of());
         when(excelStatementImportService.importFromBytes(any(), anyLong())).thenReturn(mockResult);
 
         byte[] excelData = createTestExcelFile();
@@ -94,7 +95,7 @@ class TransactionControllerExcelImportTest {
 
     @Test
     void importExcelStatement_withDuplicates() throws Exception {
-        ExcelStatementImportResult mockResult = new ExcelStatementImportResult(1, 0, 0, 2, 3);
+        ExcelStatementImportResult mockResult = new ExcelStatementImportResult(1, 0, 0, 2, 3, List.of());
         when(excelStatementImportService.importFromBytes(any(), anyLong())).thenReturn(mockResult);
 
         byte[] excelData = createTestExcelFile();
